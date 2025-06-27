@@ -1,0 +1,71 @@
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:pemo_test_project/core/network/network_info.dart';
+import 'package:pemo_test_project/core/network/network_service.dart';
+import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_local_data_source.dart';
+import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_remote_data_source.dart';
+import 'package:pemo_test_project/features/transaction_details/data/repositories/transaction_details_repository_impl.dart';
+import 'package:pemo_test_project/features/transaction_details/domain/repositories/transaction_details_repository.dart';
+import 'package:pemo_test_project/features/transaction_details/domain/usecases/get_transaction_details.dart';
+import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_cubit.dart';
+import 'package:pemo_test_project/features/transactions/data/datasources/transactions_local_data_source.dart';
+import 'package:pemo_test_project/features/transactions/data/datasources/transactions_remote_data_source.dart';
+import 'package:pemo_test_project/features/transactions/data/repositories/transactions_repository_impl.dart';
+import 'package:pemo_test_project/features/transactions/domain/repositories/transactions_repository.dart';
+import 'package:pemo_test_project/features/transactions/domain/usecases/get_transactions.dart';
+import 'package:pemo_test_project/features/transactions/presentation/cubit/transaction_cubit.dart';
+
+final sl = GetIt.instance;
+
+Future<void> init() async {
+  // Features
+  // Transactions
+  sl.registerFactory(() => TransactionCubit(getTransactions: sl()));
+  sl.registerLazySingleton(() => GetTransactions(sl()));
+  sl.registerLazySingleton<TransactionsRepository>(
+    () => TransactionsRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+  sl.registerLazySingleton<TransactionsRemoteDataSource>(
+    () => TransactionsRemoteDataSourceImpl(client: sl<DioNetworkService>().dio),
+  );
+  sl.registerLazySingleton<TransactionsLocalDataSource>(
+    () => TransactionsLocalDataSourceImpl(box: sl()),
+  );
+
+  // Transaction Details
+  sl.registerFactory(
+    () => TransactionDetailsCubit(getTransactionDetails: sl()),
+  );
+  sl.registerLazySingleton(() => GetTransactionDetails(sl()));
+  sl.registerLazySingleton<TransactionDetailsRepository>(
+    () => TransactionDetailsRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+  sl.registerLazySingleton<TransactionDetailsRemoteDataSource>(
+    () => TransactionDetailsRemoteDataSourceImpl(
+      client: sl<DioNetworkService>().dio,
+    ),
+  );
+  sl.registerLazySingleton<TransactionDetailsLocalDataSource>(
+    () => TransactionDetailsLocalDataSourceImpl(box: sl()),
+  );
+
+  // Core
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
+  sl.registerLazySingleton(() => DioNetworkService(sl()));
+  sl.registerLazySingleton(() => Dio());
+
+  await _initHive();
+}
+
+Future<void> _initHive() async {
+  await Hive.initFlutter();
+}
