@@ -1,26 +1,22 @@
-import 'package:pemo_test_project/features/transactions/domain/entities/transaction_item.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
-class TransactionItemModel extends TransactionItemEntity {
-  const TransactionItemModel({
-    required super.id,
-    required super.name,
-    required super.date,
-    required super.merchant,
-    required super.billingAmount,
-    required super.image,
-    required super.billingCurrency,
-  });
+part 'transaction_item_model.freezed.dart';
+part 'transaction_item_model.g.dart';
 
-  factory TransactionItemModel.fromJson(Map<String, dynamic> json) {
-    return TransactionItemModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      date: DateTime.parse(json['date'] as String),
-      merchant: json['merchant'] as String,
-      billingAmount: json['billingAmount'] as num,
-      image: json['image'] as String,
-      billingCurrency:
-          (json['billingCurrency'] ?? json['billing_currency']) as String,
-    );
-  }
+@freezed
+@HiveType(typeId: 0)
+class TransactionItemModel with _$TransactionItemModel {
+  const factory TransactionItemModel({
+    @HiveField(0) required String id,
+    @HiveField(1) required String name,
+    @HiveField(2) required DateTime date,
+    @HiveField(3) required String merchant,
+    @HiveField(4) required num billingAmount,
+    @HiveField(5) required String image,
+    @HiveField(6) required String billingCurrency,
+  }) = _TransactionItemModel;
+
+  factory TransactionItemModel.fromJson(Map<String, dynamic> json) =>
+      _$TransactionItemModelFromJson(json);
 }

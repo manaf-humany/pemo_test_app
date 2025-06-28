@@ -5,12 +5,15 @@ import 'package:pemo_test_project/core/network/network_info.dart';
 import 'package:pemo_test_project/core/network/network_service.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_local_data_source.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_remote_data_source.dart';
+import 'package:pemo_test_project/features/transaction_details/data/models/transaction_details_model.dart';
 import 'package:pemo_test_project/features/transaction_details/data/repositories/transaction_details_repository_impl.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/repositories/transaction_details_repository.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/usecases/get_transaction_details.dart';
 import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_cubit.dart';
 import 'package:pemo_test_project/features/transactions/data/datasources/transactions_local_data_source.dart';
 import 'package:pemo_test_project/features/transactions/data/datasources/transactions_remote_data_source.dart';
+import 'package:pemo_test_project/features/transactions/data/models/transaction_item_model.dart';
+import 'package:pemo_test_project/features/transactions/data/models/transactions_model.dart';
 import 'package:pemo_test_project/features/transactions/data/repositories/transactions_repository_impl.dart';
 import 'package:pemo_test_project/features/transactions/domain/repositories/transactions_repository.dart';
 import 'package:pemo_test_project/features/transactions/domain/usecases/get_transactions.dart';
@@ -67,5 +70,11 @@ Future<void> init() async {
 }
 
 Future<void> _initHive() async {
+  // Initialize Hive
   await Hive.initFlutter();
+
+  // Register Hive Adapters (for custom types)??
+  Hive.registerAdapter(TransactionItemModelAdapter());
+  Hive.registerAdapter(TransactionsModelAdapter());
+  Hive.registerAdapter(TransactionDetailsModelAdapter());
 }

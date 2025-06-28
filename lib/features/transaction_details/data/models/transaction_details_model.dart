@@ -1,26 +1,22 @@
-import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
-class TransactionDetailsModel extends TransactionDetails {
-  factory TransactionDetailsModel.fromJson(Map<String, dynamic> json) {
-    return TransactionDetailsModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      date: DateTime.parse(
-        json['date'] as String,
-      ), // Assumes ISO 8601 date string
-      merchant: json['merchant'] as String,
-      billingAmount: json['billingAmount'] as num,
-      image: json['image'] as String,
-      billingCurrency: json['billingCurrency'] as String,
-    );
-  }
-  const TransactionDetailsModel({
-    required super.id,
-    required super.name,
-    required super.date,
-    required super.merchant,
-    required super.billingAmount,
-    required super.image,
-    required super.billingCurrency,
-  });
+part 'transaction_details_model.freezed.dart';
+part 'transaction_details_model.g.dart';
+
+@freezed
+@HiveType(typeId: 2) // Using typeId: 2 since 0 and 1 are already used
+class TransactionDetailsModel with _$TransactionDetailsModel {
+  const factory TransactionDetailsModel({
+    @HiveField(0) required String id,
+    @HiveField(1) required String name,
+    @HiveField(2) required DateTime date,
+    @HiveField(3) required String merchant,
+    @HiveField(4) required num billingAmount,
+    @HiveField(5) required String image,
+    @HiveField(6) required String billingCurrency,
+  }) = _TransactionDetailsModel;
+
+  factory TransactionDetailsModel.fromJson(Map<String, dynamic> json) =>
+      _$TransactionDetailsModelFromJson(json);
 }

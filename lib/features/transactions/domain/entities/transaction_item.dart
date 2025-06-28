@@ -10,6 +10,7 @@ class TransactionItemEntity extends Equatable {
     required this.image,
     required this.billingCurrency,
   });
+
   final String id;
   final String name;
   final DateTime date;

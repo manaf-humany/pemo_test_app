@@ -1,19 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:pemo_test_project/features/transactions/data/models/transaction_item_model.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transactions.dart';
 
 part 'transactions_model.freezed.dart';
+part 'transactions_model.g.dart';
 
-class TransactionsModel extends TransactionsEntity {
-  const TransactionsModel({required super.transactions});
+@freezed
+@HiveType(typeId: 1)
+class TransactionsModel with _$TransactionsModel {
+  const factory TransactionsModel({
+    @HiveField(0) required List<TransactionItemModel> transactions,
+  }) = _TransactionsModel;
 
-  factory TransactionsModel.fromJson(List<Map<String, dynamic>> json) {
-    final List<TransactionItemModel> parsedTransactionItems =
-        json.map((itemJson) {
-          return TransactionItemModel.fromJson(itemJson);
-        }).toList();
-
-    return TransactionsModel(transactions: parsedTransactionItems);
-  }
+  factory TransactionsModel.fromJson(Map<String, dynamic> json) =>
+      _$TransactionsModelFromJson(json);
 }
