@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pemo_test_project/core/generated/assets.gen.dart';
+import 'package:pemo_test_project/core/core.dart';
 
 class AppSvgWidget extends StatelessWidget {
   const AppSvgWidget.asset(

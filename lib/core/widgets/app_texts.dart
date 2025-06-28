@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
+import 'package:pemo_test_project/core/core.dart';
 
 enum TextStyleType {
   display,

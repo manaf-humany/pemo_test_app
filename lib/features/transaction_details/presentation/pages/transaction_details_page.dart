@@ -19,41 +19,48 @@ class TransactionDetailsPage extends StatelessWidget {
                   ..fetchTransactionDetails(transactionId),
         child: BlocBuilder<TransactionDetailsCubit, TransactionDetailsState>(
           builder: (context, state) {
-            return FlutterLogo();
-            // return state.when(
-            //   initial: () => const Center(child: Text('Initializing...')),
-            //   loading: () => const Center(child: CircularProgressIndicator()),
-            //   loaded: (transaction) {
-            //     return Padding(
-            //       padding: const EdgeInsets.all(16.0),
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Center(
-            //             child: CircleAvatar(
-            //               radius: 50,
-            //               backgroundImage: NetworkImage(transaction.image),
-            //               onBackgroundImageError: (_, __) {},
-            //             ),
-            //           ),
-            //           const SizedBox(height: 20),
-            //           Text('Name: ${transaction.name}', style: Theme.of(context).textTheme.headline6),
-            //           const SizedBox(height: 10),
-            //           Text('Merchant: ${transaction.merchant}', style: Theme.of(context).textTheme.subtitle1),
-            //           const SizedBox(height: 10),
-            //           Text('Amount: ${transaction.billingAmount} ${transaction.billingCurrency}', style: Theme.of(context).textTheme.subtitle1),
-            //           const SizedBox(height: 10),
-            //           Text('Original Amount: ${transaction.originalAmount} ${transaction.originalCurrency}', style: Theme.of(context).textTheme.subtitle1),
-            //           const SizedBox(height: 10),
-            //           Text('Date: ${transaction.date}', style: Theme.of(context).textTheme.subtitle1),
-            //         ],
-            //       ),
-            //     );
-            //   },
-            //   error: (message) => Center(
-            //     child: Text(message, style: const TextStyle(color: Colors.red)),
-            //   ),
-            // );
+            return state.when(
+              initial: () => const Center(child: Text('Initializing...')),
+              loading: () => const Center(child: CircularProgressIndicator()),
+              loaded: (transaction) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(transaction.image),
+                          onBackgroundImageError: (_, __) {},
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text('Name: ${transaction.name}'),
+                      const SizedBox(height: 10),
+                      Text('Merchant: ${transaction.merchant}'),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Amount: ${transaction.billingAmount} ${transaction.billingCurrency}',
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Original Amount: ${transaction.billingAmount} ${transaction.billingCurrency}',
+                      ),
+                      const SizedBox(height: 10),
+                      Text('Date: ${transaction.date}'),
+                    ],
+                  ),
+                );
+              },
+              error:
+                  (message) => Center(
+                    child: Text(
+                      message,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+            );
           },
         ),
       ),

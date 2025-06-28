@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
+import 'package:pemo_test_project/core/core.dart';
 
 class AppLoaderWidget extends StatelessWidget {
   const AppLoaderWidget({super.key, this.loadingSize, this.loadingColor});
@@ -15,7 +15,7 @@ class AppLoaderWidget extends StatelessWidget {
         width: loadingSize ?? AppSpacing.x8,
         height: loadingSize ?? AppSpacing.x8,
         child: CircularProgressIndicator(
-          color: loadingColor ?? color.blue.shade300,
+          color: loadingColor ?? color.primaryColor.withValues(alpha: 0.3),
           strokeWidth: AppSpacing.x0,
         ),
       ),

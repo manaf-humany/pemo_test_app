@@ -2,10 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pemo_test_project/core/generated/assets.gen.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
-import 'package:pemo_test_project/core/widgets/app_loader_widget.dart';
-import 'package:pemo_test_project/core/widgets/svg_picture.dart';
+import 'package:pemo_test_project/core/core.dart';
 
 enum ImageShape { circle, square }
 
@@ -70,7 +67,7 @@ class HNetworkPicture extends StatelessWidget {
       width: width,
       child: Icon(
         errorIcon,
-        color: theme.color.white,
+        color: theme.color.whiteColor,
         size: height ?? sizeIcon,
       ),
     );

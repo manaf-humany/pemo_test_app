@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_project/core/generated/fonts.gen.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
+import 'package:pemo_test_project/core/theme/theme.dart';
 import 'package:pemo_test_project/core/widgets/app_texts.dart';
-
-enum AppThemeType { dark, light }
 
 TextStyleModel getTextsFromColors(ColorModel color) {
   final base = TextStyle(
-    color: color.textDefault,
+    color: color.mainTextColor,
     decoration: TextDecoration.none,
     fontFamily: FontFamily.figtreeRegular,
     leadingDistribution: TextLeadingDistribution.even,
@@ -79,23 +77,21 @@ TextStyleModel getTextsFromColors(ColorModel color) {
   );
 }
 
-ThemeData getThemeFromColors(ColorModel color, AppThemeType themeType) {
+ThemeData getThemeFromColors(ColorModel color) {
   return ThemeData(
     fontFamily: FontFamily.figtreeRegular,
-    primaryColor: color.textBrand,
-    canvasColor: color.bgDefault,
-    scaffoldBackgroundColor: color.bgDefault,
+    primaryColor: color.primaryColor,
+    scaffoldBackgroundColor: color.whiteScaffoldBGColor,
     colorScheme: ColorScheme(
-      brightness:
-          themeType == AppThemeType.light ? Brightness.light : Brightness.dark,
-      primary: color.blue[600]!,
-      onPrimary: color.textOnbrand,
-      secondary: color.blue[400]!,
-      onSecondary: color.textDefault,
-      error: color.textDanger,
-      onError: color.textOnbrand,
-      surface: color.bgSecondary,
-      onSurface: color.textDefault,
+      brightness: Brightness.light,
+      primary: color.primaryColor,
+      onPrimary: color.whiteColor,
+      secondary: color.primaryColor.withValues(alpha: 0.8),
+      onSecondary: color.whiteColor,
+      error: color.errorColor,
+      onError: color.whiteColor,
+      surface: color.greyScaffoldBGColor,
+      onSurface: color.mainTextColor,
     ),
   );
 }

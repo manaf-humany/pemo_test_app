@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
-import 'package:pemo_test_project/core/widgets/app_texts.dart';
+import 'package:pemo_test_project/core/core.dart';
 
 enum DSInputState { defaultState, disabledState, dangerState }
 
@@ -155,7 +154,7 @@ class _DSTextFieldState extends State<DSTextField> {
               padding: const EdgeInsetsDirectional.only(start: AppSpacing.x1),
               child: AppText.bodySmallStrong(
                 widget.labelText!,
-                color: colors.textTertiary,
+                color: colors.mainTextColor,
               ),
             ),
           _buildTextField(context, inputHelper, theme),
@@ -170,8 +169,8 @@ class _DSTextFieldState extends State<DSTextField> {
                 maxLines: widget.helperMaxLines,
                 color:
                     _state == DSInputState.dangerState
-                        ? colors.textDanger
-                        : colors.textQuaternary.withValues(alpha: 0.4),
+                        ? colors.errorColor
+                        : colors.secondTextColor.withValues(alpha: 0.4),
               ),
             ),
         ],
@@ -187,79 +186,72 @@ class _DSTextFieldState extends State<DSTextField> {
     final colors = AppTheme.of(context).color;
     return Opacity(
       opacity: _state == DSInputState.disabledState ? 0.6 : 1,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          textSelectionTheme: TextSelectionThemeData(
-            selectionColor: colors.bgSelected, // Highlight color
-          ),
-        ),
-        child: TextFormField(
-          key: fieldKey,
-          scrollController: _textScrollController,
-          scrollPadding: widget.scrollPadding ?? EdgeInsets.all(AppSpacing.x1),
-          textInputAction: widget.textInputAction,
-          onTapOutside: widget.onTapOutside,
-          enableSuggestions: widget.enableSuggestions,
-          autocorrect: widget.autocorrect,
-          onChanged: (value) {
-            if (widget.onValueChange != null) {
-              widget.onValueChange!(value);
-            }
+      child: TextFormField(
+        key: fieldKey,
+        scrollController: _textScrollController,
+        scrollPadding: widget.scrollPadding ?? EdgeInsets.all(AppSpacing.x1),
+        textInputAction: widget.textInputAction,
+        onTapOutside: widget.onTapOutside,
+        enableSuggestions: widget.enableSuggestions,
+        autocorrect: widget.autocorrect,
+        onChanged: (value) {
+          if (widget.onValueChange != null) {
+            widget.onValueChange!(value);
+          }
 
-            if (widget.validator != null) {
-              final validated = fieldKey.currentState?.validate() ?? true;
+          if (widget.validator != null) {
+            final validated = fieldKey.currentState?.validate() ?? true;
 
-              if (validated == false && _state != DSInputState.dangerState) {
-                setState(() {
-                  _state = DSInputState.dangerState;
-                });
-              } else if (validated == true &&
-                  _state != DSInputState.defaultState) {
-                setState(() {
-                  _state = DSInputState.defaultState;
-                });
-              }
+            if (validated == false && _state != DSInputState.dangerState) {
+              setState(() {
+                _state = DSInputState.dangerState;
+              });
+            } else if (validated == true &&
+                _state != DSInputState.defaultState) {
+              setState(() {
+                _state = DSInputState.defaultState;
+              });
             }
-          },
-          onEditingComplete: () {
-            FocusScope.of(context).nextFocus();
-          },
-          onFieldSubmitted: (value) {
-            if (widget.onFieldSubmitted != null) {
-              widget.onFieldSubmitted!();
-              FocusManager.instance.primaryFocus?.unfocus();
-            }
-          },
-          textCapitalization: widget.textCapitalization,
-          textAlign: widget.textAlign,
-          textAlignVertical: widget.textAlignVertical,
-          validator: widget.validator,
-          initialValue: widget.initialValue,
-          focusNode: widget.focusNode,
-          controller: _textController,
-          autofocus: widget.autoFocus,
-          maxLength: widget.maxLength,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          maxLengthEnforcement: MaxLengthEnforcement.enforced,
-          enabled: widget.isEnabled,
-          expands: widget.expands,
-          obscureText: widget.obscureText,
-          keyboardType: widget.textInputType,
-          cursorColor: theme.color.textDefault,
-          cursorHeight: AppSpacing.x5,
-          style:
-              widget.textStyle ??
-              theme.text.bodyMedium.copyWith(
-                color:
-                    _state == DSInputState.dangerState
-                        ? colors.textDanger
-                        : colors.textDefault,
-              ),
-          inputFormatters: widget.inputFormatters,
-          obscuringCharacter: DSTextField._obscuringChar,
-          decoration: _buildInputDecoration(theme, inputHelper),
-        ),
+          }
+        },
+        onEditingComplete: () {
+          FocusScope.of(context).nextFocus();
+        },
+        onFieldSubmitted: (value) {
+          if (widget.onFieldSubmitted != null) {
+            widget.onFieldSubmitted!();
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+        textCapitalization: widget.textCapitalization,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        validator: widget.validator,
+        initialValue: widget.initialValue,
+        focusNode: widget.focusNode,
+        controller: _textController,
+        autofocus: widget.autoFocus,
+        maxLength: widget.maxLength,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+        enabled: widget.isEnabled,
+        expands: widget.expands,
+        obscureText: widget.obscureText,
+        keyboardType: widget.textInputType,
+        cursorColor: theme.color.mainTextColor,
+        cursorHeight: AppSpacing.x5,
+        style:
+            widget.textStyle ??
+            theme.text.bodyMedium.copyWith(
+              color:
+                  _state == DSInputState.dangerState
+                      ? colors.errorColor
+                      : colors.mainTextColor,
+            ),
+        inputFormatters: widget.inputFormatters,
+        obscuringCharacter: DSTextField._obscuringChar,
+        decoration: _buildInputDecoration(theme, inputHelper),
       ),
     );
   }
@@ -279,7 +271,7 @@ class _DSTextFieldState extends State<DSTextField> {
     );
     return _state == DSInputState.dangerState
         ? ColorFiltered(
-          colorFilter: ColorFilter.mode(colors.textDanger, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(colors.errorColor, BlendMode.srcIn),
           child: paddedSuffix,
         )
         : paddedSuffix;
@@ -301,7 +293,7 @@ class _DSTextFieldState extends State<DSTextField> {
 
     return _state == DSInputState.dangerState
         ? ColorFiltered(
-          colorFilter: ColorFilter.mode(colors.textDanger, BlendMode.srcIn),
+          colorFilter: ColorFilter.mode(colors.errorColor, BlendMode.srcIn),
           child: paddedPrefix,
         )
         : paddedPrefix;
@@ -319,10 +311,10 @@ class _DSTextFieldState extends State<DSTextField> {
       hintTextDirection: widget.hintTextDirection,
       hintStyle:
           widget.hintStyle ??
-          theme.text.bodyMedium.copyWith(color: theme.color.textQuaternary),
+          theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
       counterStyle:
           widget.hintStyle ??
-          theme.text.bodyMedium.copyWith(color: theme.color.textQuaternary),
+          theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
       isDense: true,
       counter: widget.counter,
       prefixIcon: _buildPrefixWidget(widget.prefixIcon),
@@ -340,19 +332,12 @@ class _DSTextFieldState extends State<DSTextField> {
               : inputHelper.defaultBorder,
       errorBorder: inputHelper.defaultBorder,
       focusedErrorBorder: inputHelper.defaultBorder,
-      hoverColor:
-          widget.isInline == false ? colors.bgHoverActive : Colors.transparent,
       errorMaxLines: widget.helperMaxLines ?? 1,
       errorStyle: AppTheme.of(
         context,
-      ).text.bodyTinyStrong.copyWith(color: colors.textDanger),
+      ).text.bodyTinyStrong.copyWith(color: colors.errorColor),
       disabledBorder: inputHelper.defaultBorder,
-      fillColor:
-          widget.isInline
-              ? Colors.transparent
-              : _state == DSInputState.disabledState
-              ? colors.bgHoverActive
-              : colors.bgInput,
+      fillColor: Colors.transparent,
       filled: true,
       contentPadding: widget.contentPadding,
       border: inputHelper.defaultBorder,
@@ -369,7 +354,7 @@ class DSInputStatesHelper {
   final borderRadius = BorderRadius.circular(AppRadius.x3);
 
   OutlineInputBorder get focusBorder => OutlineInputBorder(
-    borderSide: BorderSide(color: AppTheme.of(context).color.bgBrand),
+    borderSide: BorderSide(color: AppTheme.of(context).color.borderColor),
     borderRadius: borderRadius,
   );
 

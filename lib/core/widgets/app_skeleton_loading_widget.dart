@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pemo_test_project/core/theme/theme_export.dart';
+import 'package:pemo_test_project/core/core.dart';
 import 'package:skeletonizer/skeletonizer.dart' as skeleton;
 
 /// A widget that provides skeleton loading animation for its child widgets.
@@ -103,10 +103,10 @@ class SkeletonLoadingWidget extends StatelessWidget {
       // Configure the shimmer effect with theme-aware colors and fixed duration
       effect: skeleton.ShimmerEffect(
         // Use the provided base color or default to the theme's blue6 color
-        baseColor: baseColor ?? colors.blue.shade600,
+        baseColor: baseColor ?? colors.shimmerBaseColor,
 
         // Use the provided highlight color or default to the theme's blue7 color
-        highlightColor: highlightColor ?? colors.blue.shade700,
+        highlightColor: highlightColor ?? colors.shimmerHighlightColor,
 
         // Set the duration of the shimmer effect to 1 second
         duration: Duration(seconds: 1),
