@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
+import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
 
 part 'transaction_details_model.freezed.dart';
 part 'transaction_details_model.g.dart';
@@ -19,4 +20,18 @@ class TransactionDetailsModel with _$TransactionDetailsModel {
 
   factory TransactionDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$TransactionDetailsModelFromJson(json);
+}
+
+extension TransactionDetailsModelX on TransactionDetailsModel {
+  TransactionDetails toEntity() {
+    return TransactionDetails(
+      id: id,
+      name: name,
+      date: date,
+      merchant: merchant,
+      billingAmount: billingAmount,
+      image: image,
+      billingCurrency: billingCurrency,
+    );
+  }
 }

@@ -4,6 +4,7 @@ import 'package:pemo_test_project/core/error/failures.dart';
 import 'package:pemo_test_project/core/network/network_info.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_local_data_source.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_remote_data_source.dart';
+import 'package:pemo_test_project/features/transaction_details/data/models/transaction_details_model.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/repositories/transaction_details_repository.dart';
 
@@ -27,7 +28,7 @@ class TransactionDetailsRepositoryImpl implements TransactionDetailsRepository {
           transactionId,
         );
         await localDataSource.cacheTransactionDetails(remoteTransaction);
-        return Right(remoteTransaction);
+        return Right(remoteTransaction.toEntity());
       } on ServerException {
         return Left(ServerFailure());
       }
@@ -36,7 +37,7 @@ class TransactionDetailsRepositoryImpl implements TransactionDetailsRepository {
         final localTransaction = await localDataSource.getTransactionDetails(
           transactionId,
         );
-        return Right(localTransaction);
+        return Right(localTransaction.toEntity());
       } on CacheException {
         return Left(CacheFailure());
       }

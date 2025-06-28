@@ -13,7 +13,8 @@ class TransactionCubit extends Cubit<TransactionState> {
     final failureOrTransactions = await getTransactions(NoParams());
     failureOrTransactions.fold(
       (failure) => emit(TransactionState.error(failure.toString())),
-      (transactions) => emit(TransactionState.loaded(transactions)),
+      (transactions) =>
+          emit(TransactionState.loaded(transactions.transactions)),
     );
   }
 }
