@@ -9,6 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  #For shared components
+  pemo_test_component:
+    path: packages/pemo_test_component/
+
   # Service locator
   get_it: ^8.0.3
   # Bloc for state management
@@ -33,6 +38,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   # For code generation
   freezed: ^2.5.7
+
 
 dev_dependencies:
   flutter_test:

@@ -58,6 +58,7 @@ class AppTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<AppTheme>();
   }
 
+  @override
   bool updateShouldNotify(covariant AppTheme oldWidget) =>
       color != oldWidget.color || text != oldWidget.text;
 }
