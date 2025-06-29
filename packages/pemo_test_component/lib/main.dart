@@ -20,19 +20,20 @@ class PemoTestStoryBook extends StatelessWidget {
     return ThemeProvider(
       builder:
           (context, ___) => Storybook(
-            plugins: _plugins,
-            wrapperBuilder:
-                (context, child) => MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  locale: const Locale('en'),
-                  home: child,
-                ),
-            stories: [
-              AppEmptyWidgetStory(),
-              AppErrorWidgetStory(),
-              AppLoaderWidgetStory()
-            ],
-          ),
+        plugins: _plugins,
+        wrapperBuilder:
+            (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: const Locale('en'),
+          home: child,
+        ),
+        stories: [
+          AppEmptyWidgetStory(),
+          AppErrorWidgetStory(),
+          AppLoaderWidgetStory(),
+          AppMainButtonStory(),
+        ],
+      ),
     );
   }
 }

@@ -46,6 +46,7 @@ class ColorModel {
   // Private constructor
   const ColorModel({
     this.primaryColor = AppColor.primaryColor,
+    this.secondaryColor = AppColor.secondTextColor,
     this.mainTextColor = AppColor.mainTextColor,
     this.secondTextColor = AppColor.secondTextColor,
     this.greenColor = AppColor.greenColor,
@@ -62,6 +63,7 @@ class ColorModel {
 
   // Base colors
   final Color primaryColor;
+  final Color secondaryColor;
   final Color mainTextColor;
   final Color secondTextColor;
   final Color greenColor;

@@ -4,15 +4,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 
-enum ImageShape { circle, square }
-
-class HNetworkPicture extends StatelessWidget {
-  const HNetworkPicture({
+/// A versatile widget for displaying network images with caching, placeholders, and error handling.
+///
+/// This widget can display images in a circular or square shape and provides
+/// options for custom placeholders, error icons, and loading indicators.
+class AppNetworkImage extends StatelessWidget {
+  /// Creates a network image widget.
+  ///
+  /// The [url] is required.
+  const AppNetworkImage({
     required this.url,
     this.useCache = false,
     this.sizeIcon = 32,
     this.fit = BoxFit.contain,
-    this.color,
+    this.imageColor,
+    this.backgroundColor,
     this.height,
     this.width,
     this.checkForHttps = true,
@@ -22,18 +28,46 @@ class HNetworkPicture extends StatelessWidget {
     super.key,
   });
 
+  /// The URL of the image to display.
   final String url;
+
+  /// Whether to use [CachedNetworkImage] for caching.
   final bool useCache;
+
+  /// The size of the placeholder and error icons.
   final double sizeIcon;
+
+  /// How the image should be inscribed into the box.
   final BoxFit fit;
-  final Color? color;
+
+  /// The color to apply to the image as an overlay.
+  final Color? imageColor;
+
+  /// The background color for the placeholder and error widgets.
+  final Color? backgroundColor;
+
+  /// The height of the image.
   final double? height;
+
+  /// The width of the image.
   final double? width;
+
+  /// Whether to automatically prepend "https://" to the URL if it's missing.
   final bool checkForHttps;
+
+  /// The shape of the image.
   final ImageShape shape;
+
+  /// The asset path for a custom placeholder image.
   final String? placeholderAssetPath;
+
+  /// The icon to display when the image fails to load.
   final IconData errorIcon;
 
+  /// Returns the formatted URL for the image.
+  ///
+  /// If [checkForHttps] is true and the URL does not start with "http",
+  /// "https://" is prepended to the URL.
   String _getFormattedUrl() {
     if (url.isEmpty) return '';
     if (checkForHttps && !url.startsWith('http')) {
@@ -45,11 +79,14 @@ class HNetworkPicture extends StatelessWidget {
     return url;
   }
 
+  /// Builds the placeholder widget.
+  ///
+  /// The placeholder is displayed while the image is loading.
   Widget _buildPlaceholder(BuildContext context) {
     return _Wrapper(
       height: height,
       width: width,
-      backgroundColor: color, // Renamed for clarity
+      backgroundColor: backgroundColor, // Renamed for clarity
       child: AppSvgWidget.asset(
         placeholderAssetPath ??
             Assets.svgs.placeHolder, // Use provided or default
@@ -59,10 +96,13 @@ class HNetworkPicture extends StatelessWidget {
     );
   }
 
+  /// Builds the error widget.
+  ///
+  /// The error widget is displayed when the image fails to load.
   Widget _buildErrorWidget(BuildContext context) {
     final theme = AppTheme.of(context);
     return _Wrapper(
-      backgroundColor: color,
+      backgroundColor: backgroundColor,
       height: height,
       width: width,
       child: Icon(
@@ -73,9 +113,12 @@ class HNetworkPicture extends StatelessWidget {
     );
   }
 
+  /// Builds the loading widget.
+  ///
+  /// The loading widget is displayed while the image is loading.
   Widget _buildLoadingWidget(BuildContext context) {
     return _Wrapper(
-      backgroundColor: color,
+      backgroundColor: backgroundColor,
       height: height,
       width: width,
       child: AppLoaderWidget(),
@@ -97,7 +140,7 @@ class HNetworkPicture extends StatelessWidget {
         imageWidget = CachedNetworkImage(
           imageUrl: formattedUrl,
           fit: fit,
-          color: color,
+          color: imageColor,
           width: width,
           height: height,
           errorWidget: (context, _, __) => _buildErrorWidget(context),
@@ -107,7 +150,7 @@ class HNetworkPicture extends StatelessWidget {
         );
       } catch (e, s) {
         log(
-          'HNetworkPicture.cache: Failed to initiate CachedNetworkImage for url: $formattedUrl',
+          'AppNetworkImage.cache: Failed to initiate CachedNetworkImage for url: $formattedUrl',
           error: e,
           stackTrace: s,
         );
@@ -117,12 +160,12 @@ class HNetworkPicture extends StatelessWidget {
       imageWidget = Image.network(
         formattedUrl,
         fit: fit,
-        color: color,
+        color: imageColor,
         width: width,
         height: height,
         errorBuilder: (context, error, stackTrace) {
           log(
-            'HNetworkPicture.network: Error loading image for url: $formattedUrl',
+            'AppNetworkImage.network: Error loading image for url: $formattedUrl',
             error: error,
             stackTrace: stackTrace,
           );
@@ -143,6 +186,9 @@ class HNetworkPicture extends StatelessWidget {
   }
 }
 
+/// A wrapper widget for constraining the size of its child.
+///
+/// This widget is used to constrain the size of the placeholder, error, and loading widgets.
 class _Wrapper extends StatelessWidget {
   const _Wrapper({
     required this.child,
@@ -173,3 +219,5 @@ class _Wrapper extends StatelessWidget {
     );
   }
 }
+
+enum ImageShape { circle, square }
