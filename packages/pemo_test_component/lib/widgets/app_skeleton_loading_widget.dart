@@ -85,45 +85,83 @@ class SkeletonLoadingWidget extends StatelessWidget {
     var colors = AppTheme.of(context).color;
 
     // Create the skeleton loading widget with the provided configuration
-    return skeleton.Skeletonizer(
-      // Enable or disable the skeleton loading state
+    return AppSkeletonLoadingWidget(
       enabled: enabled,
+      child: skeleton.Skeletonizer(
+        // Enable or disable the skeleton loading state
+        enabled: enabled,
 
-      // Configure the switch animation between loading and loaded states
-      switchAnimationConfig: skeleton.SwitchAnimationConfig(
-        duration: switchAnimationDuration,
+        // Configure the switch animation between loading and loaded states
+        switchAnimationConfig: skeleton.SwitchAnimationConfig(
+          duration: switchAnimationDuration,
+        ),
+
+        // Enable or disable the switch animation
+        enableSwitchAnimation: enableSwitchAnimation,
+
+        // Set the color of container elements in the skeleton state
+        containersColor: containersColor,
+
+        // Configure the shimmer effect with theme-aware colors and fixed duration
+        effect: skeleton.ShimmerEffect(
+          // Use the provided base color or default to the theme's blue6 color
+          baseColor: baseColor ?? colors.shimmerBaseColor,
+
+          // Use the provided highlight color or default to the theme's blue7 color
+          highlightColor: highlightColor ?? colors.shimmerHighlightColor,
+
+          // Set the duration of the shimmer effect to 1 second
+          duration: Duration(seconds: 1),
+        ),
+
+        // Ignore container widgets when creating the skeleton
+        ignoreContainers: ignoreContainers,
+
+        // Justify multi-line text in the skeleton state
+        justifyMultiLineText: justifyMultiLineText,
+
+        // Set the border radius of text bones in the skeleton state
+        textBoneBorderRadius: skeleton.TextBoneBorderRadius(
+          BorderRadius.circular(AppBorderWidth.x1),
+        ),
+
+        // The child widget to display when not in loading state
+        child: child,
       ),
+    );
+  }
+}
 
-      // Enable or disable the switch animation
-      enableSwitchAnimation: enableSwitchAnimation,
+/// A wrapper widget that applies a skeleton loading effect to its child.
+///
+/// This widget uses the `skeletonizer` package to create a shimmer effect
+/// on the child widget, which is useful for indicating that content is loading.
+class AppSkeletonLoadingWidget extends StatelessWidget {
+  /// The widget below this widget in the tree.
+  final Widget child;
 
-      // Set the color of container elements in the skeleton state
-      containersColor: containersColor,
+  /// Whether the skeleton loading effect is enabled.
+  final bool enabled;
 
-      // Configure the shimmer effect with theme-aware colors and fixed duration
+  /// Creates an [AppSkeletonLoadingWidget].
+  ///
+  /// The [child] argument must not be null.
+  /// The [enabled] argument defaults to true.
+  const AppSkeletonLoadingWidget({
+    super.key,
+    required this.child,
+    this.enabled = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    return skeleton.Skeletonizer(
+      enabled: enabled,
       effect: skeleton.ShimmerEffect(
-        // Use the provided base color or default to the theme's blue6 color
-        baseColor: baseColor ?? colors.shimmerBaseColor,
-
-        // Use the provided highlight color or default to the theme's blue7 color
-        highlightColor: highlightColor ?? colors.shimmerHighlightColor,
-
-        // Set the duration of the shimmer effect to 1 second
-        duration: Duration(seconds: 1),
+        baseColor: theme.color.shimmerBaseColor,
+        highlightColor: theme.color.shimmerHighlightColor,
       ),
-
-      // Ignore container widgets when creating the skeleton
-      ignoreContainers: ignoreContainers,
-
-      // Justify multi-line text in the skeleton state
-      justifyMultiLineText: justifyMultiLineText,
-
-      // Set the border radius of text bones in the skeleton state
-      textBoneBorderRadius: skeleton.TextBoneBorderRadius(
-        BorderRadius.circular(AppBorderWidth.x1),
-      ),
-
-      // The child widget to display when not in loading state
       child: child,
     );
   }

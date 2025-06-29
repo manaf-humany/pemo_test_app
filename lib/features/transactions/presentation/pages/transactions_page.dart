@@ -44,14 +44,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
   void _filterTransactions() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredTransactions =
-          _allTransactions.where((transaction) {
-            final nameMatch = transaction.name.toLowerCase().contains(query);
-            final merchantMatch = transaction.merchant.toLowerCase().contains(
+      _filteredTransactions = _allTransactions.where((transaction) {
+        final nameMatch = transaction.name.toLowerCase().contains(query);
+        final merchantMatch = transaction.merchant.toLowerCase().contains(
               query,
             );
-            return nameMatch || merchantMatch;
-          }).toList();
+        return nameMatch || merchantMatch;
+      }).toList();
     });
   }
 
@@ -89,8 +88,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
     final groupedTransactions = _groupTransactionsByDate(_filteredTransactions);
 
     return AppRefreshIndicator(
-      onRefresh:
-          () async => context.read<TransactionCubit>().fetchTransactions(),
+      onRefresh: () async =>
+          context.read<TransactionCubit>().fetchTransactions(),
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -220,31 +219,33 @@ class _TransactionsPageState extends State<TransactionsPage> {
   /// Builds a sliver list of animated transaction items.
   Widget _buildTransactionListSliver(List<TransactionItemEntity> transactions) {
     return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        final transaction = transactions[index];
-        return AnimationConfiguration.staggeredList(
-          position: index,
-          duration: const Duration(milliseconds: 375),
-          child: SlideAnimation(
-            verticalOffset: 50.0,
-            child: FadeInAnimation(
-              child: TransactionItemWidget(
-                transaction: transaction,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder:
-                          (_) => TransactionDetailsPage(
-                            transactionId: transaction.id,
-                          ),
-                    ),
-                  );
-                },
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final transaction = transactions[index];
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            child: SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: TransactionItemWidget(
+                  transaction: transaction,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => TransactionDetailsPage(
+                          transactionId: transaction.id,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      }, childCount: transactions.length),
+          );
+        },
+        childCount: transactions.length,
+      ),
     );
   }
 
@@ -264,8 +265,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
     return Center(
       child: AppErrorWidget(
         errorMessage: message,
-        onRetryPressed:
-            () => context.read<TransactionCubit>().fetchTransactions(),
+        onRetryPressed: () =>
+            context.read<TransactionCubit>().fetchTransactions(),
       ),
     );
   }

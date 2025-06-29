@@ -16,12 +16,17 @@ class TransactionsModelAdapter extends TypeAdapter<TransactionsModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TransactionsModel();
+    return TransactionsModel(
+      transactions: (fields[0] as List).cast<TransactionItemModel>(),
+    );
   }
 
   @override
   void write(BinaryWriter writer, TransactionsModel obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.transactions);
   }
 
   @override
@@ -34,3 +39,21 @@ class TransactionsModelAdapter extends TypeAdapter<TransactionsModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$TransactionsModelImpl _$$TransactionsModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionsModelImpl(
+      transactions: (json['transactions'] as List<dynamic>)
+          .map((e) => TransactionItemModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$TransactionsModelImplToJson(
+        _$TransactionsModelImpl instance) =>
+    <String, dynamic>{
+      'transactions': instance.transactions,
+    };
