@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
@@ -31,8 +31,10 @@ class AppRefreshIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppTheme.of(context).color;
+    final platform = Theme.of(context).platform;
     return RefreshIndicator.adaptive(
-      backgroundColor: Platform.isIOS ? colors.primaryColor : Colors.white,
+      backgroundColor:
+          platform == TargetPlatform.iOS ? colors.primaryColor : Colors.white,
       color: colors.primaryColor,
       onRefresh: onRefresh,
       child: child,

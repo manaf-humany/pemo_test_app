@@ -87,7 +87,7 @@ class AppNetworkImage extends StatelessWidget {
       height: height,
       width: width,
       backgroundColor: backgroundColor, // Renamed for clarity
-      child: AppSvgWidget.asset(
+      child: AppSvgPicture.asset(
         placeholderAssetPath ??
             Assets.svgs.placeHolder, // Use provided or default
         width: sizeIcon,

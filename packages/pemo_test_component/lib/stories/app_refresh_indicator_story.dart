@@ -46,13 +46,15 @@ class _RefreshIndicatorDemoState extends State<_RefreshIndicatorDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return AppRefreshIndicator(
-      onRefresh: _handleRefresh,
-      child: ListView.builder(
-        itemCount: _items.length,
-        itemBuilder: (context, index) {
-          return ListTile(title: AppText.bodyLarge(_items[index]));
-        },
+    return Scaffold(
+      body: AppRefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: ListView.builder(
+          itemCount: _items.length,
+          itemBuilder: (context, index) {
+            return ListTile(title: AppText.bodyLarge(_items[index]));
+          },
+        ),
       ),
     );
   }

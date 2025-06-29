@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 
+/// A highly customizable text input field that adapts its appearance based on its state.
+///
+/// This widget wraps a [TextFormField] and provides extensive customization options
+/// for appearance, behavior, and validation.
 class AppTextField extends StatefulWidget {
+  /// Creates a customizable text field.
   const AppTextField({
     this.state = InputState.defaultState,
     this.hint = '',
@@ -47,51 +52,132 @@ class AppTextField extends StatefulWidget {
     this.helperText,
     this.labelText,
     this.isInline = true,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     super.key,
   });
 
+  /// The controller for the text field.
   final TextEditingController? controller;
+
+  /// The scroll controller for the text field.
   final ScrollController? scrollController;
+
+  /// The initial value to display in the text field.
   final String? initialValue;
+
+  /// The current state of the input field, which determines its appearance.
   final InputState state;
+
+  /// The hint text to display when the field is empty.
   final String hint;
+
+  /// The focus node for the text field.
   final FocusNode? focusNode;
+
+  /// Whether to obscure the text being entered.
   final bool obscureText;
+
+  /// The type of keyboard to display.
   final TextInputType textInputType;
+
+  /// The action to take when the user presses the action button on the keyboard.
   final TextInputAction? textInputAction;
+
+  /// The maximum number of characters allowed in the text field.
   final int? maxLength;
+
+  /// The maximum number of lines to display.
   final int? maxLines;
+
+  /// The minimum number of lines to display.
   final int? minLines;
+
+  /// A callback invoked when the text in the field changes.
   final void Function(String value)? onValueChange;
+
+  /// A callback invoked when the user finishes editing the text.
   final void Function()? onEditingComplete;
+
+  /// A callback invoked when the user submits the field.
   final void Function()? onFieldSubmitted;
+
+  /// A callback invoked when a tap is detected outside of the text field.
   final TapRegionCallback? onTapOutside;
+
+  /// A list of input formatters to apply to the text field.
   final List<TextInputFormatter>? inputFormatters;
+
+  /// Whether the text field is enabled.
   final bool isEnabled;
+
+  /// Whether to enable suggestions.
   final bool enableSuggestions;
+
+  /// Whether to enable autocorrect.
   final bool autocorrect;
+
+  /// The text style for the input.
   final TextStyle? textStyle;
+
+  /// The text style for the hint text.
   final TextStyle? hintStyle;
+
+  /// The text style for the character counter.
   final TextStyle? counterStyle;
+
+  /// The padding for the scrollable content.
   final EdgeInsets contentPadding;
+
+  /// The padding for the scroll view.
   final EdgeInsets? scrollPadding;
+
+  /// An optional icon to display at the end of the text field.
   final Widget? suffixIcon;
+
+  /// Whether the text field should autofocus.
   final bool autoFocus;
+
+  /// The text direction for the hint text.
   final TextDirection hintTextDirection;
+
+  /// A function that validates the input and returns an error string if invalid.
   final String? Function(String?)? validator;
+
+  /// The alignment of the text within the field.
   final TextAlign textAlign;
+
+  /// An optional icon to display at the beginning of the text field.
   final Widget? prefixIcon;
+
+  /// The text capitalization strategy.
   final TextCapitalization textCapitalization;
+
+  /// The maximum number of lines for the helper text.
   final int? helperMaxLines;
 
+  /// An optional widget to display as the character counter.
   final Widget? counter;
+
+  /// Whether the text field should expand to fill its parent.
   final bool expands;
+
+  /// The vertical alignment of the text.
   final TextAlignVertical textAlignVertical;
+
+  /// The maximum number of lines for the hint text.
   final int hintMaxLines;
 
+  /// Optional helper text to display below the field.
   final String? helperText;
+
+  /// Optional label text to display above the field.
   final String? labelText;
+
+  /// Whether the label and helper text are displayed inline or above/below the field.
   final bool isInline;
+
+  /// The mode for autovalidating the input.
+  final AutovalidateMode autovalidateMode;
 
   static const String _obscuringChar = '*';
 
@@ -100,207 +186,152 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
-  late ScrollController _textScrollController;
-
-  late InputState _state;
-  late String? _helperText;
-  late TextEditingController _textController;
-
-  final fieldKey = GlobalKey<FormFieldState<String>>();
+  late final TextEditingController _textController;
+  late InputState _currentState;
 
   @override
   void initState() {
-    _textScrollController = widget.scrollController ?? ScrollController();
-    _textController = widget.controller ?? TextEditingController();
-    _state = widget.state;
-    _helperText = widget.helperText;
     super.initState();
+    _textController = widget.controller ?? TextEditingController();
+    _currentState = widget.state;
   }
 
   @override
   void didUpdateWidget(covariant AppTextField oldWidget) {
-    if (_state != InputState.dangerState) {
-      _helperText = widget.helperText;
-    }
-    _state = widget.state;
     super.didUpdateWidget(oldWidget);
+    if (widget.state != oldWidget.state) {
+      _currentState = widget.state;
+    }
   }
 
   @override
   void dispose() {
-    _textController.dispose();
-    _textScrollController.dispose();
+    if (widget.controller == null) {
+      _textController.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final inputHelper = DSInputStatesHelper(context, _state);
-    final theme = AppTheme.of(context);
     final colors = AppTheme.of(context).color;
+    final borders = _AppTextFieldBorders(context);
+
+    // The field is explicitly disabled through the state property.
+    final bool isEffectivelyEnabled =
+        widget.isEnabled && _currentState != InputState.disabledState;
+
     return IgnorePointer(
-      ignoring: _state == InputState.disabledState,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        spacing: 4,
-        children: [
-          if (widget.isInline == false &&
-              widget.labelText != null &&
-              widget.labelText!.isNotEmpty)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(start: AppSpacing.x1),
-              child: AppText.bodySmallStrong(
-                widget.labelText!,
-                color: colors.mainTextColor,
+      ignoring: !isEffectivelyEnabled,
+      child: Opacity(
+        opacity: isEffectivelyEnabled ? 1.0 : 0.6,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.isInline == false &&
+                widget.labelText != null &&
+                widget.labelText!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpacing.x1),
+                child: AppText.bodySmallStrong(
+                  widget.labelText!,
+                  color: colors.mainTextColor,
+                ),
               ),
-            ),
-          _buildTextField(context, inputHelper, theme),
-          if (widget.isInline == false &&
-              _helperText != null &&
-              _helperText!.isNotEmpty &&
-              fieldKey.currentState?.hasError == false)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(start: AppSpacing.x1),
-              child: AppText.bodyTinyStrong(
-                _helperText!,
-                maxLines: widget.helperMaxLines,
-                color:
-                    _state == InputState.dangerState
-                        ? colors.errorColor
-                        : colors.secondTextColor.withValues(alpha: 0.4),
+            _buildTextField(context, borders, isEffectivelyEnabled),
+            if (widget.isInline == false &&
+                widget.helperText != null &&
+                widget.helperText!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: AppSpacing.x1),
+                child: AppText.bodyTinyStrong(
+                  widget.helperText!,
+                  maxLines: widget.helperMaxLines,
+                  color:
+                      _currentState == InputState.dangerState
+                          ? colors.errorColor
+                          : colors.secondTextColor.withValues(alpha: 0.4),
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTextField(
     BuildContext context,
-    DSInputStatesHelper inputHelper,
-    AppTheme theme,
+    _AppTextFieldBorders borders,
+    bool isEnabled,
   ) {
-    final colors = AppTheme.of(context).color;
-    return Opacity(
-      opacity: _state == InputState.disabledState ? 0.6 : 1,
-      child: TextFormField(
-        key: fieldKey,
-        scrollController: _textScrollController,
-        scrollPadding: widget.scrollPadding ?? EdgeInsets.all(AppSpacing.x1),
-        textInputAction: widget.textInputAction,
-        onTapOutside: widget.onTapOutside,
-        enableSuggestions: widget.enableSuggestions,
-        autocorrect: widget.autocorrect,
-        onChanged: (value) {
-          if (widget.onValueChange != null) {
-            widget.onValueChange!(value);
-          }
+    final theme = AppTheme.of(context);
+    final colors = theme.color;
 
-          if (widget.validator != null) {
-            final validated = fieldKey.currentState?.validate() ?? true;
-
-            if (validated == false && _state != InputState.dangerState) {
+    return TextFormField(
+      scrollPadding:
+          widget.scrollPadding ?? const EdgeInsets.all(AppSpacing.x1),
+      textInputAction: widget.textInputAction,
+      onTapOutside: widget.onTapOutside,
+      enableSuggestions: widget.enableSuggestions,
+      autocorrect: widget.autocorrect,
+      onChanged: widget.onValueChange,
+      onEditingComplete:
+          widget.onEditingComplete ?? () => FocusScope.of(context).nextFocus(),
+      onFieldSubmitted: (value) {
+        widget.onFieldSubmitted?.call();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      textCapitalization: widget.textCapitalization,
+      textAlign: widget.textAlign,
+      textAlignVertical: widget.textAlignVertical,
+      validator: (value) {
+        final error = widget.validator?.call(value);
+        final hasError = error != null;
+        final newState = hasError ? InputState.dangerState : widget.state;
+        if (_currentState != newState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
               setState(() {
-                _state = InputState.dangerState;
-              });
-            } else if (validated == true && _state != InputState.defaultState) {
-              setState(() {
-                _state = InputState.defaultState;
+                _currentState = newState;
               });
             }
-          }
-        },
-        onEditingComplete: () {
-          FocusScope.of(context).nextFocus();
-        },
-        onFieldSubmitted: (value) {
-          if (widget.onFieldSubmitted != null) {
-            widget.onFieldSubmitted!();
-            FocusManager.instance.primaryFocus?.unfocus();
-          }
-        },
-        textCapitalization: widget.textCapitalization,
-        textAlign: widget.textAlign,
-        textAlignVertical: widget.textAlignVertical,
-        validator: widget.validator,
-        initialValue: widget.initialValue,
-        focusNode: widget.focusNode,
-        controller: _textController,
-        autofocus: widget.autoFocus,
-        maxLength: widget.maxLength,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        maxLengthEnforcement: MaxLengthEnforcement.enforced,
-        enabled: widget.isEnabled,
-        expands: widget.expands,
-        obscureText: widget.obscureText,
-        keyboardType: widget.textInputType,
-        cursorColor: theme.color.mainTextColor,
-        cursorHeight: AppSpacing.x5,
-        style:
-            widget.textStyle ??
-            theme.text.bodyMedium.copyWith(
-              color:
-                  _state == InputState.dangerState
-                      ? colors.errorColor
-                      : colors.mainTextColor,
-            ),
-        inputFormatters: widget.inputFormatters,
-        obscuringCharacter: AppTextField._obscuringChar,
-        decoration: _buildInputDecoration(theme, inputHelper),
-      ),
+          });
+        }
+        return error;
+      },
+      initialValue: widget.initialValue,
+      focusNode: widget.focusNode,
+      controller: _textController,
+      autofocus: widget.autoFocus,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      enabled: isEnabled,
+      expands: widget.expands,
+      obscureText: widget.obscureText,
+      keyboardType: widget.textInputType,
+      cursorColor: colors.mainTextColor,
+      style:
+          widget.textStyle ??
+          theme.text.bodyMedium.copyWith(
+            color:
+                _currentState == InputState.dangerState
+                    ? colors.errorColor
+                    : colors.mainTextColor,
+          ),
+      inputFormatters: widget.inputFormatters,
+      obscuringCharacter: AppTextField._obscuringChar,
+      autovalidateMode: widget.autovalidateMode,
+      decoration: _buildInputDecoration(theme, borders),
     );
-  }
-
-  Widget? _buildSuffixWidget(Widget? suffixIcon) {
-    if (suffixIcon == null) {
-      return null;
-    }
-    final colors = AppTheme.of(context).color;
-    final paddedSuffix = Padding(
-      padding: EdgeInsetsDirectional.only(end: AppSpacing.x1),
-      child: SizedBox(
-        width: AppSpacing.x4,
-        height: AppSpacing.x4,
-        child: suffixIcon,
-      ),
-    );
-    return _state == InputState.dangerState
-        ? ColorFiltered(
-          colorFilter: ColorFilter.mode(colors.errorColor, BlendMode.srcIn),
-          child: paddedSuffix,
-        )
-        : paddedSuffix;
-  }
-
-  Widget? _buildPrefixWidget(Widget? prefixIcon) {
-    if (prefixIcon == null) {
-      return null;
-    }
-    final colors = AppTheme.of(context).color;
-    final paddedPrefix = Padding(
-      padding: EdgeInsetsDirectional.only(start: AppSpacing.x1),
-      child: SizedBox(
-        width: AppSpacing.x4,
-        height: AppSpacing.x4,
-        child: prefixIcon,
-      ),
-    );
-
-    return _state == InputState.dangerState
-        ? ColorFiltered(
-          colorFilter: ColorFilter.mode(colors.errorColor, BlendMode.srcIn),
-          child: paddedPrefix,
-        )
-        : paddedPrefix;
   }
 
   InputDecoration _buildInputDecoration(
     AppTheme theme,
-    DSInputStatesHelper inputHelper,
+    _AppTextFieldBorders borders,
   ) {
-    final colors = AppTheme.of(context).color;
     return InputDecoration(
       floatingLabelBehavior: FloatingLabelBehavior.never,
       hintText: widget.hint,
@@ -310,53 +341,75 @@ class _AppTextFieldState extends State<AppTextField> {
           widget.hintStyle ??
           theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
       counterStyle:
-          widget.hintStyle ??
+          widget.counterStyle ??
           theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
       isDense: true,
       counter: widget.counter,
-      prefixIcon: _buildPrefixWidget(widget.prefixIcon),
-      suffixIcon: _buildSuffixWidget(widget.suffixIcon),
-      suffixIconConstraints: BoxConstraints(
-        minWidth: AppSpacing.x5 + AppSpacing.x2,
-      ),
-      prefixIconConstraints: BoxConstraints(
-        minWidth: AppSpacing.x5 + AppSpacing.x2,
-      ),
-      enabledBorder: inputHelper.defaultBorder,
-      focusedBorder:
-          (fieldKey.currentState?.isValid ?? true)
-              ? inputHelper.focusBorder
-              : inputHelper.defaultBorder,
-      errorBorder: inputHelper.defaultBorder,
-      focusedErrorBorder: inputHelper.defaultBorder,
+      prefixIcon: _buildIcon(widget.prefixIcon, isPrefix: true),
+      suffixIcon: _buildIcon(widget.suffixIcon, isPrefix: false),
+      suffixIconConstraints: const BoxConstraints(minWidth: AppSpacing.x10),
+      prefixIconConstraints: const BoxConstraints(minWidth: AppSpacing.x10),
+      enabledBorder: borders.defaultBorder,
+      focusedBorder: borders.focusedBorder,
+      errorBorder: borders.errorBorder,
+      focusedErrorBorder: borders.errorBorder,
+      disabledBorder: borders.defaultBorder,
       errorMaxLines: widget.helperMaxLines ?? 1,
-      errorStyle: AppTheme.of(
-        context,
-      ).text.bodyTinyStrong.copyWith(color: colors.errorColor),
-      disabledBorder: inputHelper.defaultBorder,
+      errorStyle: theme.text.bodyTinyStrong.copyWith(
+        color: theme.color.errorColor,
+      ),
       fillColor: Colors.transparent,
       filled: true,
       contentPadding: widget.contentPadding,
-      border: inputHelper.defaultBorder,
+      border: borders.defaultBorder,
     );
+  }
+
+  Widget? _buildIcon(Widget? icon, {required bool isPrefix}) {
+    if (icon == null) return null;
+
+    final colors = AppTheme.of(context).color;
+    final padding = EdgeInsetsDirectional.only(
+      start: isPrefix ? AppSpacing.x3 : 0,
+      end: isPrefix ? 0 : AppSpacing.x3,
+    );
+
+    final child = Padding(
+      padding: padding,
+      child: SizedBox(width: AppSpacing.x4, height: AppSpacing.x4, child: icon),
+    );
+
+    if (_currentState == InputState.dangerState) {
+      return ColorFiltered(
+        colorFilter: ColorFilter.mode(colors.errorColor, BlendMode.srcIn),
+        child: child,
+      );
+    }
+    return child;
   }
 }
 
-class DSInputStatesHelper {
-  DSInputStatesHelper(this.context, this.state);
+/// A helper class to provide themed borders for the [AppTextField].
+class _AppTextFieldBorders {
+  _AppTextFieldBorders(BuildContext context)
+    : colors = AppTheme.of(context).color,
+      borderRadius = BorderRadius.circular(AppRadius.x3);
 
-  final BuildContext context;
-  final InputState state;
-
-  final borderRadius = BorderRadius.circular(AppRadius.x3);
-
-  OutlineInputBorder get focusBorder => OutlineInputBorder(
-    borderSide: BorderSide(color: AppTheme.of(context).color.borderColor),
-    borderRadius: borderRadius,
-  );
+  final ColorModel colors;
+  final BorderRadius borderRadius;
 
   OutlineInputBorder get defaultBorder => OutlineInputBorder(
     borderRadius: borderRadius,
-    borderSide: BorderSide(color: Colors.transparent),
+    borderSide: BorderSide(color: colors.borderColor.withValues(alpha: 0.5)),
+  );
+
+  OutlineInputBorder get focusedBorder => OutlineInputBorder(
+    borderSide: BorderSide(color: colors.primaryColor, width: 1.5),
+    borderRadius: borderRadius,
+  );
+
+  OutlineInputBorder get errorBorder => OutlineInputBorder(
+    borderSide: BorderSide(color: colors.errorColor, width: 1.5),
+    borderRadius: borderRadius,
   );
 }

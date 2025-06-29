@@ -34,6 +34,8 @@ class PemoTestStoryBook extends StatelessWidget {
           AppMainButtonStory(),
           AppNetworkImageStory(),
           AppRefreshIndicatorStory(),
+          AppSvgPictureStory(),
+          AppTextFieldStory(),
         ],
       ),
     );
