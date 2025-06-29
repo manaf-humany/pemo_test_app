@@ -33,16 +33,6 @@ dependencies:
   easy_localization: ^3.0.7+1
   # For code generation
   freezed: ^2.5.7
-  # For show svg files
-  flutter_svg: ^2.2.0
-  # For show and cache network source images
-  cached_network_image: ^3.4.1
-  # For show lottie animated files
-  lottie: ^3.3.1
-  # For Loading effect
-  skeletonizer: ^1.4.3
-
-
 
 dev_dependencies:
   flutter_test:
@@ -60,30 +50,3 @@ flutter_gen:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/fonts/
-    - assets/svgs/
-    - assets/lottie/
-    - assets/images/
-    - assets/
-
-  fonts:
-    - family: FigtreeLight
-      fonts:
-        - asset: assets/fonts/Figtree-Light.ttf
-
-    - family: FigtreeRegular
-      fonts:
-        - asset: assets/fonts/Figtree-Regular.ttf
-
-    - family: FigtreeMedium
-      fonts:
-        - asset: assets/fonts/Figtree-Medium.ttf
-
-    - family: FigtreeSemiBold
-      fonts:
-        - asset: assets/fonts/Figtree-SemiBold.ttf
-
-    - family: FigtreeBold
-      fonts:
-        - asset: assets/fonts/Figtree-Bold.ttf
