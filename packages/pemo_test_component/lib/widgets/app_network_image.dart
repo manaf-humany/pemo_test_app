@@ -25,6 +25,7 @@ class AppNetworkImage extends StatelessWidget {
     this.shape = ImageShape.square,
     this.placeholderAssetPath,
     this.errorIcon = Icons.broken_image,
+    this.package = AssetPackageType.componentsLibrary,
     super.key,
   });
 
@@ -64,6 +65,10 @@ class AppNetworkImage extends StatelessWidget {
   /// The icon to display when the image fails to load.
   final IconData errorIcon;
 
+  /// The package from which to load the asset.
+  /// Defaults to `AssetPackageType.componentsLibrary`.
+  final AssetPackageType package;
+
   /// Returns the formatted URL for the image.
   ///
   /// If [checkForHttps] is true and the URL does not start with "http",
@@ -92,6 +97,7 @@ class AppNetworkImage extends StatelessWidget {
             Assets.svgs.placeHolder, // Use provided or default
         width: sizeIcon,
         height: sizeIcon,
+        package: package,
       ),
     );
   }

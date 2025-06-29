@@ -73,8 +73,19 @@ Future<void> _initHive() async {
   // Initialize Hive
   await Hive.initFlutter();
 
-  // Register Hive Adapters (for custom types)??
+  // Register Hive Adapters (for custom types)
   Hive.registerAdapter(TransactionItemModelAdapter());
   Hive.registerAdapter(TransactionsModelAdapter());
   Hive.registerAdapter(TransactionDetailsModelAdapter());
+
+  // Open Hive boxes
+  final transactionsBox = await Hive.openBox<TransactionsModel>('transactions');
+  final transactionDetailsBox =
+      await Hive.openBox<TransactionDetailsModel>('transaction_details');
+
+  // Register Hive boxes with GetIt
+  sl.registerLazySingleton<Box<TransactionsModel>>(() => transactionsBox);
+  sl.registerLazySingleton<Box<TransactionDetailsModel>>(
+    () => transactionDetailsBox,
+  );
 }

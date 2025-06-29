@@ -15,6 +15,7 @@ class AppErrorWidget extends StatelessWidget {
     required this.errorMessage,
     required this.onRetryPressed,
     this.responseType = ResponseType.generalError,
+    this.package = AssetPackageType.componentsLibrary,
     super.key,
   });
 
@@ -27,6 +28,9 @@ class AppErrorWidget extends StatelessWidget {
   /// The type of response error, which determines the displayed image, title, and subtitle.
   final ResponseType responseType;
 
+  /// The package from which to load the asset.
+  /// Defaults to `AssetPackageType.componentsLibrary`.
+  final AssetPackageType package;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -38,15 +42,22 @@ class AppErrorWidget extends StatelessWidget {
             SizedBox(
               height: 200,
               child: responseType.image != null
-                  ? Image.asset(responseType.image!)
-                  : Lottie.asset(Assets.lottie.errorAnim),
+                  ? Image.asset(
+                      responseType.image!,
+                      package: package.name,
+                    )
+                  : Lottie.asset(
+                      Assets.lottie.errorAnim,
+                      package: package.name,
+                    ),
             ),
             AppSpacing.h4,
             AppText.headingLarge(responseType.title, align: TextAlign.center),
             AppSpacing.h2,
             AppText.bodyLarge(responseType.subTitle, align: TextAlign.center),
             AppSpacing.h2,
-            AppText.bodyMedium(errorMessage, align: TextAlign.center, maxLines: 3),
+            AppText.bodyMedium(errorMessage,
+                align: TextAlign.center, maxLines: 3),
             Padding(
               padding: const EdgeInsets.only(top: AppSpacing.x12),
               child: AppMainButton(title: 'Retry', onTap: onRetryPressed),

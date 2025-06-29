@@ -18,9 +18,10 @@ class AppSvgPicture extends StatelessWidget {
     this.width,
     this.height,
     this.fit = BoxFit.contain,
+    this.package = AssetPackageType.componentsLibrary,
     this.disabled = false,
-  }) : url = null,
-       placeholder = null;
+  })  : url = null,
+        placeholder = null;
 
   /// Creates a widget that displays an SVG from a network URL.
   ///
@@ -34,6 +35,7 @@ class AppSvgPicture extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.disabled = false,
     this.placeholder,
+    this.package = AssetPackageType.componentsLibrary,
   }) : assetName = null;
 
   /// The color to apply to the SVG picture.
@@ -65,6 +67,10 @@ class AppSvgPicture extends StatelessWidget {
   /// A widget to display while the network SVG is loading.
   final Widget? placeholder;
 
+  /// The package from which to load the asset.
+  /// Defaults to `AssetPackageType.componentsLibrary`.
+  final AssetPackageType package;
+
   @override
   Widget build(BuildContext context) {
     final colors = AppTheme.of(context).color;
@@ -89,6 +95,7 @@ class AppSvgPicture extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        package: package.name,
       );
     } else if (url != null) {
       return SvgPicture.network(
@@ -97,10 +104,12 @@ class AppSvgPicture extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        placeholderBuilder:
-            placeholder != null
-                ? (_) => placeholder!
-                : (context) => SvgPicture.asset(Assets.svgs.placeHolder),
+        placeholderBuilder: placeholder != null
+            ? (_) => placeholder!
+            : (context) => SvgPicture.asset(
+                  Assets.svgs.placeHolder,
+                  package: package.name,
+                ),
       );
     } else {
       // This case should not be reached due to the constructors.

@@ -77,6 +77,7 @@ class AppSvgPictureStory extends Story {
                 fit: fit,
                 color: color,
                 disabled: disabled,
+                package: AssetPackageType.root,
               );
             } else {
               final url = context.knobs.text(
@@ -90,6 +91,7 @@ class AppSvgPictureStory extends Story {
                 fit: fit,
                 color: color,
                 disabled: disabled,
+                package: AssetPackageType.root,
               );
             }
 

@@ -52,10 +52,9 @@ class AppMainButton extends StatelessWidget {
     final colors = AppTheme.of(context).color;
     final bool isDisabled = onTap == null;
 
-    final effectiveBackgroundColor =
-        isDisabled
-            ? colors.primaryColor.withValues(alpha: 0.4)
-            : backgroundColor ?? colors.primaryColor;
+    final effectiveBackgroundColor = isDisabled
+        ? colors.primaryColor.withValues(alpha: 0.4)
+        : backgroundColor ?? colors.primaryColor;
 
     final effectiveForegroundColor = foregroundColor ?? colors.mainTextColor;
 
@@ -68,10 +67,9 @@ class AppMainButton extends StatelessWidget {
           color: effectiveBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.x4),
-            side:
-                borderColor != null
-                    ? BorderSide(color: borderColor!, width: 1.2)
-                    : BorderSide.none,
+            side: borderColor != null
+                ? BorderSide(color: borderColor!, width: 1.2)
+                : BorderSide.none,
           ),
         ),
         child: Row(
@@ -84,7 +82,7 @@ class AppMainButton extends StatelessWidget {
                 loadingSize: AppSpacing.x6,
               )
             else
-              AppText.bodySmall(
+              AppText.bodyMedium(
                 title,
                 align: TextAlign.center,
                 maxLines: 2,

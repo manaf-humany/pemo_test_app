@@ -16,6 +16,7 @@ class AppEmptyWidget extends StatelessWidget {
     required this.title,
     this.content,
     this.image,
+    this.package = AssetPackageType.componentsLibrary,
     super.key,
   });
 
@@ -29,6 +30,10 @@ class AppEmptyWidget extends StatelessWidget {
   /// If null, a default Lottie animation is used.
   final String? image;
 
+  /// The package from which to load the asset.
+  /// Defaults to `AssetPackageType.componentsLibrary`.
+  final AssetPackageType package;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,10 +44,15 @@ class AppEmptyWidget extends StatelessWidget {
           children: [
             SizedBox(
               height: 200,
-              child:
-                  image != null
-                      ? Image.asset(image!)
-                      : Lottie.asset(Assets.lottie.noData),
+              child: image != null
+                  ? Image.asset(
+                      image!,
+                      package: package.name,
+                    )
+                  : Lottie.asset(
+                      Assets.lottie.noData,
+                      package: package.name,
+                    ),
             ),
             AppSpacing.h6,
             AppText.headingLarge(title, align: TextAlign.center, maxLines: 2),
