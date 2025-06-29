@@ -8,7 +8,15 @@ import 'package:pemo_test_project/features/transactions/presentation/cubit/trans
 import 'package:pemo_test_project/features/transactions/presentation/widgets/transaction_item_widget.dart';
 import 'package:pemo_test_project/injection_container.dart';
 
+/// A page that displays a list of transactions.
+///
+/// This page uses a [TransactionCubit] to fetch and manage the state of the
+/// transactions. It displays a loading skeleton while data is being fetched,
+/// an error widget if the fetch fails, an empty widget if there are no
+/// transactions, and a list of [TransactionItemWidget]s when the data is
+/// successfully loaded.
 class TransactionsPage extends StatelessWidget {
+  /// Creates a [TransactionsPage].
   const TransactionsPage({super.key});
 
   @override
@@ -33,6 +41,7 @@ class TransactionsPage extends StatelessWidget {
     );
   }
 
+  /// Builds the error widget to be displayed when the transaction fetch fails.
   AppErrorWidget _buildErrorWidget(String message, BuildContext context) {
     return AppErrorWidget(
       errorMessage: message,
@@ -41,6 +50,9 @@ class TransactionsPage extends StatelessWidget {
     );
   }
 
+  /// Builds the widget to be displayed when the transactions are loaded.
+  ///
+  /// This includes a refresh indicator and handles both the empty and data states.
   AppRefreshIndicator _buildLoadedWidget(
     BuildContext context,
     List<TransactionItemEntity> transactions,
@@ -51,31 +63,32 @@ class TransactionsPage extends StatelessWidget {
       child:
           transactions.isEmpty
               ? AppEmptyWidget(
-                title: 'No Transactions Found',
-                content: 'When you make a transaction, it will appear here.',
-              )
+                  title: 'No Transactions Found',
+                  content: 'When you make a transaction, it will appear here.',
+                )
               : ListView.builder(
-                itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  final transaction = transactions[index];
-                  return TransactionItemWidget(
-                    transaction: transaction,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder:
-                              (_) => TransactionDetailsPage(
-                                transactionId: transaction.id,
-                              ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                  itemCount: transactions.length,
+                  itemBuilder: (context, index) {
+                    final transaction = transactions[index];
+                    return TransactionItemWidget(
+                      transaction: transaction,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (_) => TransactionDetailsPage(
+                                  transactionId: transaction.id,
+                                ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
     );
   }
 
+  /// Builds the skeleton loading widget to be displayed while transactions are being fetched.
   Widget _buildLoadingSkeleton() {
     return SkeletonLoadingWidget(
       enabled: true,
