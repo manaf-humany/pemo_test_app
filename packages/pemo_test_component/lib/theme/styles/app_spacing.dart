@@ -1,5 +1,29 @@
 import 'package:flutter/material.dart';
 
+/// Defines standard spacing and SizedBox widgets for the application.
+///
+/// This class provides a set of predefined spacing values and ready-to-use
+/// `SizedBox` widgets for creating consistent layouts.
+///
+/// The spacing values can be used for `padding`, `margin`, `gap`, etc.
+/// The `SizedBox` widgets are convenient for adding fixed-size spaces
+/// between widgets in a `Column` or `Row`.
+///
+/// Example:
+/// ```dart
+/// Column(
+///   children: [
+///     Text('First item'),
+///     AppSpacing.vSpace8, // Adds a vertical space of 8.0
+///     Text('Second item'),
+///   ],
+/// )
+///
+/// Padding(
+///   padding: EdgeInsets.all(AppSpacing.s16),
+///   child: Text('Padded content'),
+/// )
+/// ```
 class AppSpacing {
   static const double x0 = 2.0;
   static const double x1 = 4.0;

@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 
+/// Creates a [TextStyleModel] from a given [ColorModel].
+///
+/// This function generates a set of predefined text styles based on the colors
+/// provided in the [color] model. It establishes a consistent typography system
+/// for the application.
+///
+/// The base text style uses the Figtree font family and the main text color
+/// from the color model.
+///
+/// - [color]: The `ColorModel` to use for generating the text styles.
+///
+/// Returns a `TextStyleModel` with a complete set of text styles.
 TextStyleModel getTextsFromColors(ColorModel color) {
   final base = TextStyle(
     color: color.mainTextColor,
@@ -75,12 +87,22 @@ TextStyleModel getTextsFromColors(ColorModel color) {
   );
 }
 
+/// Creates a [ThemeData] from a given [ColorModel].
+///
+/// This function generates a `ThemeData` object for the application, using the
+/// colors from the provided [color] model. It sets up the overall theme,
+/// including the color scheme and font family.
+///
+/// - [color]: The `ColorModel` to use for generating the theme data.
+///
+/// Returns a `ThemeData` instance configured with the specified colors.
 ThemeData getThemeFromColors(ColorModel color) {
   return ThemeData(
     fontFamily: FontFamily.figtreeRegular,
     primaryColor: color.primaryColor,
     scaffoldBackgroundColor: color.whiteScaffoldBGColor,
-    colorScheme: ColorScheme(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: color.primaryColor,
       brightness: Brightness.light,
       primary: color.primaryColor,
       onPrimary: color.whiteColor,
