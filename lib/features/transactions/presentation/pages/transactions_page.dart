@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/transaction_details/presentation/pages/transaction_details_page.dart';
+import 'package:pemo_test_project/features/transactions/domain/entities/transaction_item.dart';
 import 'package:pemo_test_project/features/transactions/presentation/cubit/transaction_cubit.dart';
 import 'package:pemo_test_project/features/transactions/presentation/cubit/transaction_state.dart';
+import 'package:pemo_test_project/features/transactions/presentation/widgets/transaction_item_widget.dart';
 import 'package:pemo_test_project/injection_container.dart';
 
 class TransactionsPage extends StatelessWidget {
@@ -17,51 +20,80 @@ class TransactionsPage extends StatelessWidget {
         child: BlocBuilder<TransactionCubit, TransactionState>(
           builder: (context, state) {
             return state.when(
-              initial: () => const Center(child: Text('Initializing...')),
-              loading: () => const Center(child: CircularProgressIndicator()),
+              initial: () => _buildLoadingSkeleton(),
+              loading: () => _buildLoadingSkeleton(),
               loaded: (transactions) {
-                if (transactions.isEmpty) {
-                  return const Center(child: Text('No transactions found.'));
-                }
-                return ListView.builder(
-                  itemCount: transactions.length,
-                  itemBuilder: (context, index) {
-                    final transaction = transactions[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(transaction.image),
-                        onBackgroundImageError: (_, __) {},
-                      ),
-                      title: Text(transaction.name),
-                      subtitle: Text(transaction.merchant),
-                      trailing: Text(
-                        '${transaction.billingAmount} ${transaction.billingCurrency}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder:
-                                (_) => TransactionDetailsPage(
-                                  transactionId: transaction.id,
-                                ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
+                return _buildLoadedWidget(context, transactions);
               },
-              error:
-                  (message) => Center(
-                    child: Text(
-                      message,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ),
+              error: (message) => _buildErrorWidget(message, context),
             );
           },
         ),
+      ),
+    );
+  }
+
+  AppErrorWidget _buildErrorWidget(String message, BuildContext context) {
+    return AppErrorWidget(
+      errorMessage: message,
+      onRetryPressed:
+          () => context.read<TransactionCubit>().fetchTransactions(),
+    );
+  }
+
+  AppRefreshIndicator _buildLoadedWidget(
+    BuildContext context,
+    List<TransactionItemEntity> transactions,
+  ) {
+    return AppRefreshIndicator(
+      onRefresh:
+          () async => context.read<TransactionCubit>().fetchTransactions(),
+      child:
+          transactions.isEmpty
+              ? AppEmptyWidget(
+                title: 'No Transactions Found',
+                content: 'When you make a transaction, it will appear here.',
+              )
+              : ListView.builder(
+                itemCount: transactions.length,
+                itemBuilder: (context, index) {
+                  final transaction = transactions[index];
+                  return TransactionItemWidget(
+                    transaction: transaction,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => TransactionDetailsPage(
+                                transactionId: transaction.id,
+                              ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+    );
+  }
+
+  Widget _buildLoadingSkeleton() {
+    return SkeletonLoadingWidget(
+      enabled: true,
+      child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return TransactionItemWidget(
+            transaction: TransactionItemEntity(
+              id: '1',
+              name: 'Placeholder Transaction',
+              date: DateTime.now(),
+              merchant: 'Placeholder Merchant',
+              billingAmount: 100.00,
+              image: '',
+              billingCurrency: 'USD',
+            ),
+          );
+        },
       ),
     );
   }

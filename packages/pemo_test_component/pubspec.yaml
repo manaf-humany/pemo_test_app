@@ -31,7 +31,7 @@ dependencies:
   # For show lottie animated files
   lottie: ^3.3.1
   # For Loading effect
-#  skeletonizer: ^1.4.3
+  skeletonizer: ^1.4.3
   # For storybook
   storybook_flutter: ^0.14.1
   # For show long text content
