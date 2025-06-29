@@ -36,6 +36,7 @@ class PemoTestStoryBook extends StatelessWidget {
           AppRefreshIndicatorStory(),
           AppSvgPictureStory(),
           AppTextFieldStory(),
+          AppTextsStory(),
         ],
       ),
     );

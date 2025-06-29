@@ -34,6 +34,8 @@ dependencies:
 #  skeletonizer: ^1.4.3
   # For storybook
   storybook_flutter: ^0.14.1
+  # For show long text content
+  readmore: ^3.0.0
 
 
 
