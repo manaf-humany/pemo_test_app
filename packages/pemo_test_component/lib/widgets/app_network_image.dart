@@ -219,5 +219,3 @@ class _Wrapper extends StatelessWidget {
     );
   }
 }
-
-enum ImageShape { circle, square }

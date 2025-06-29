@@ -67,6 +67,7 @@ class AppMainButtonStory extends Story {
             onTap: isEnabled ? () {} : null,
             showProgress: showProgress,
             backgroundColor: backgroundColor,
+            icon: withIcon ? Assets.svgs.placeHolder : null,
             foregroundColor: foregroundColor,
             borderColor: borderColor,
           );

@@ -8,15 +8,15 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 class AppRefreshIndicatorStory extends Story {
   /// Creates a story for the [AppRefreshIndicator].
   AppRefreshIndicatorStory()
-      : super(
-          name: 'Widgets/AppRefreshIndicator',
-          builder: (context) => const _RefreshIndicatorDemo(),
-        );
+    : super(
+        name: 'Widgets/AppRefreshIndicator',
+        builder: (context) => const _RefreshIndicatorDemo(),
+      );
 }
 
 /// A stateful widget to demonstrate the [AppRefreshIndicator].
 class _RefreshIndicatorDemo extends StatefulWidget {
-  const _RefreshIndicatorDemo({Key? key}) : super(key: key);
+  const _RefreshIndicatorDemo();
 
   @override
   _RefreshIndicatorDemoState createState() => _RefreshIndicatorDemoState();
@@ -51,9 +51,7 @@ class _RefreshIndicatorDemoState extends State<_RefreshIndicatorDemo> {
       child: ListView.builder(
         itemCount: _items.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: AppText.body1(_items[index]),
-          );
+          return ListTile(title: AppText.bodyLarge(_items[index]));
         },
       ),
     );
