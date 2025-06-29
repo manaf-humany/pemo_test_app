@@ -27,7 +27,11 @@ class PemoTestStoryBook extends StatelessWidget {
                   locale: const Locale('en'),
                   home: child,
                 ),
-            stories: [AppEmptyWidgetStory(), AppErrorWidgetStory()],
+            stories: [
+              AppEmptyWidgetStory(),
+              AppErrorWidgetStory(),
+              AppLoaderWidgetStory()
+            ],
           ),
     );
   }
