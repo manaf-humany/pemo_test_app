@@ -14,8 +14,8 @@ class CreateCardPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CreateCardCubit>(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const AppText.headingMedium('Create a New Card'),
+        appBar: AppPrimaryAppBar(
+          title: 'Create a New Card',
         ),
         body: const _CreateCardForm(),
       ),

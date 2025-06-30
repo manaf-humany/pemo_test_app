@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/transactions/presentation/pages/transactions_page.dart';
+import 'package:pemo_test_project/features/features.dart';
 import 'package:pemo_test_project/injection_container.dart' as di;
 
 void main() async {
@@ -22,17 +22,14 @@ class MyApp extends StatelessWidget {
           theme: theme.copyWith(
             pageTransitionsTheme: const PageTransitionsTheme(
               builders: {
-                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.android: ZoomPageTransitionsBuilder(),
                 TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-                TargetPlatform.windows: ZoomPageTransitionsBuilder(),
-                TargetPlatform.linux: ZoomPageTransitionsBuilder(),
               },
             ),
           ),
           scaffoldMessengerKey: rootScaffoldMessengerKey,
           title: 'Pemo Transactions',
-          home: TransactionsPage(),
+          home: CardsListPage(),
         );
       },
     );

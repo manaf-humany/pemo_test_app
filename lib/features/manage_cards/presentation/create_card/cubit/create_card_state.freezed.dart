@@ -62,28 +62,28 @@ class _$CreateCardStateCopyWithImpl<$Res, $Val extends CreateCardState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cardName = freezed,
-    Object? cardholder = freezed,
-    Object? balance = freezed,
-    Object? cardColor = freezed,
+    Object? cardName = null,
+    Object? cardholder = null,
+    Object? balance = null,
+    Object? cardColor = null,
     Object? status = null,
     Object? currentStep = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      cardName: freezed == cardName
+      cardName: null == cardName
           ? _value.cardName
           : cardName // ignore: cast_nullable_to_non_nullable
               as CardNameInput,
-      cardholder: freezed == cardholder
+      cardholder: null == cardholder
           ? _value.cardholder
           : cardholder // ignore: cast_nullable_to_non_nullable
               as CardholderInput,
-      balance: freezed == balance
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as BalanceInput,
-      cardColor: freezed == cardColor
+      cardColor: null == cardColor
           ? _value.cardColor
           : cardColor // ignore: cast_nullable_to_non_nullable
               as CardColorInput,
@@ -134,28 +134,28 @@ class __$$CreateCardStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? cardName = freezed,
-    Object? cardholder = freezed,
-    Object? balance = freezed,
-    Object? cardColor = freezed,
+    Object? cardName = null,
+    Object? cardholder = null,
+    Object? balance = null,
+    Object? cardColor = null,
     Object? status = null,
     Object? currentStep = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$CreateCardStateImpl(
-      cardName: freezed == cardName
+      cardName: null == cardName
           ? _value.cardName
           : cardName // ignore: cast_nullable_to_non_nullable
               as CardNameInput,
-      cardholder: freezed == cardholder
+      cardholder: null == cardholder
           ? _value.cardholder
           : cardholder // ignore: cast_nullable_to_non_nullable
               as CardholderInput,
-      balance: freezed == balance
+      balance: null == balance
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as BalanceInput,
-      cardColor: freezed == cardColor
+      cardColor: null == cardColor
           ? _value.cardColor
           : cardColor // ignore: cast_nullable_to_non_nullable
               as CardColorInput,
@@ -218,11 +218,13 @@ class _$CreateCardStateImpl implements _CreateCardState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateCardStateImpl &&
-            const DeepCollectionEquality().equals(other.cardName, cardName) &&
-            const DeepCollectionEquality()
-                .equals(other.cardholder, cardholder) &&
-            const DeepCollectionEquality().equals(other.balance, balance) &&
-            const DeepCollectionEquality().equals(other.cardColor, cardColor) &&
+            (identical(other.cardName, cardName) ||
+                other.cardName == cardName) &&
+            (identical(other.cardholder, cardholder) ||
+                other.cardholder == cardholder) &&
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.cardColor, cardColor) ||
+                other.cardColor == cardColor) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
@@ -231,15 +233,8 @@ class _$CreateCardStateImpl implements _CreateCardState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(cardName),
-      const DeepCollectionEquality().hash(cardholder),
-      const DeepCollectionEquality().hash(balance),
-      const DeepCollectionEquality().hash(cardColor),
-      status,
-      currentStep,
-      errorMessage);
+  int get hashCode => Object.hash(runtimeType, cardName, cardholder, balance,
+      cardColor, status, currentStep, errorMessage);
 
   /// Create a copy of CreateCardState
   /// with the given fields replaced by the non-null parameter values.

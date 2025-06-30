@@ -85,12 +85,9 @@ class _TransactionsViewState extends State<_TransactionsView> {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: const AppText.headingMedium('Transactions'),
-      centerTitle: true,
-      elevation: 0,
-      backgroundColor: AppTheme.of(context).color.primaryColor,
+  AppPrimaryAppBar _buildAppBar() {
+    return AppPrimaryAppBar(
+      title: 'Transactions',
       actions: [
         IconButton(
           icon: const Icon(Icons.credit_card),

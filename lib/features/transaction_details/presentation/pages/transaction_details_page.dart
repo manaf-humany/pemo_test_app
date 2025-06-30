@@ -36,13 +36,9 @@ class _TransactionDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const AppText.headingMedium('Transaction Details'),
-        centerTitle: true,
-        backgroundColor: theme.color.primaryColor,
-        elevation: 0,
+      appBar: AppPrimaryAppBar(
+        title: 'Transaction Details',
       ),
       body: BlocBuilder<TransactionDetailsCubit, TransactionDetailsState>(
         builder: (context, state) {

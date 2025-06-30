@@ -6,7 +6,7 @@ part 'card_model.freezed.dart';
 part 'card_model.g.dart';
 
 @freezed
-@HiveType(typeId: 2, adapterName: 'CardModelAdapter')
+@HiveType(typeId: 3, adapterName: 'CardModelAdapter')
 class CardModel with _$CardModel {
   const CardModel._();
 

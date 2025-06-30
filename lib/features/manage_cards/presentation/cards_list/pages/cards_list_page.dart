@@ -13,8 +13,8 @@ class CardsListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CardsListCubit>()..loadCards(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const AppText.headingMedium('My Cards'),
+        appBar: AppPrimaryAppBar(
+          title: 'My Cards',
         ),
         body: const _CardsListView(),
         floatingActionButton: FloatingActionButton(

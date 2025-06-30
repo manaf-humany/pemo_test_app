@@ -90,7 +90,7 @@ class CreateCardCubit extends Cubit<CreateCardState> {
       cardColor: cardColor.value!,
     );
 
-    final failureOrSuccess = await createCard(Params(card: newCard));
+    final failureOrSuccess = await createCard(CardParams(card: newCard));
 
     failureOrSuccess.fold(
       (failure) => emit(
