@@ -224,11 +224,12 @@ class _ColorPicker extends StatelessWidget {
             const SizedBox(width: AppSpacing.x2),
         itemBuilder: (context, index) {
           final color = _colors[index];
-          final isSelected = color.value == selectedColorValue;
+          final isSelected = color.toARGB32() == selectedColorValue;
 
           return InkWell(
-            onTap: () =>
-                context.read<CreateCardCubit>().onCardColorChanged(color.value),
+            onTap: () => context
+                .read<CreateCardCubit>()
+                .onCardColorChanged(color.toARGB32()),
             child: Container(
               width: AppSpacing.x12,
               height: AppSpacing.x12,

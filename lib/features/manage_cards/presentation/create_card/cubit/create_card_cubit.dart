@@ -13,20 +13,24 @@ class CreateCardCubit extends Cubit<CreateCardState> {
 
   void onCardNameChanged(String value) {
     final cardName = CardNameInput.dirty(value);
+    Formz.validate(
+      [cardName, state.cardholder],
+    );
     emit(
       state.copyWith(
         cardName: cardName,
-        status: Formz.validate([cardName, state.cardholder]),
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
   }
 
   void onCardholderChanged(String value) {
     final cardholder = CardholderInput.dirty(value);
+    Formz.validate([state.cardName, cardholder]);
     emit(
       state.copyWith(
         cardholder: cardholder,
-        status: Formz.validate([state.cardName, cardholder]),
+        status: FormzSubmissionStatus.inProgress,
       ),
     );
   }
