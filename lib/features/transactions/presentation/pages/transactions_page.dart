@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/currency/currency.dart';
+import 'package:pemo_test_project/features/manage_cards/presentation/cards_list/pages/cards_list_page.dart';
 import 'package:pemo_test_project/features/transaction_details/presentation/pages/transaction_details_page.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
 import 'package:pemo_test_project/injection_container.dart';
@@ -90,6 +91,18 @@ class _TransactionsViewState extends State<_TransactionsView> {
       centerTitle: true,
       elevation: 0,
       backgroundColor: AppTheme.of(context).color.primaryColor,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.credit_card),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const CardsListPage(),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
