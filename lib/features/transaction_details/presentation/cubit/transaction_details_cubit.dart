@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pemo_test_project/features/transaction_details/domain/usecases/get_transaction_details.dart';
-import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_state.dart';
+import 'package:pemo_test_project/features/transaction_details/transaction_details.dart';
 
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
   TransactionDetailsCubit({required this.getTransactionDetails})
