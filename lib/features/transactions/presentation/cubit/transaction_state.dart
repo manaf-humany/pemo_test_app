@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transaction_item.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 part 'transaction_state.freezed.dart';
 

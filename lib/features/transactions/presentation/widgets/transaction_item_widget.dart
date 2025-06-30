@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transaction_item.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 /// A widget that displays a single transaction item in a list.
 ///

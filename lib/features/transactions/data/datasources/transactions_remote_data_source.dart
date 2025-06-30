@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:pemo_test_project/core/error/exceptions.dart';
-import 'package:pemo_test_project/features/transactions/data/models/transactions_model.dart';
+import 'package:pemo_test_project/core/core.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 abstract class TransactionsRemoteDataSource {
   /// Calls the transaction endpoint.

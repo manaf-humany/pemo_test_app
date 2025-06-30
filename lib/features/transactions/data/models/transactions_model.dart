@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
-import 'package:pemo_test_project/features/transactions/data/models/transaction_item_model.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transactions.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 part 'transactions_model.freezed.dart';
 part 'transactions_model.g.dart';

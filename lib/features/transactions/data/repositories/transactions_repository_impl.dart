@@ -1,12 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:pemo_test_project/core/error/exceptions.dart';
-import 'package:pemo_test_project/core/error/failures.dart';
-import 'package:pemo_test_project/core/network/network_info.dart';
-import 'package:pemo_test_project/features/transactions/data/datasources/transactions_local_data_source.dart';
-import 'package:pemo_test_project/features/transactions/data/datasources/transactions_remote_data_source.dart';
-import 'package:pemo_test_project/features/transactions/data/models/transactions_model.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transactions.dart';
-import 'package:pemo_test_project/features/transactions/domain/repositories/transactions_repository.dart';
+import 'package:pemo_test_project/core/core.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 class TransactionsRepositoryImpl implements TransactionsRepository {
   TransactionsRepositoryImpl({

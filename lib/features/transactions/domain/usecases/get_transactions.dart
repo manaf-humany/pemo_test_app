@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:pemo_test_project/core/error/failures.dart';
-import 'package:pemo_test_project/core/usecases/usecase.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transactions.dart';
-import 'package:pemo_test_project/features/transactions/domain/repositories/transactions_repository.dart';
+import 'package:pemo_test_project/core/core.dart';
+import 'package:pemo_test_project/features/transactions/transactions.dart';
 
 class GetTransactions implements UseCase<TransactionsEntity, NoParams> {
   GetTransactions(this.repository);
