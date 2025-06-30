@@ -157,7 +157,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
   Widget _buildSummaryCardSliver() {
     // Placeholder summary data
     final totalSpent = _allTransactions
-        .where((t) => t.billingAmount < 0)
+        .where((t) => t.billingAmount > 0)
         .fold<double>(0, (sum, t) => sum + t.billingAmount.abs());
 
     return SliverToBoxAdapter(
