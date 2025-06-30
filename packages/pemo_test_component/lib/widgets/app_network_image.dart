@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class AppNetworkImage extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.imageColor,
     this.backgroundColor,
-    this.height,
-    this.width,
+    this.height = AppSpacing.x12,
+    this.width = AppSpacing.x12,
     this.checkForHttps = true,
     this.shape = ImageShape.square,
     this.placeholderAssetPath,
@@ -48,10 +49,10 @@ class AppNetworkImage extends StatelessWidget {
   final Color? backgroundColor;
 
   /// The height of the image.
-  final double? height;
+  final double height;
 
   /// The width of the image.
-  final double? width;
+  final double width;
 
   /// Whether to automatically prepend "https://" to the URL if it's missing.
   final bool checkForHttps;
@@ -114,7 +115,7 @@ class AppNetworkImage extends StatelessWidget {
       child: Icon(
         errorIcon,
         color: theme.color.whiteColor,
-        size: height ?? sizeIcon,
+        size: height,
       ),
     );
   }
@@ -153,9 +154,25 @@ class AppNetworkImage extends StatelessWidget {
           placeholderFadeInDuration: const Duration(milliseconds: 300),
           fadeOutDuration: const Duration(milliseconds: 300),
           placeholder: (context, _) => _buildLoadingWidget(context),
+          imageBuilder: (context, imageProvider) {
+            if (shape == ImageShape.circle) {
+              return CircleAvatar(
+                radius: max(width / 2, height / 2),
+                backgroundImage: imageProvider,
+              );
+            } else {
+              return Image(
+                image: imageProvider,
+                fit: fit,
+                color: imageColor,
+                width: width,
+                height: height,
+              );
+            }
+          },
         );
       } catch (e, s) {
-        log(
+        developer.log(
           'AppNetworkImage.cache: Failed to initiate CachedNetworkImage for url: $formattedUrl',
           error: e,
           stackTrace: s,
@@ -170,7 +187,7 @@ class AppNetworkImage extends StatelessWidget {
         width: width,
         height: height,
         errorBuilder: (context, error, stackTrace) {
-          log(
+          developer.log(
             'AppNetworkImage.network: Error loading image for url: $formattedUrl',
             error: error,
             stackTrace: stackTrace,
@@ -183,14 +200,6 @@ class AppNetworkImage extends StatelessWidget {
         },
       );
     }
-
-    if (shape == ImageShape.circle) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(width! / 2),
-        child: imageWidget,
-      );
-    }
-
     return imageWidget;
   }
 }

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
-import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_cubit.dart';
-import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_state.dart';
+import 'package:pemo_test_project/features/transaction_details/transaction_details.dart';
 import 'package:pemo_test_project/injection_container.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 /// A page that displays the detailed information of a single transaction.
 class TransactionDetailsPage extends StatelessWidget {
@@ -16,6 +13,14 @@ class TransactionDetailsPage extends StatelessWidget {
   final String transactionId;
 
   @override
+/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+  /// Builds the main widget for the transaction details page.
+  ///
+  /// This widget creates a [BlocProvider] for the [TransactionDetailsCubit] and
+  /// fetches the transaction details for the given [transactionId]. It then
+  /// shows a [_TransactionDetailsView] based on the state of the cubit.
+  ///
+/* <<<<<<<<<<  fc12bb54-8964-4a1f-9788-00617d13f101  >>>>>>>>>>> */
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
@@ -54,26 +59,7 @@ class _TransactionDetailsView extends StatelessWidget {
 
   /// Builds the loading state UI with a shimmer effect.
   Widget _buildLoadingState(BuildContext context) {
-    return SkeletonLoadingWidget(
-      enabled: true,
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.all(AppSpacing.x4),
-        child: Column(
-          spacing: AppSpacing.x4,
-          children: [
-            CircleAvatar(
-              radius: AppSpacing.x12,
-              backgroundColor: AppTheme.of(context).color.shimmerBaseColor,
-            ),
-            _SkeletonBox(width: AppSpacing.x5 * 15, height: AppSpacing.x5),
-            _SkeletonBox(width: AppSpacing.x5 * 20, height: AppSpacing.x5),
-            _SkeletonBox(width: AppSpacing.x5 * 15, height: AppSpacing.x5),
-            _SkeletonBox(height: AppSpacing.x5 * 15),
-          ],
-        ),
-      ),
-    );
+    return TransactionDetailsLoadingWidget();
   }
 
   /// Builds the UI when the transaction data has been successfully loaded.
@@ -81,15 +67,23 @@ class _TransactionDetailsView extends StatelessWidget {
     BuildContext context,
     TransactionDetailsEntity transaction,
   ) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.x4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: AppSpacing.x6,
-        children: [
-          _TransactionHeader(transaction: transaction),
-          _TransactionInfoCard(transaction: transaction),
-        ],
+    return AppRefreshIndicator(
+      onRefresh: () async {
+        await context
+            .read<TransactionDetailsCubit>()
+            .fetchTransactionDetails(transaction.id);
+      },
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(AppSpacing.x4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: AppSpacing.x6,
+          children: [
+            _TransactionHeader(transaction: transaction),
+            _TransactionInfoCard(transaction: transaction),
+          ],
+        ),
       ),
     );
   }
@@ -113,25 +107,6 @@ class _TransactionDetailsView extends StatelessWidget {
   }
 }
 
-/// A box used as a placeholder in the skeleton loading UI.
-class _SkeletonBox extends StatelessWidget {
-  const _SkeletonBox({this.width, this.height});
-  final double? width;
-  final double? height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width ?? double.infinity,
-      height: height ?? AppSpacing.x4,
-      decoration: BoxDecoration(
-        color: AppTheme.of(context).color.shimmerBaseColor,
-        borderRadius: BorderRadius.circular(AppSpacing.x1),
-      ),
-    );
-  }
-}
-
 /// Displays the main header of the transaction details screen.
 class _TransactionHeader extends StatelessWidget {
   const _TransactionHeader({required this.transaction});
@@ -147,9 +122,12 @@ class _TransactionHeader extends StatelessWidget {
 
     return Column(
       children: [
-        CircleAvatar(
-          radius: (AppSpacing.x10 * 2.5) / 2,
-          backgroundImage: CachedNetworkImageProvider(transaction.image),
+        AppNetworkImage(
+          url: transaction.image,
+          useCache: true,
+          shape: ImageShape.circle,
+          height: AppSpacing.x10 * 2.5,
+          width: AppSpacing.x10 * 2.5,
         ),
         const SizedBox(height: AppSpacing.x4),
         AppText.headingMedium(transaction.name, align: TextAlign.center),
