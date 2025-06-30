@@ -10,7 +10,6 @@ class TransactionDetailsEntity extends Equatable {
     required this.billingAmount,
     required this.image,
     required this.billingCurrency,
-    required this.currencySymbol,
   });
 
   final String id;
@@ -23,9 +22,6 @@ class TransactionDetailsEntity extends Equatable {
   final String image;
   final String billingCurrency;
 
-  /// The currency symbol (e.g., '$', '€').
-  final String currencySymbol;
-
   @override
   List<Object?> get props => [
         id,
@@ -35,6 +31,5 @@ class TransactionDetailsEntity extends Equatable {
         billingAmount,
         image,
         billingCurrency,
-        currencySymbol,
       ];
 }

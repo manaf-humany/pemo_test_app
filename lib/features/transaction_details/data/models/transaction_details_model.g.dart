@@ -25,14 +25,13 @@ class TransactionDetailsModelAdapter
       billingAmount: fields[4] as num,
       image: fields[5] as String,
       billingCurrency: fields[6] as String,
-      currencySymbol: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionDetailsModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -46,9 +45,7 @@ class TransactionDetailsModelAdapter
       ..writeByte(5)
       ..write(obj.image)
       ..writeByte(6)
-      ..write(obj.billingCurrency)
-      ..writeByte(7)
-      ..write(obj.currencySymbol);
+      ..write(obj.billingCurrency);
   }
 
   @override
@@ -76,7 +73,6 @@ _$TransactionDetailsModelImpl _$$TransactionDetailsModelImplFromJson(
       billingAmount: json['billingAmount'] as num,
       image: json['image'] as String,
       billingCurrency: json['billingCurrency'] as String,
-      currencySymbol: json['currencySymbol'] as String,
     );
 
 Map<String, dynamic> _$$TransactionDetailsModelImplToJson(
@@ -89,5 +85,4 @@ Map<String, dynamic> _$$TransactionDetailsModelImplToJson(
       'billingAmount': instance.billingAmount,
       'image': instance.image,
       'billingCurrency': instance.billingCurrency,
-      'currencySymbol': instance.currencySymbol,
     };

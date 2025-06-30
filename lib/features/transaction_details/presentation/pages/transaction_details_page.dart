@@ -6,6 +6,7 @@ import 'package:pemo_test_project/features/transaction_details/domain/entities/t
 import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_cubit.dart';
 import 'package:pemo_test_project/features/transaction_details/presentation/cubit/transaction_details_state.dart';
 import 'package:pemo_test_project/injection_container.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 /// A page that displays the detailed information of a single transaction.
 class TransactionDetailsPage extends StatelessWidget {
@@ -84,9 +85,9 @@ class _TransactionDetailsView extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.x4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.x6,
         children: [
           _TransactionHeader(transaction: transaction),
-          const SizedBox(height: AppSpacing.x6),
           _TransactionInfoCard(transaction: transaction),
         ],
       ),
@@ -141,17 +142,14 @@ class _TransactionHeader extends StatelessWidget {
     final theme = AppTheme.of(context);
     final formattedAmount = NumberFormat.currency(
       locale: 'en_US',
-      symbol: transaction.currencySymbol,
+      symbol: transaction.billingCurrency,
     ).format(transaction.billingAmount);
 
     return Column(
       children: [
-        AppNetworkImage(
-          url: transaction.image,
-          width: AppSpacing.x10 * 2.5,
-          height: AppSpacing.x10 * 2.5,
-          shape: ImageShape.circle,
-          useCache: true,
+        CircleAvatar(
+          radius: (AppSpacing.x10 * 2.5) / 2,
+          backgroundImage: CachedNetworkImageProvider(transaction.image),
         ),
         const SizedBox(height: AppSpacing.x4),
         AppText.headingMedium(transaction.name, align: TextAlign.center),
@@ -191,7 +189,8 @@ class _TransactionInfoCard extends StatelessWidget {
           _DetailRow(
             icon: Icons.receipt_long,
             label: 'Billing Amount',
-            value: '${transaction.billingAmount} ${transaction.currencySymbol}',
+            value:
+                '${transaction.billingAmount} ${transaction.billingCurrency}',
           ),
           const Divider(height: AppSpacing.x4),
           _DetailRow(

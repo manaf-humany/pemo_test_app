@@ -16,7 +16,6 @@ class TransactionDetailsModel with _$TransactionDetailsModel {
     @HiveField(4) required num billingAmount,
     @HiveField(5) required String image,
     @HiveField(6) required String billingCurrency,
-    @HiveField(7) required String currencySymbol,
   }) = _TransactionDetailsModel;
 
   factory TransactionDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -33,7 +32,6 @@ extension TransactionDetailsModelX on TransactionDetailsModel {
       billingAmount: billingAmount,
       image: image,
       billingCurrency: billingCurrency,
-      currencySymbol: currencySymbol,
     );
   }
 }
