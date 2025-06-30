@@ -49,25 +49,16 @@ class _CardsListView extends StatelessWidget {
           initial: () => const SizedBox.shrink(),
           loading: () => const Center(child: CircularProgressIndicator()),
           loaded: (cards) => _LoadedState(cards: cards),
-          empty: () => const _EmptyState(),
+          empty: () => AppEmptyWidget(
+            title: 'No cards found. ',
+            content: 'Tap the + button to create your first card!',
+          ),
           error: (message) => AppErrorWidget(
             errorMessage: message,
             onRetryPressed: () => context.read<CardsListCubit>().loadCards(),
           ),
         );
       },
-    );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    return AppEmptyWidget(
-      title: 'No cards found. ',
-      content: 'Tap the + button to create your first card!',
     );
   }
 }
