@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pemo_test_project/core/network/network_info.dart';
 import 'package:pemo_test_project/core/network/network_service.dart';
+import 'package:pemo_test_project/features/currency/currency.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_local_data_source.dart';
 import 'package:pemo_test_project/features/transaction_details/data/datasources/transaction_details_remote_data_source.dart';
 import 'package:pemo_test_project/features/transaction_details/data/models/transaction_details_model.dart';
@@ -23,7 +24,20 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   // Features
-  // Transactions
+  _registerTransactionsFeature();
+  _registerCurrencyFeature();
+  _registerTransactionDetailsFeature();
+
+  // Core
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
+  sl.registerLazySingleton(() => DioNetworkService(sl()));
+  sl.registerLazySingleton(() => Dio());
+
+  await _initHive();
+}
+
+void _registerTransactionsFeature() {
+  // BLoC
   sl.registerFactory(() => TransactionCubit(getTransactions: sl()));
   sl.registerLazySingleton(() => GetTransactions(sl()));
   sl.registerLazySingleton<TransactionsRepository>(
@@ -39,8 +53,30 @@ Future<void> init() async {
   sl.registerLazySingleton<TransactionsLocalDataSource>(
     () => TransactionsLocalDataSourceImpl(box: sl()),
   );
+}
 
-  // Transaction Details
+void _registerCurrencyFeature() {
+  // BLoC
+  sl.registerFactory(() => CurrencyCubit(getTotalSpent: sl()));
+
+  // Use cases
+  sl.registerLazySingleton(
+    () => GetTotalSpent(currencyRepository: sl()),
+  );
+
+  // Repositories
+  sl.registerLazySingleton<CurrencyRepository>(
+    () => CurrencyRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<CurrencyRemoteDataSource>(
+    () => CurrencyRemoteDataSourceImpl(),
+  );
+}
+
+void _registerTransactionDetailsFeature() {
+  // BLoC
   sl.registerFactory(
     () => TransactionDetailsCubit(getTransactionDetails: sl()),
   );
@@ -60,13 +96,6 @@ Future<void> init() async {
   sl.registerLazySingleton<TransactionDetailsLocalDataSource>(
     () => TransactionDetailsLocalDataSourceImpl(box: sl()),
   );
-
-  // Core
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
-  sl.registerLazySingleton(() => DioNetworkService(sl()));
-  sl.registerLazySingleton(() => Dio());
-
-  await _initHive();
 }
 
 Future<void> _initHive() async {
