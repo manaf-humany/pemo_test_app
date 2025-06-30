@@ -6,16 +6,17 @@ part 'transaction_details_model.freezed.dart';
 part 'transaction_details_model.g.dart';
 
 @freezed
-@HiveType(typeId: 2) // Using typeId: 2 since 0 and 1 are already used
+@HiveType(typeId: 2)
 class TransactionDetailsModel with _$TransactionDetailsModel {
   const factory TransactionDetailsModel({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required DateTime date,
+    @HiveField(2) required int date,
     @HiveField(3) required String merchant,
     @HiveField(4) required num billingAmount,
     @HiveField(5) required String image,
     @HiveField(6) required String billingCurrency,
+    @HiveField(7) required String currencySymbol,
   }) = _TransactionDetailsModel;
 
   factory TransactionDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -23,8 +24,8 @@ class TransactionDetailsModel with _$TransactionDetailsModel {
 }
 
 extension TransactionDetailsModelX on TransactionDetailsModel {
-  TransactionDetails toEntity() {
-    return TransactionDetails(
+  TransactionDetailsEntity toEntity() {
+    return TransactionDetailsEntity(
       id: id,
       name: name,
       date: date,
@@ -32,6 +33,7 @@ extension TransactionDetailsModelX on TransactionDetailsModel {
       billingAmount: billingAmount,
       image: image,
       billingCurrency: billingCurrency,
+      currencySymbol: currencySymbol,
     );
   }
 }

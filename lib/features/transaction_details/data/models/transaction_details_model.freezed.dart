@@ -26,7 +26,7 @@ mixin _$TransactionDetailsModel {
   @HiveField(1)
   String get name => throw _privateConstructorUsedError;
   @HiveField(2)
-  DateTime get date => throw _privateConstructorUsedError;
+  int get date => throw _privateConstructorUsedError;
   @HiveField(3)
   String get merchant => throw _privateConstructorUsedError;
   @HiveField(4)
@@ -35,6 +35,8 @@ mixin _$TransactionDetailsModel {
   String get image => throw _privateConstructorUsedError;
   @HiveField(6)
   String get billingCurrency => throw _privateConstructorUsedError;
+  @HiveField(7)
+  String get currencySymbol => throw _privateConstructorUsedError;
 
   /// Serializes this TransactionDetailsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,11 +57,12 @@ abstract class $TransactionDetailsModelCopyWith<$Res> {
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) DateTime date,
+      @HiveField(2) int date,
       @HiveField(3) String merchant,
       @HiveField(4) num billingAmount,
       @HiveField(5) String image,
-      @HiveField(6) String billingCurrency});
+      @HiveField(6) String billingCurrency,
+      @HiveField(7) String currencySymbol});
 }
 
 /// @nodoc
@@ -85,6 +88,7 @@ class _$TransactionDetailsModelCopyWithImpl<$Res,
     Object? billingAmount = null,
     Object? image = null,
     Object? billingCurrency = null,
+    Object? currencySymbol = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -98,7 +102,7 @@ class _$TransactionDetailsModelCopyWithImpl<$Res,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as int,
       merchant: null == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -114,6 +118,10 @@ class _$TransactionDetailsModelCopyWithImpl<$Res,
       billingCurrency: null == billingCurrency
           ? _value.billingCurrency
           : billingCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
+      currencySymbol: null == currencySymbol
+          ? _value.currencySymbol
+          : currencySymbol // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -131,11 +139,12 @@ abstract class _$$TransactionDetailsModelImplCopyWith<$Res>
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) DateTime date,
+      @HiveField(2) int date,
       @HiveField(3) String merchant,
       @HiveField(4) num billingAmount,
       @HiveField(5) String image,
-      @HiveField(6) String billingCurrency});
+      @HiveField(6) String billingCurrency,
+      @HiveField(7) String currencySymbol});
 }
 
 /// @nodoc
@@ -160,6 +169,7 @@ class __$$TransactionDetailsModelImplCopyWithImpl<$Res>
     Object? billingAmount = null,
     Object? image = null,
     Object? billingCurrency = null,
+    Object? currencySymbol = null,
   }) {
     return _then(_$TransactionDetailsModelImpl(
       id: null == id
@@ -173,7 +183,7 @@ class __$$TransactionDetailsModelImplCopyWithImpl<$Res>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as int,
       merchant: null == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -190,6 +200,10 @@ class __$$TransactionDetailsModelImplCopyWithImpl<$Res>
           ? _value.billingCurrency
           : billingCurrency // ignore: cast_nullable_to_non_nullable
               as String,
+      currencySymbol: null == currencySymbol
+          ? _value.currencySymbol
+          : currencySymbol // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -204,7 +218,8 @@ class _$TransactionDetailsModelImpl implements _TransactionDetailsModel {
       @HiveField(3) required this.merchant,
       @HiveField(4) required this.billingAmount,
       @HiveField(5) required this.image,
-      @HiveField(6) required this.billingCurrency});
+      @HiveField(6) required this.billingCurrency,
+      @HiveField(7) required this.currencySymbol});
 
   factory _$TransactionDetailsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionDetailsModelImplFromJson(json);
@@ -217,7 +232,7 @@ class _$TransactionDetailsModelImpl implements _TransactionDetailsModel {
   final String name;
   @override
   @HiveField(2)
-  final DateTime date;
+  final int date;
   @override
   @HiveField(3)
   final String merchant;
@@ -230,10 +245,13 @@ class _$TransactionDetailsModelImpl implements _TransactionDetailsModel {
   @override
   @HiveField(6)
   final String billingCurrency;
+  @override
+  @HiveField(7)
+  final String currencySymbol;
 
   @override
   String toString() {
-    return 'TransactionDetailsModel(id: $id, name: $name, date: $date, merchant: $merchant, billingAmount: $billingAmount, image: $image, billingCurrency: $billingCurrency)';
+    return 'TransactionDetailsModel(id: $id, name: $name, date: $date, merchant: $merchant, billingAmount: $billingAmount, image: $image, billingCurrency: $billingCurrency, currencySymbol: $currencySymbol)';
   }
 
   @override
@@ -250,13 +268,15 @@ class _$TransactionDetailsModelImpl implements _TransactionDetailsModel {
                 other.billingAmount == billingAmount) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.billingCurrency, billingCurrency) ||
-                other.billingCurrency == billingCurrency));
+                other.billingCurrency == billingCurrency) &&
+            (identical(other.currencySymbol, currencySymbol) ||
+                other.currencySymbol == currencySymbol));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, date, merchant,
-      billingAmount, image, billingCurrency);
+      billingAmount, image, billingCurrency, currencySymbol);
 
   /// Create a copy of TransactionDetailsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -279,11 +299,12 @@ abstract class _TransactionDetailsModel implements TransactionDetailsModel {
   const factory _TransactionDetailsModel(
           {@HiveField(0) required final String id,
           @HiveField(1) required final String name,
-          @HiveField(2) required final DateTime date,
+          @HiveField(2) required final int date,
           @HiveField(3) required final String merchant,
           @HiveField(4) required final num billingAmount,
           @HiveField(5) required final String image,
-          @HiveField(6) required final String billingCurrency}) =
+          @HiveField(6) required final String billingCurrency,
+          @HiveField(7) required final String currencySymbol}) =
       _$TransactionDetailsModelImpl;
 
   factory _TransactionDetailsModel.fromJson(Map<String, dynamic> json) =
@@ -297,7 +318,7 @@ abstract class _TransactionDetailsModel implements TransactionDetailsModel {
   String get name;
   @override
   @HiveField(2)
-  DateTime get date;
+  int get date;
   @override
   @HiveField(3)
   String get merchant;
@@ -310,6 +331,9 @@ abstract class _TransactionDetailsModel implements TransactionDetailsModel {
   @override
   @HiveField(6)
   String get billingCurrency;
+  @override
+  @HiveField(7)
+  String get currencySymbol;
 
   /// Create a copy of TransactionDetailsModel
   /// with the given fields replaced by the non-null parameter values.

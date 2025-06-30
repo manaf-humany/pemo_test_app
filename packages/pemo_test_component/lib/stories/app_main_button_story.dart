@@ -63,16 +63,20 @@ class AppMainButtonStory extends Story {
               ],
             );
 
-            return SizedBox(
-              height: 56,
-              child: AppMainButton(
-                title: title,
-                onTap: isEnabled ? () {} : null,
-                showProgress: showProgress,
-                backgroundColor: backgroundColor,
-                icon: withIcon ? Assets.svgs.placeHolder : null,
-                foregroundColor: foregroundColor,
-                borderColor: borderColor,
+            return Scaffold(
+              body: Center(
+                child: SizedBox(
+                  height: 56,
+                  child: AppMainButton(
+                    title: title,
+                    onTap: isEnabled ? () {} : null,
+                    showProgress: showProgress,
+                    backgroundColor: backgroundColor,
+                    icon: withIcon ? Assets.svgs.placeHolder : null,
+                    foregroundColor: foregroundColor,
+                    borderColor: borderColor,
+                  ),
+                ),
               ),
             );
           },

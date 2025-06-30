@@ -20,18 +20,19 @@ class TransactionDetailsModelAdapter
     return TransactionDetailsModel(
       id: fields[0] as String,
       name: fields[1] as String,
-      date: fields[2] as DateTime,
+      date: fields[2] as int,
       merchant: fields[3] as String,
       billingAmount: fields[4] as num,
       image: fields[5] as String,
       billingCurrency: fields[6] as String,
+      currencySymbol: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionDetailsModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -45,7 +46,9 @@ class TransactionDetailsModelAdapter
       ..writeByte(5)
       ..write(obj.image)
       ..writeByte(6)
-      ..write(obj.billingCurrency);
+      ..write(obj.billingCurrency)
+      ..writeByte(7)
+      ..write(obj.currencySymbol);
   }
 
   @override
@@ -68,11 +71,12 @@ _$TransactionDetailsModelImpl _$$TransactionDetailsModelImplFromJson(
     _$TransactionDetailsModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: (json['date'] as num).toInt(),
       merchant: json['merchant'] as String,
       billingAmount: json['billingAmount'] as num,
       image: json['image'] as String,
       billingCurrency: json['billingCurrency'] as String,
+      currencySymbol: json['currencySymbol'] as String,
     );
 
 Map<String, dynamic> _$$TransactionDetailsModelImplToJson(
@@ -80,9 +84,10 @@ Map<String, dynamic> _$$TransactionDetailsModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'date': instance.date.toIso8601String(),
+      'date': instance.date,
       'merchant': instance.merchant,
       'billingAmount': instance.billingAmount,
       'image': instance.image,
       'billingCurrency': instance.billingCurrency,
+      'currencySymbol': instance.currencySymbol,
     };

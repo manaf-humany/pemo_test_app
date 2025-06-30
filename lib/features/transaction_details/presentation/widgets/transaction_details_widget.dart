@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
+import 'package:pemo_test_project/features/transaction_details/transaction_details.dart';
 
 /// A widget that displays the detailed information of a transaction.
 ///
@@ -14,14 +14,14 @@ class TransactionDetailsWidget extends StatelessWidget {
   const TransactionDetailsWidget({required this.transaction, super.key});
 
   /// The transaction details to display.
-  final TransactionDetails transaction;
+  final TransactionDetailsEntity transaction;
 
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final formattedDate = DateFormat(
       'E, MMM d, yyyy • hh:mm a',
-    ).format(transaction.date);
+    ).format(DateTime.fromMillisecondsSinceEpoch(transaction.date));
 
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.x6),
@@ -39,10 +39,9 @@ class TransactionDetailsWidget extends StatelessWidget {
                 AppSpacing.h2,
                 AppText.headingLarge(
                   '${transaction.billingAmount.toStringAsFixed(2)} ${transaction.billingCurrency}',
-                  color:
-                      transaction.billingAmount.isNegative
-                          ? theme.color.errorColor
-                          : theme.color.mainTextColor,
+                  color: transaction.billingAmount.isNegative
+                      ? theme.color.errorColor
+                      : theme.color.mainTextColor,
                 ),
               ],
             ),

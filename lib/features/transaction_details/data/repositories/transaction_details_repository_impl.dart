@@ -19,7 +19,7 @@ class TransactionDetailsRepositoryImpl implements TransactionDetailsRepository {
   final NetworkInfo networkInfo;
 
   @override
-  Future<Either<Failure, TransactionDetails>> getTransactionDetails(
+  Future<Either<Failure, TransactionDetailsEntity>> getTransactionDetails(
     String transactionId,
   ) async {
     if (await networkInfo.isConnected) {

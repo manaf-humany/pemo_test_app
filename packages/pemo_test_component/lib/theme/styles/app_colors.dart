@@ -145,6 +145,7 @@ class ColorModel {
     this.blackColor = AppColor.blackColor,
     this.shimmerBaseColor = AppColor.shimmerBaseColor,
     this.shimmerHighlightColor = AppColor.shimmerHighlightColor,
+    this.surfaceColor = AppColor.whiteScaffoldBGColor,
   });
 
   // Base colors
@@ -190,4 +191,7 @@ class ColorModel {
 
   /// The highlight color for shimmer effects.
   final Color shimmerHighlightColor;
+
+  /// The color for surfaces of components like cards, sheets, and menus.
+  final Color surfaceColor;
 }

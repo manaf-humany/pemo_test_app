@@ -5,12 +5,12 @@ import 'package:pemo_test_project/core/usecases/usecase.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/entities/transaction_details.dart';
 import 'package:pemo_test_project/features/transaction_details/domain/repositories/transaction_details_repository.dart';
 
-class GetTransactionDetails implements UseCase<TransactionDetails, Params> {
+class GetTransactionDetails implements UseCase<TransactionDetailsEntity, Params> {
   GetTransactionDetails(this.repository);
   final TransactionDetailsRepository repository;
 
   @override
-  Future<Either<Failure, TransactionDetails>> call(Params params) async {
+  Future<Either<Failure, TransactionDetailsEntity>> call(Params params) async {
     return await repository.getTransactionDetails(params.id);
   }
 }

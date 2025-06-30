@@ -8,3 +8,4 @@ export 'app_skeleton_loading_widget_story.dart';
 export 'app_svg_picture_story.dart';
 export 'app_text_field_story.dart';
 export 'app_texts_story.dart';
+export 'app_card.story.dart';

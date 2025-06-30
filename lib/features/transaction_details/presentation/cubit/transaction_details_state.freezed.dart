@@ -20,7 +20,7 @@ mixin _$TransactionDetailsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TransactionDetails transaction) loaded,
+    required TResult Function(TransactionDetailsEntity transaction) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$TransactionDetailsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TransactionDetails transaction)? loaded,
+    TResult? Function(TransactionDetailsEntity transaction)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$TransactionDetailsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TransactionDetails transaction)? loaded,
+    TResult Function(TransactionDetailsEntity transaction)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -133,7 +133,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TransactionDetails transaction) loaded,
+    required TResult Function(TransactionDetailsEntity transaction) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -144,7 +144,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TransactionDetails transaction)? loaded,
+    TResult? Function(TransactionDetailsEntity transaction)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -155,7 +155,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TransactionDetails transaction)? loaded,
+    TResult Function(TransactionDetailsEntity transaction)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -250,7 +250,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TransactionDetails transaction) loaded,
+    required TResult Function(TransactionDetailsEntity transaction) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -261,7 +261,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TransactionDetails transaction)? loaded,
+    TResult? Function(TransactionDetailsEntity transaction)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -272,7 +272,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TransactionDetails transaction)? loaded,
+    TResult Function(TransactionDetailsEntity transaction)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -330,7 +330,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({TransactionDetails transaction});
+  $Res call({TransactionDetailsEntity transaction});
 }
 
 /// @nodoc
@@ -352,7 +352,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
-              as TransactionDetails,
+              as TransactionDetailsEntity,
     ));
   }
 }
@@ -363,7 +363,7 @@ class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl({required this.transaction});
 
   @override
-  final TransactionDetails transaction;
+  final TransactionDetailsEntity transaction;
 
   @override
   String toString() {
@@ -395,7 +395,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TransactionDetails transaction) loaded,
+    required TResult Function(TransactionDetailsEntity transaction) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(transaction);
@@ -406,7 +406,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TransactionDetails transaction)? loaded,
+    TResult? Function(TransactionDetailsEntity transaction)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(transaction);
@@ -417,7 +417,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TransactionDetails transaction)? loaded,
+    TResult Function(TransactionDetailsEntity transaction)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -466,10 +466,10 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements TransactionDetailsState {
-  const factory _Loaded({required final TransactionDetails transaction}) =
+  const factory _Loaded({required final TransactionDetailsEntity transaction}) =
       _$LoadedImpl;
 
-  TransactionDetails get transaction;
+  TransactionDetailsEntity get transaction;
 
   /// Create a copy of TransactionDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -548,7 +548,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(TransactionDetails transaction) loaded,
+    required TResult Function(TransactionDetailsEntity transaction) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -559,7 +559,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(TransactionDetails transaction)? loaded,
+    TResult? Function(TransactionDetailsEntity transaction)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -570,7 +570,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(TransactionDetails transaction)? loaded,
+    TResult Function(TransactionDetailsEntity transaction)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

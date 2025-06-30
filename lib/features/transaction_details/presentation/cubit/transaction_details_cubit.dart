@@ -4,17 +4,21 @@ import 'package:pemo_test_project/features/transaction_details/presentation/cubi
 
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
   TransactionDetailsCubit({required this.getTransactionDetails})
-    : super(const TransactionDetailsState.initial());
+      : super(const TransactionDetailsState.initial());
   final GetTransactionDetails getTransactionDetails;
 
+  /// The ID of the transaction being displayed. Stored to allow for retries.
+  String? transactionId;
+
   Future<void> fetchTransactionDetails(String id) async {
+    transactionId = id;
     emit(const TransactionDetailsState.loading());
     final failureOrTransaction = await getTransactionDetails(Params(id: id));
     emit(
       failureOrTransaction.fold(
-        (failure) => TransactionDetailsState.error(
-          message: 'Failed to fetch transaction details',
-        ), // Simplified error message
+        (failure) => const TransactionDetailsState.error(
+          message: 'Failed to fetch transaction details. Please try again.',
+        ),
         (transaction) =>
             TransactionDetailsState.loaded(transaction: transaction),
       ),

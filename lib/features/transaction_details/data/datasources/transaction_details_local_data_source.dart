@@ -26,6 +26,6 @@ class TransactionDetailsLocalDataSourceImpl
 
   @override
   Future<void> cacheTransactionDetails(TransactionDetailsModel transaction) {
-    return box.put(transaction, transaction);
+    return box.put(transaction.id, transaction);
   }
 }

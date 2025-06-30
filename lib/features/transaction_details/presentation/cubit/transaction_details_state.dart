@@ -8,7 +8,7 @@ abstract class TransactionDetailsState with _$TransactionDetailsState {
   const factory TransactionDetailsState.initial() = _Initial;
   const factory TransactionDetailsState.loading() = _Loading;
   const factory TransactionDetailsState.loaded({
-    required TransactionDetails transaction,
+    required TransactionDetailsEntity transaction,
   }) = _Loaded;
   const factory TransactionDetailsState.error({required String message}) =
       _Error;
