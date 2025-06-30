@@ -1,12 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pemo_test_project/core/network/network_info.dart';
-import 'package:pemo_test_project/core/network/network_service.dart';
-import 'package:pemo_test_project/features/currency/currency.dart';
-import 'package:pemo_test_project/features/manage_cards/manage_cards.dart';
-import 'package:pemo_test_project/features/transaction_details/transaction_details.dart';
-import 'package:pemo_test_project/features/transactions/transactions.dart';
+import 'package:pemo_test_project/core/core.dart';
+import 'package:pemo_test_project/features/features.dart';
 import 'package:uuid/uuid.dart';
 
 final sl = GetIt.instance;
