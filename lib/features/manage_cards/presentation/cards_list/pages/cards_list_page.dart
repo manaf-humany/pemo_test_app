@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/manage_cards/manage_cards.dart';
 import 'package:pemo_test_project/injection_container.dart';
@@ -64,14 +65,9 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(AppSpacing.x4),
-        child: AppText.bodyLarge(
-          'No cards found. Tap the + button to create your first card!',
-          align: TextAlign.center,
-        ),
-      ),
+    return AppEmptyWidget(
+      title: 'No cards found. ',
+      content: 'Tap the + button to create your first card!',
     );
   }
 }
@@ -85,55 +81,24 @@ class _LoadedState extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppRefreshIndicator(
       onRefresh: () async => context.read<CardsListCubit>().loadCards(),
-      child: ListView.builder(
-        padding: const EdgeInsets.all(AppSpacing.x4),
-        itemCount: cards.length,
-        itemBuilder: (context, index) {
-          final card = cards[index];
-          return _CardListItem(card: card);
-        },
-      ),
-    );
-  }
-}
-
-class _CardListItem extends StatelessWidget {
-  const _CardListItem({required this.card});
-
-  final CardEntity card;
-
-  @override
-  Widget build(BuildContext context) {
-    final cardColor = Color(card.cardColor);
-    final textColor =
-        ThemeData.estimateBrightnessForColor(cardColor) == Brightness.dark
-            ? Colors.white
-            : Colors.black;
-
-    return AppCard(
-      margin: const EdgeInsets.only(bottom: AppSpacing.x4),
-      color: cardColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppText.headingMedium(
-            card.cardName,
-            color: textColor,
-          ),
-          const SizedBox(height: AppSpacing.x2),
-          AppText.bodyMedium(
-            'Holder: ${card.cardholderName}',
-            color: textColor.withValues(alpha: 0.8),
-          ),
-          const SizedBox(height: AppSpacing.x4),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: AppText.headingSmall(
-              'Balance: \$${card.balance}',
-              color: textColor,
-            ),
-          ),
-        ],
+      child: AnimationLimiter(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(AppSpacing.x4),
+          itemCount: cards.length,
+          itemBuilder: (context, index) {
+            final card = cards[index];
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(milliseconds: 375),
+              child: SlideAnimation(
+                verticalOffset: 50,
+                child: FadeInAnimation(
+                  child: CardItemWidget(card: card),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
