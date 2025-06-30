@@ -266,15 +266,38 @@ class _TransactionsViewState extends State<_TransactionsView> {
   Widget _buildLoadingSkeleton() {
     return SkeletonLoadingWidget(
       enabled: true,
-      child: Column(
-        children: [
-          // _buildSummaryCardSliver(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) {
+      child: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(), // Disable scrolling for skeleton
+        slivers: [
+          // The TotalSpentCard will show its own skeleton state
+          const SliverToBoxAdapter(child: TotalSpentCard()),
+          // Placeholder for the search bar
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.x4,
+                AppSpacing.x4,
+                AppSpacing.x4,
+                0,
+              ),
+              child: Container(
+                height: 56, // Standard height for a text field
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(AppSpacing.x2),
+                ),
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.x4)),
+          // Placeholder for the transaction list
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                // This Padding mimics the spacing of the real list items
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.x4),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.x4)
+                      .copyWith(bottom: AppSpacing.x4),
                   child: TransactionItemWidget(
                     transaction: TransactionItemEntity(
                       id: '1',
@@ -288,6 +311,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
                   ),
                 );
               },
+              childCount: 8,
             ),
           ),
         ],
