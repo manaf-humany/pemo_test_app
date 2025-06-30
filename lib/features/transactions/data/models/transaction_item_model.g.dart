@@ -19,7 +19,7 @@ class TransactionItemModelAdapter extends TypeAdapter<TransactionItemModel> {
     return TransactionItemModel(
       id: fields[0] as String,
       name: fields[1] as String,
-      date: fields[2] as DateTime,
+      date: fields[2] as int,
       merchant: fields[3] as String,
       billingAmount: fields[4] as num,
       image: fields[5] as String,
@@ -67,7 +67,7 @@ _$TransactionItemModelImpl _$$TransactionItemModelImplFromJson(
     _$TransactionItemModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: (json['date'] as num).toInt(),
       merchant: json['merchant'] as String,
       billingAmount: json['billingAmount'] as num,
       image: json['image'] as String,
@@ -79,7 +79,7 @@ Map<String, dynamic> _$$TransactionItemModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'date': instance.date.toIso8601String(),
+      'date': instance.date,
       'merchant': instance.merchant,
       'billingAmount': instance.billingAmount,
       'image': instance.image,

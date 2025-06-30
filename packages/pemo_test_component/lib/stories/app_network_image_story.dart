@@ -89,17 +89,40 @@ class AppNetworkImageStory extends Story {
               ],
             );
 
-            return Center(
-              child: AppNetworkImage(
-                url: url,
-                useCache: useCache,
-                shape: shape,
-                fit: fit,
-                width: width,
-                height: height,
-                imageColor: imageColor,
-                backgroundColor: backgroundColor,
-                package: AssetPackageType.root,
+            return Scaffold(
+              body: Center(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    ListTile(
+                      leading: AppNetworkImage(
+                        url: 'https://loremflickr.com/640/480/nature',
+                        shape: ImageShape.circle,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      ),
+                      title: const Text('Transaction Item Story'),
+                      subtitle: const Text('40x40, Circle, BoxFit.cover'),
+                    ),
+                    const Divider(height: 40),
+                    const Center(child: Text('Interactive Knobs')),
+                    const SizedBox(height: 16),
+                    Center(
+                      child: AppNetworkImage(
+                        url: url,
+                        useCache: useCache,
+                        shape: shape,
+                        fit: fit,
+                        width: width,
+                        height: height,
+                        imageColor: imageColor,
+                        backgroundColor: backgroundColor,
+                        package: AssetPackageType.root,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

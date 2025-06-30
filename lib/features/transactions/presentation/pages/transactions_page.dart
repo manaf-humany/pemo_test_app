@@ -126,19 +126,24 @@ class _TransactionsPageState extends State<TransactionsPage> {
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
 
-    for (var transaction in transactions) {
+    for (final transaction in transactions) {
+      // Assuming the timestamp is in seconds, convert to a local DateTime.
+      final dateTime =
+          DateTime.fromMillisecondsSinceEpoch(transaction.date * 1000);
+
       final transactionDate = DateTime(
-        transaction.date.year,
-        transaction.date.month,
-        transaction.date.day,
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
       );
+
       String key;
       if (transactionDate == today) {
         key = 'Today';
       } else if (transactionDate == yesterday) {
         key = 'Yesterday';
       } else {
-        key = DateFormat('MMMM d, yyyy').format(transaction.date);
+        key = DateFormat('MMMM d, yyyy').format(dateTime);
       }
       if (data[key] == null) {
         data[key] = [];
@@ -285,7 +290,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
               transaction: TransactionItemEntity(
                 id: '1',
                 name: 'Placeholder Transaction',
-                date: DateTime.now(),
+                date: 1739259074,
                 merchant: 'Placeholder Merchant',
                 billingAmount: 100.00,
                 image: '',

@@ -185,7 +185,10 @@ class AppNetworkImage extends StatelessWidget {
     }
 
     if (shape == ImageShape.circle) {
-      return ClipOval(child: imageWidget);
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(width! / 2),
+        child: imageWidget,
+      );
     }
 
     return imageWidget;

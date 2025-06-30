@@ -13,7 +13,7 @@ class TransactionItemEntity extends Equatable {
 
   final String id;
   final String name;
-  final DateTime date;
+  final int date;
   final String merchant;
   final num billingAmount;
   final String image;
@@ -21,12 +21,12 @@ class TransactionItemEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    date,
-    merchant,
-    billingAmount,
-    image,
-    billingCurrency,
-  ];
+        id,
+        name,
+        date,
+        merchant,
+        billingAmount,
+        image,
+        billingCurrency,
+      ];
 }

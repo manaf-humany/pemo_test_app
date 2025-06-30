@@ -16,9 +16,13 @@ class TransactionsRemoteDataSourceImpl implements TransactionsRemoteDataSource {
   @override
   Future<TransactionsModel> getTransactions() async {
     try {
-      final response = await client.get('/pemo/transaction');
+      final response = await client.get('/transaction');
       if (response.statusCode == 200) {
-        return response.data;
+        // The API returns a list of transactions, which we need to wrap
+        // in our TransactionsModel.
+        return TransactionsModel.fromJson(
+          {'transactions': response.data},
+        );
       } else {
         throw ServerException();
       }

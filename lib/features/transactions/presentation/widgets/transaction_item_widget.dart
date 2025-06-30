@@ -27,11 +27,13 @@ class TransactionItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final formattedDate = DateFormat('MMM d, yyyy').format(transaction.date);
+    final formattedDate = DateFormat('MMM d, yyyy')
+        .format(DateTime.fromMillisecondsSinceEpoch(transaction.date * 1000));
 
     return InkWell(
       onTap: onTap,
-      child: Padding(
+      child: Container(
+        height: AppSpacing.x16,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.x4,
           vertical: AppSpacing.x3,
@@ -39,10 +41,13 @@ class TransactionItemWidget extends StatelessWidget {
         child: Row(
           children: [
             // Merchant Image
-            CircleAvatar(
-              radius: AppRadius.x8,
-              backgroundImage: NetworkImage(transaction.image),
-              backgroundColor: theme.color.greyScaffoldBGColor,
+            AppNetworkImage(
+              url: transaction.image,
+              useCache: true,
+              shape: ImageShape.circle,
+              width: AppSpacing.x10,
+              height: AppSpacing.x10,
+              fit: BoxFit.cover,
             ),
             AppSpacing.h3,
             // Transaction Info
@@ -69,10 +74,9 @@ class TransactionItemWidget extends StatelessWidget {
             // Amount
             AppText.bodyMediumStrong(
               '${transaction.billingAmount.toStringAsFixed(2)} ${transaction.billingCurrency}',
-              color:
-                  transaction.billingAmount.isNegative
-                      ? theme.color.errorColor
-                      : theme.color.mainTextColor,
+              color: transaction.billingAmount.isNegative
+                  ? theme.color.errorColor
+                  : theme.color.mainTextColor,
             ),
           ],
         ),

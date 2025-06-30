@@ -11,7 +11,7 @@ class TransactionItemModel with _$TransactionItemModel {
   const factory TransactionItemModel({
     @HiveField(0) required String id,
     @HiveField(1) required String name,
-    @HiveField(2) required DateTime date,
+    @HiveField(2) required int date,
     @HiveField(3) required String merchant,
     @HiveField(4) required num billingAmount,
     @HiveField(5) required String image,

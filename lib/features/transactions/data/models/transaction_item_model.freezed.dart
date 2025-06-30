@@ -25,7 +25,7 @@ mixin _$TransactionItemModel {
   @HiveField(1)
   String get name => throw _privateConstructorUsedError;
   @HiveField(2)
-  DateTime get date => throw _privateConstructorUsedError;
+  int get date => throw _privateConstructorUsedError;
   @HiveField(3)
   String get merchant => throw _privateConstructorUsedError;
   @HiveField(4)
@@ -54,7 +54,7 @@ abstract class $TransactionItemModelCopyWith<$Res> {
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) DateTime date,
+      @HiveField(2) int date,
       @HiveField(3) String merchant,
       @HiveField(4) num billingAmount,
       @HiveField(5) String image,
@@ -97,7 +97,7 @@ class _$TransactionItemModelCopyWithImpl<$Res,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as int,
       merchant: null == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$$TransactionItemModelImplCopyWith<$Res>
   $Res call(
       {@HiveField(0) String id,
       @HiveField(1) String name,
-      @HiveField(2) DateTime date,
+      @HiveField(2) int date,
       @HiveField(3) String merchant,
       @HiveField(4) num billingAmount,
       @HiveField(5) String image,
@@ -169,7 +169,7 @@ class __$$TransactionItemModelImplCopyWithImpl<$Res>
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as int,
       merchant: null == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -213,7 +213,7 @@ class _$TransactionItemModelImpl implements _TransactionItemModel {
   final String name;
   @override
   @HiveField(2)
-  final DateTime date;
+  final int date;
   @override
   @HiveField(3)
   final String merchant;
@@ -276,7 +276,7 @@ abstract class _TransactionItemModel implements TransactionItemModel {
   const factory _TransactionItemModel(
           {@HiveField(0) required final String id,
           @HiveField(1) required final String name,
-          @HiveField(2) required final DateTime date,
+          @HiveField(2) required final int date,
           @HiveField(3) required final String merchant,
           @HiveField(4) required final num billingAmount,
           @HiveField(5) required final String image,
@@ -294,7 +294,7 @@ abstract class _TransactionItemModel implements TransactionItemModel {
   String get name;
   @override
   @HiveField(2)
-  DateTime get date;
+  int get date;
   @override
   @HiveField(3)
   String get merchant;
