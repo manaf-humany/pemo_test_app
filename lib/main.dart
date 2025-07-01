@@ -19,17 +19,10 @@ class MyApp extends StatelessWidget {
     return ThemeProvider(
       builder: (context, theme) {
         return MaterialApp(
-          theme: theme.copyWith(
-            pageTransitionsTheme: const PageTransitionsTheme(
-              builders: {
-                TargetPlatform.android: ZoomPageTransitionsBuilder(),
-                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-              },
-            ),
-          ),
-          scaffoldMessengerKey: rootScaffoldMessengerKey,
-          title: 'Pemo Transactions',
-          home: CardsListPage(),
+          title: 'Pemo Test Project',
+          theme: theme,
+          debugShowCheckedModeBanner: false,
+          home: const HomePage(),
         );
       },
     );
