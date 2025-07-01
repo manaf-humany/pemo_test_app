@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/currency/currency.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -18,7 +17,28 @@ class TransactionsLoadingWidget extends StatelessWidget {
             const NeverScrollableScrollPhysics(), // Disable scrolling for skeleton
         slivers: [
           // The TotalSpentCard will show its own skeleton state
-          const SliverToBoxAdapter(child: TotalSpentCard()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.x4,
+                AppSpacing.x4,
+                AppSpacing.x4,
+                0,
+              ),
+              child: Shimmer.fromColors(
+                baseColor: AppTheme.of(context).color.shimmerBaseColor,
+                highlightColor:
+                    AppTheme.of(context).color.shimmerHighlightColor,
+                child: Container(
+                  height: AppSpacing.x16,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.x2),
+                  ),
+                ),
+              ),
+            ),
+          ),
           // Placeholder for the search bar
           SliverToBoxAdapter(
             child: Padding(
