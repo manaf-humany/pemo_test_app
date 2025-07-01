@@ -43,9 +43,8 @@ class _AppColorPickerState extends State<AppColorPicker> {
             enableAlpha: false,
             displayThumbColor: true,
             paletteType: PaletteType.hsv,
-            labelTypes: const [],
             pickerAreaBorderRadius:
-                const BorderRadius.all(Radius.circular(AppSpacing.x2)),
+                const BorderRadius.all(Radius.circular(AppRadius.x2)),
             hexInputBar: true,
             colorHistory: const [],
           ),

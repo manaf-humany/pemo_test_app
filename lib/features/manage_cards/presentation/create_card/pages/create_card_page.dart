@@ -143,22 +143,23 @@ class _CreateCardForm extends StatelessWidget {
       state: state.currentStep > 2 ? StepState.complete : StepState.indexed,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: AppSpacing.x2,
         children: [
           const AppText.bodyMedium('Select a Card Color'),
-          const SizedBox(height: AppSpacing.x2),
           AppColorPicker(
-            pickerColor: Color(state.cardColor.value ?? 0),
-            onColorChanged: (color) => context
-                .read<CreateCardCubit>()
-                .onCardColorChanged(color.toARGB32()),
+            pickerColor: Color(
+              context.read<CreateCardCubit>().state.cardColor.value ?? 0,
+            ),
+            onColorChanged: (color) {
+              context
+                  .read<CreateCardCubit>()
+                  .onCardColorChanged(color.toARGB32());
+            },
           ),
           if (state.cardColor.displayError != null)
-            Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.x2),
-              child: AppText.bodySmall(
-                state.cardColor.displayError!.message,
-                color: Theme.of(context).colorScheme.error,
-              ),
+            AppText.bodySmall(
+              state.cardColor.displayError!.message,
+              color: Theme.of(context).colorScheme.error,
             ),
         ],
       ),
