@@ -68,31 +68,42 @@ class _CreateCardForm extends StatelessWidget {
       },
       child: BlocBuilder<CreateCardCubit, CreateCardState>(
         builder: (context, state) {
-          return Stepper(
-            currentStep: state.currentStep,
-            onStepTapped: (step) {
-              bool isTappable = true;
-              for (var i = 0; i < step; i++) {
-                if (!_isStepComplete(i, state)) {
-                  isTappable = false;
-                  break;
-                }
-              }
-              if (isTappable) {
-                context.read<CreateCardCubit>().onStepTapped(step);
-              }
-            },
-            onStepContinue: () =>
-                context.read<CreateCardCubit>().onStepContinue(),
-            onStepCancel: () => context.read<CreateCardCubit>().onStepCancel(),
-            controlsBuilder: (context, details) {
-              return _ControlsBuilder(details: details);
-            },
-            steps: [
-              _buildStep1(context, state),
-              _buildStep2(context, state),
-              _buildStep3(context, state),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Stepper(
+                  currentStep: state.currentStep,
+                  onStepTapped: (step) {
+                    bool isTappable = true;
+                    for (var i = 0; i < step; i++) {
+                      if (!_isStepComplete(i, state)) {
+                        isTappable = false;
+                        break;
+                      }
+                    }
+                    if (isTappable) {
+                      context.read<CreateCardCubit>().onStepTapped(step);
+                    }
+                  },
+                  onStepContinue: () =>
+                      context.read<CreateCardCubit>().onStepContinue(),
+                  onStepCancel: () =>
+                      context.read<CreateCardCubit>().onStepCancel(),
+                  controlsBuilder: (context, details) {
+                    return _ControlsBuilder(details: details);
+                  },
+                  steps: [
+                    _buildStep1(context, state),
+                    _buildStep2(context, state),
+                    _buildStep3(context, state),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(AppSpacing.x4),
+                  child: _CardPreview(state: state),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -272,6 +283,35 @@ class _BalanceRangeTextInputFormatter extends TextInputFormatter {
     return TextEditingValue(
       text: digitsOnly,
       selection: TextSelection.collapsed(offset: digitsOnly.length),
+    );
+  }
+}
+
+class _CardPreview extends StatelessWidget {
+  const _CardPreview({required this.state});
+
+  final CreateCardState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final card = CardEntity(
+      id: 'preview',
+      cardName:
+          state.cardName.value.isNotEmpty ? state.cardName.value : 'Card Name',
+      cardholderName: state.cardholder.value.isNotEmpty
+          ? state.cardholder.value
+          : 'Cardholder Name',
+      balance: int.tryParse(state.balance.value) ?? 0,
+      cardColor: state.cardColor.value ?? Colors.grey.toARGB32(),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const AppText.headingMedium('Card Preview'),
+        const SizedBox(height: AppSpacing.x4),
+        CardItemWidget(card: card),
+      ],
     );
   }
 }
