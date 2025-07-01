@@ -57,21 +57,21 @@ class $AssetsFontsGen {
 
   /// List of all assets
   List<String> get values => [
-    figtreeBlack,
-    figtreeBlackItalic,
-    figtreeBold,
-    figtreeBoldItalic,
-    figtreeExtraBold,
-    figtreeExtraBoldItalic,
-    figtreeItalic,
-    figtreeLight,
-    figtreeLightItalic,
-    figtreeMedium,
-    figtreeMediumItalic,
-    figtreeRegular,
-    figtreeSemiBold,
-    figtreeSemiBoldItalic,
-  ];
+        figtreeBlack,
+        figtreeBlackItalic,
+        figtreeBold,
+        figtreeBoldItalic,
+        figtreeExtraBold,
+        figtreeExtraBoldItalic,
+        figtreeItalic,
+        figtreeLight,
+        figtreeLightItalic,
+        figtreeMedium,
+        figtreeMediumItalic,
+        figtreeRegular,
+        figtreeSemiBold,
+        figtreeSemiBoldItalic,
+      ];
 }
 
 class $AssetsImagesGen {
@@ -79,28 +79,28 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/general_error_icon.png
   AssetGenImage get generalErrorIcon => const AssetGenImage(
-    'assets/images/general_error_icon.png',
-    size: Size(600.0, 600.0),
-  );
+        'assets/images/general_error_icon.png',
+        size: Size(600.0, 600.0),
+      );
 
   /// File path: assets/images/no_internet_error_icon.png
   AssetGenImage get noInternetErrorIcon => const AssetGenImage(
-    'assets/images/no_internet_error_icon.png',
-    size: Size(600.0, 600.0),
-  );
+        'assets/images/no_internet_error_icon.png',
+        size: Size(600.0, 600.0),
+      );
 
   /// File path: assets/images/server_error_icon.png
   AssetGenImage get serverErrorIcon => const AssetGenImage(
-    'assets/images/server_error_icon.png',
-    size: Size(572.0, 800.0),
-  );
+        'assets/images/server_error_icon.png',
+        size: Size(572.0, 800.0),
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [
-    generalErrorIcon,
-    noInternetErrorIcon,
-    serverErrorIcon,
-  ];
+        generalErrorIcon,
+        noInternetErrorIcon,
+        serverErrorIcon,
+      ];
 }
 
 class $AssetsLottieGen {

@@ -248,10 +248,9 @@ class _AppTextFieldState extends State<AppTextField> {
                 child: AppText.bodyTinyStrong(
                   widget.helperText!,
                   maxLines: widget.helperMaxLines,
-                  color:
-                      _currentState == InputState.dangerState
-                          ? colors.errorColor
-                          : colors.secondTextColor.withValues(alpha: 0.4),
+                  color: _currentState == InputState.dangerState
+                      ? colors.errorColor
+                      : colors.secondTextColor.withValues(alpha: 0.4),
                 ),
               ),
           ],
@@ -313,13 +312,11 @@ class _AppTextFieldState extends State<AppTextField> {
       obscureText: widget.obscureText,
       keyboardType: widget.textInputType,
       cursorColor: colors.mainTextColor,
-      style:
-          widget.textStyle ??
+      style: widget.textStyle ??
           theme.text.bodyMedium.copyWith(
-            color:
-                _currentState == InputState.dangerState
-                    ? colors.errorColor
-                    : colors.mainTextColor,
+            color: _currentState == InputState.dangerState
+                ? colors.errorColor
+                : colors.mainTextColor,
           ),
       inputFormatters: widget.inputFormatters,
       obscuringCharacter: AppTextField._obscuringChar,
@@ -337,11 +334,9 @@ class _AppTextFieldState extends State<AppTextField> {
       hintText: widget.hint,
       hintMaxLines: widget.hintMaxLines,
       hintTextDirection: widget.hintTextDirection,
-      hintStyle:
-          widget.hintStyle ??
+      hintStyle: widget.hintStyle ??
           theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
-      counterStyle:
-          widget.counterStyle ??
+      counterStyle: widget.counterStyle ??
           theme.text.bodyMedium.copyWith(color: theme.color.secondTextColor),
       isDense: true,
       counter: widget.counter,
@@ -392,24 +387,25 @@ class _AppTextFieldState extends State<AppTextField> {
 /// A helper class to provide themed borders for the [AppTextField].
 class _AppTextFieldBorders {
   _AppTextFieldBorders(BuildContext context)
-    : colors = AppTheme.of(context).color,
-      borderRadius = BorderRadius.circular(AppRadius.x3);
+      : colors = AppTheme.of(context).color,
+        borderRadius = BorderRadius.circular(AppRadius.x3);
 
   final ColorModel colors;
   final BorderRadius borderRadius;
 
   OutlineInputBorder get defaultBorder => OutlineInputBorder(
-    borderRadius: borderRadius,
-    borderSide: BorderSide(color: colors.borderColor.withValues(alpha: 0.5)),
-  );
+        borderRadius: borderRadius,
+        borderSide:
+            BorderSide(color: colors.borderColor.withValues(alpha: 0.5)),
+      );
 
   OutlineInputBorder get focusedBorder => OutlineInputBorder(
-    borderSide: BorderSide(color: colors.primaryColor, width: 1.5),
-    borderRadius: borderRadius,
-  );
+        borderSide: BorderSide(color: colors.primaryColor, width: 1.5),
+        borderRadius: borderRadius,
+      );
 
   OutlineInputBorder get errorBorder => OutlineInputBorder(
-    borderSide: BorderSide(color: colors.errorColor, width: 1.5),
-    borderRadius: borderRadius,
-  );
+        borderSide: BorderSide(color: colors.errorColor, width: 1.5),
+        borderRadius: borderRadius,
+      );
 }

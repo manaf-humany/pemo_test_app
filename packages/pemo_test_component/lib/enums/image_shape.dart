@@ -1,5 +1,5 @@
 /// Defines the shape of the network image.
-enum ImageShape { 
+enum ImageShape {
   /// A circular shape.
   circle,
 

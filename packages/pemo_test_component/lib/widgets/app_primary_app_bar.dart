@@ -40,7 +40,8 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: AppText.headingMedium(title),
       centerTitle: centerTitle ?? true,
       elevation: elevation ?? 0,
-      backgroundColor: backgroundColor ?? AppTheme.of(context).color.primaryColor,
+      backgroundColor:
+          backgroundColor ?? AppTheme.of(context).color.primaryColor,
       actions: actions,
     );
   }

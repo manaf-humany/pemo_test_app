@@ -8,10 +8,10 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 class AppRefreshIndicatorStory extends Story {
   /// Creates a story for the [AppRefreshIndicator].
   AppRefreshIndicatorStory()
-    : super(
-        name: 'Widgets/AppRefreshIndicator',
-        builder: (context) => const _RefreshIndicatorDemo(),
-      );
+      : super(
+          name: 'Widgets/AppRefreshIndicator',
+          builder: (context) => const _RefreshIndicatorDemo(),
+        );
 }
 
 /// A stateful widget to demonstrate the [AppRefreshIndicator].
