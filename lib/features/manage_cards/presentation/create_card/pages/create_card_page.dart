@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
@@ -125,6 +126,9 @@ class _CreateCardForm extends StatelessWidget {
       content: AppTextField(
         labelText: 'Initial Balance',
         textInputType: TextInputType.number,
+        inputFormatters: [
+          _BalanceRangeTextInputFormatter(),
+        ],
         onValueChange: (value) =>
             context.read<CreateCardCubit>().onBalanceChanged(value),
         // errorText: state.balance.displayError?.message,
@@ -240,6 +244,33 @@ class _CardholderDropdown extends StatelessWidget {
           context.read<CreateCardCubit>().onCardholderChanged(value);
         }
       },
+    );
+  }
+}
+
+class _BalanceRangeTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digitsOnly.isEmpty) {
+      return const TextEditingValue();
+    }
+
+    final number = int.tryParse(digitsOnly);
+    if (number == null || number > 1000) {
+      return oldValue;
+    }
+
+    return TextEditingValue(
+      text: digitsOnly,
+      selection: TextSelection.collapsed(offset: digitsOnly.length),
     );
   }
 }
