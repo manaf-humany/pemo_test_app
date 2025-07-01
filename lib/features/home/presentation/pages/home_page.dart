@@ -112,7 +112,8 @@ class _HomePageState extends State<HomePage>
   ) {
     return FloatingActionButton(
       shape: const CircleBorder(),
-      backgroundColor: AppTheme.of(context).color.greenColor,
+      backgroundColor:
+          AppTheme.of(context).color.primaryColor.withValues(alpha: .5),
       child: Icon(
         Icons.add_card_rounded,
         color: theme.color.surfaceColor,
