@@ -26,6 +26,19 @@ class CreateCardPage extends StatelessWidget {
 class _CreateCardForm extends StatelessWidget {
   const _CreateCardForm();
 
+  bool _isStepComplete(int step, CreateCardState state) {
+    switch (step) {
+      case 0:
+        return state.cardName.isValid && state.cardholder.isValid;
+      case 1:
+        return state.balance.isValid;
+      case 2:
+        return state.cardColor.isValid;
+      default:
+        return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<CreateCardCubit, CreateCardState>(
@@ -56,8 +69,18 @@ class _CreateCardForm extends StatelessWidget {
         builder: (context, state) {
           return Stepper(
             currentStep: state.currentStep,
-            onStepTapped: (step) =>
-                context.read<CreateCardCubit>().onStepTapped(step),
+            onStepTapped: (step) {
+              bool isTappable = true;
+              for (var i = 0; i < step; i++) {
+                if (!_isStepComplete(i, state)) {
+                  isTappable = false;
+                  break;
+                }
+              }
+              if (isTappable) {
+                context.read<CreateCardCubit>().onStepTapped(step);
+              }
+            },
             onStepContinue: () =>
                 context.read<CreateCardCubit>().onStepContinue(),
             onStepCancel: () => context.read<CreateCardCubit>().onStepCancel(),
@@ -119,7 +142,12 @@ class _CreateCardForm extends StatelessWidget {
         children: [
           const AppText.bodyMedium('Select a Card Color'),
           const SizedBox(height: AppSpacing.x2),
-          _ColorPicker(),
+          AppColorPicker(
+            pickerColor: Color(state.cardColor.value ?? 0),
+            onColorChanged: (color) => context
+                .read<CreateCardCubit>()
+                .onCardColorChanged(color.toARGB32()),
+          ),
           if (state.cardColor.displayError != null)
             Padding(
               padding: const EdgeInsets.only(top: AppSpacing.x2),
@@ -139,10 +167,24 @@ class _ControlsBuilder extends StatelessWidget {
 
   final ControlsDetails details;
 
+  bool _isStepValid(CreateCardState state) {
+    switch (state.currentStep) {
+      case 0:
+        return state.cardName.isValid && state.cardholder.isValid;
+      case 1:
+        return state.balance.isValid;
+      case 2:
+        return state.cardColor.isValid;
+      default:
+        return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<CreateCardCubit>().state;
     final isLastStep = state.currentStep == 2;
+    final isStepValid = _isStepValid(state);
 
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.x4),
@@ -151,9 +193,11 @@ class _ControlsBuilder extends StatelessWidget {
           Expanded(
             child: AppMainButton(
               title: isLastStep ? 'Submit' : 'Continue',
-              onTap: isLastStep
-                  ? context.read<CreateCardCubit>().onFormSubmitted
-                  : details.onStepContinue,
+              onTap: isStepValid
+                  ? (isLastStep
+                      ? context.read<CreateCardCubit>().onFormSubmitted
+                      : details.onStepContinue)
+                  : null,
               showProgress: state.status.isInProgress,
             ),
           ),
@@ -196,66 +240,6 @@ class _CardholderDropdown extends StatelessWidget {
           context.read<CreateCardCubit>().onCardholderChanged(value);
         }
       },
-    );
-  }
-}
-
-class _ColorPicker extends StatelessWidget {
-  final List<Color> _colors = [
-    Colors.blue,
-    Colors.red,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.black,
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final selectedColorValue =
-        context.watch<CreateCardCubit>().state.cardColor.value;
-
-    return SizedBox(
-      height: AppSpacing.x12,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: _colors.length,
-        separatorBuilder: (context, index) =>
-            const SizedBox(width: AppSpacing.x2),
-        itemBuilder: (context, index) {
-          final color = _colors[index];
-          final isSelected = color.toARGB32() == selectedColorValue;
-
-          return InkWell(
-            onTap: () => context
-                .read<CreateCardCubit>()
-                .onCardColorChanged(color.toARGB32()),
-            child: Container(
-              width: AppSpacing.x12,
-              height: AppSpacing.x12,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-                border: isSelected
-                    ? Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 3,
-                      )
-                    : null,
-              ),
-              child: isSelected
-                  ? Icon(
-                      Icons.check,
-                      color: ThemeData.estimateBrightnessForColor(color) ==
-                              Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                    )
-                  : null,
-            ),
-          );
-        },
-      ),
     );
   }
 }
