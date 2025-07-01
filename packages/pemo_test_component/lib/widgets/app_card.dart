@@ -93,13 +93,8 @@ class AppCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      final borderRadius = effectiveShape is RoundedRectangleBorder
-          ? effectiveShape.borderRadius.resolve(Directionality.of(context))
-          : null;
-
       return InkWell(
         onTap: onTap,
-        borderRadius: borderRadius,
         child: cardContent,
       );
     }

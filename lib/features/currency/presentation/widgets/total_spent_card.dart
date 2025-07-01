@@ -24,10 +24,10 @@ class TotalSpentCard extends StatelessWidget {
         0,
       ),
       child: AppCard(
-        elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.x4),
         ),
+        color: theme.color.primaryColor.withValues(alpha: .5),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.x4),
           child: Column(
