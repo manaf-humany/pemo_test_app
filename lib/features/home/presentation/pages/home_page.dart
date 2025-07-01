@@ -17,14 +17,12 @@ class _HomePageState extends State<HomePage> {
 
   final _pages = <Widget>[
     const TransactionsPage(),
-    const CreateCardPage(),
     const CardsListPage(),
   ];
 
-  final _navIcons = <IconData>[
-    Icons.list_alt_rounded,
-    Icons.add_card_rounded,
-    Icons.credit_card_rounded,
+  final _navItems = <({IconData icon, String label})>[
+    (icon: Icons.list_alt_rounded, label: 'Transactions'),
+    (icon: Icons.credit_card_rounded, label: 'Cards'),
   ];
 
   @override
@@ -41,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -49,10 +48,50 @@ class _HomePageState extends State<HomePage> {
         },
         children: _pages,
       ),
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: _navIcons,
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor: theme.color.primaryColor,
+        child: Icon(
+          Icons.add_card_rounded,
+          color: theme.color.surfaceColor,
+        ),
+        onPressed: () {
+          // Navigate to CreateCardPage. Consider using a router if you have one.
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const CreateCardPage()),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: _navItems.length,
+        tabBuilder: (int index, bool isActive) {
+          final item = _navItems[index];
+          final color =
+              isActive ? theme.color.primaryColor : theme.color.borderColor;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                item.icon,
+                size: 24,
+                color: color,
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: AppText.bodySmall(
+                  item.label,
+                  color: color,
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          );
+        },
         activeIndex: _activeIndex,
-        gapLocation: GapLocation.none,
+        gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.verySmoothEdge,
         leftCornerRadius: AppRadius.x4,
         rightCornerRadius: AppRadius.x4,
@@ -64,9 +103,12 @@ class _HomePageState extends State<HomePage> {
             curve: Curves.easeIn,
           );
         },
-        activeColor: AppTheme.of(context).color.primaryColor,
-        inactiveColor: AppTheme.of(context).color.borderColor,
-        backgroundColor: AppTheme.of(context).color.surfaceColor,
+        backgroundColor: theme.color.surfaceColor,
+        shadow: BoxShadow(
+          color: theme.color.borderColor.withValues(alpha: 0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+        ),
       ),
     );
   }
