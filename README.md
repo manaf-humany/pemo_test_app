@@ -93,4 +93,3 @@ To see the ui components follow below steps:
 - `make genFiles-watch` - Generate code in watch mode for main app and specified packages
 - `make pods-clean` - Clean iOS pod files and Flutter framework
 - `make build-runner` - Run build_runner for specified packages only
-

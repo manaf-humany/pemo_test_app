@@ -15,6 +15,7 @@ class CreateCardPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CreateCardCubit>(),
       child: Scaffold(
+        backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
         appBar: AppPrimaryAppBar(
           title: 'Create a New Card',
         ),

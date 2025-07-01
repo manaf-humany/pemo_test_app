@@ -79,6 +79,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
       appBar: _buildAppBar(),
       body: _buildBody(),
     );

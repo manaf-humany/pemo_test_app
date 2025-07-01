@@ -37,6 +37,7 @@ class _TransactionDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
       appBar: AppPrimaryAppBar(
         title: 'Transaction Details',
       ),

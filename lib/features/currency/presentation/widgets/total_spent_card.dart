@@ -23,7 +23,7 @@ class TotalSpentCard extends StatelessWidget {
         AppSpacing.x4,
         0,
       ),
-      child: Card(
+      child: AppCard(
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.x4),
@@ -34,7 +34,7 @@ class TotalSpentCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.bodyMedium(
-                'Total Spent This Month (USD)',
+                'Total Spent (USD)',
                 color: theme.color.secondTextColor,
               ),
               AppSpacing.v2,

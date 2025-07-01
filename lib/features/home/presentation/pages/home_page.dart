@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     final theme = AppTheme.of(context);
     return Scaffold(
+      backgroundColor: theme.color.greyScaffoldBGColor,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {

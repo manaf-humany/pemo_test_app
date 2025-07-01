@@ -14,6 +14,7 @@ class CardsListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<CardsListCubit>()..loadCards(),
       child: Scaffold(
+        backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
         appBar: AppPrimaryAppBar(
           title: 'My Cards',
         ),
