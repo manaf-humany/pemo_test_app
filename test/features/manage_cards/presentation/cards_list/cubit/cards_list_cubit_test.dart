@@ -41,20 +41,35 @@ void main() {
 
     /// Tests for the [fetchCards] method.
     group('fetchCards', () {
-      final tCardsList = <CardEntity>[];
+      final tCard = MockCardEntity();
+      final tCardsList = [tCard];
       final tFailure = ServerFailure();
 
       blocTest<CardsListCubit, CardsListState>(
-        'emits [loading, success] when fetchCards is successful',
+        'emits [loading, loaded] when fetchCards is successful',
         setUp: () {
           when(() => mockGetCards(any()))
               .thenAnswer((_) async => Right(tCardsList));
         },
         build: () => cardsListCubit,
-        act: (cubit) => cubit.getCards(FakeNoParams()),
+        act: (cubit) => cubit.loadCards(),
         expect: () => [
           const CardsListState.loading(),
           CardsListState.loaded(tCardsList),
+        ],
+      );
+
+      blocTest<CardsListCubit, CardsListState>(
+        'emits [loading, empty] when getCards returns an empty list',
+        setUp: () {
+          when(() => mockGetCards(any()))
+              .thenAnswer((_) async => const Right([]));
+        },
+        build: () => cardsListCubit,
+        act: (cubit) => cubit.loadCards(),
+        expect: () => [
+          const CardsListState.loading(),
+          const CardsListState.empty(),
         ],
       );
 
@@ -65,7 +80,7 @@ void main() {
               .thenAnswer((_) async => Left(tFailure));
         },
         build: () => cardsListCubit,
-        act: (cubit) => cubit.getCards(FakeNoParams()),
+        act: (cubit) => cubit.loadCards(),
         expect: () => [
           const CardsListState.loading(),
           CardsListState.error(tFailure.toString()),

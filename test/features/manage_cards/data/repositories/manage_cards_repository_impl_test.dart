@@ -36,6 +36,13 @@ void main() {
 
       // Stub the toEntity method
       when(() => tCardModel.toEntity()).thenReturn(tCardEntity);
+
+      // Stub the mock entity's properties
+      when(() => tCardEntity.id).thenReturn('1');
+      when(() => tCardEntity.cardName).thenReturn('Test Card');
+      when(() => tCardEntity.cardholderName).thenReturn('Test Holder');
+      when(() => tCardEntity.balance).thenReturn(100);
+      when(() => tCardEntity.cardColor).thenReturn(0xFFFFFFFF);
     });
 
     /// Tests for the [createCard] method.
@@ -45,7 +52,7 @@ void main() {
         'should return success when local data source creates card successfully',
         () async {
           // Arrange
-          when(() => mockLocalDataSource.createCard(any()))
+          when(() => mockLocalDataSource.cacheCard(any()))
               .thenAnswer((_) async => Future.value());
 
           // Act
@@ -53,7 +60,7 @@ void main() {
 
           // Assert
           expect(result, equals(const Right(null)));
-          verify(() => mockLocalDataSource.createCard(any())).called(1);
+          verify(() => mockLocalDataSource.cacheCard(any())).called(1);
         },
       );
 
@@ -62,7 +69,7 @@ void main() {
         'should return failure when local data source throws an exception',
         () async {
           // Arrange
-          when(() => mockLocalDataSource.createCard(any()))
+          when(() => mockLocalDataSource.cacheCard(any()))
               .thenThrow(CacheException());
 
           // Act
@@ -70,7 +77,7 @@ void main() {
 
           // Assert
           expect(result, equals(Left(CacheFailure())));
-          verify(() => mockLocalDataSource.createCard(any())).called(1);
+          verify(() => mockLocalDataSource.cacheCard(any())).called(1);
         },
       );
     });
@@ -92,7 +99,10 @@ void main() {
           final result = await repository.getCards();
 
           // Assert
-          expect(result, equals(Right(tCardEntityList)));
+          result.fold(
+            (failure) => fail('Expected a list of cards, but got a failure'),
+            (cards) => expect(cards, tCardEntityList),
+          );
           verify(() => mockLocalDataSource.getCards()).called(1);
         },
       );

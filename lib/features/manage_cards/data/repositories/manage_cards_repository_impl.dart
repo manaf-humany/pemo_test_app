@@ -26,7 +26,7 @@ class ManageCardsRepositoryImpl implements ManageCardsRepository {
   Future<Either<Failure, void>> createCard(CardEntity card) async {
     try {
       final cardModel = CardModel(
-        id: card.id ?? '',
+        id: card.id,
         cardName: card.cardName,
         cardholderName: card.cardholderName,
         balance: card.balance,
