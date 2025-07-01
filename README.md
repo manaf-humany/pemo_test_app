@@ -30,10 +30,10 @@ A complete feature allowing users to create and view custom payment cards.
 - **Local Storage**: All created cards are persisted locally using Hive.
 
 ### 2. View Transactions
-- Displays a list of transactions fetched from a remote data source.
+- Displays a list of transactions and a transaction details fetched from a remote data source.
 - The repository layer includes logic to cache transactions locally, providing a seamless offline experience.
 
-### 3. Currency Conversion
+### 3. Currency Conversion (Not requested)
 - The application supports displaying amounts in different currencies.
 - **Implementation Note**: For the sake of simplicity and in the absence of a live currency exchange API, the conversion is handled locally using a static table of exchange rates. This demonstrates the architectural capability to handle such a feature while keeping the implementation self-contained for this assignment.
 
