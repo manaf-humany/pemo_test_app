@@ -40,24 +40,19 @@ class TotalSpentCard extends StatelessWidget {
               AppSpacing.v2,
               BlocBuilder<CurrencyCubit, CurrencyState>(
                 builder: (context, state) {
-                  if (state is CurrencyLoading) {
-                    return const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    );
-                  } else if (state is CurrencyError) {
-                    return AppText.headingMedium(
-                      'Error',
+                  return state.when(
+                    initial: () => AppText.headingMedium(
+                      '...',
+                    ),
+                    loading: () => AppText.headingMedium('Calculating...'),
+                    loaded: (totalSpent) => AppText.headingMedium(
+                      '\$${totalSpent.toStringAsFixed(2)}',
+                    ),
+                    error: (message) => AppText.headingMedium(
+                      'Error $message',
                       color: theme.color.errorColor,
-                    );
-                  } else if (state is CurrencyLoaded) {
-                    return AppText.headingMedium(
-                      '\$${state.totalSpent.toStringAsFixed(2)}',
-                    );
-                  }
-                  // For CurrencyInitial or other states
-                  return const AppText.headingMedium('...');
+                    ),
+                  );
                 },
               ),
             ],

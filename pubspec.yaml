@@ -39,13 +39,12 @@ dependencies:
   easy_localization: ^3.0.7+1
   # For animations
   flutter_staggered_animations: ^1.1.1
-
   # For code generation
   freezed: ^2.4.3
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
+  # For show animated bottom navigation bar
   animated_bottom_navigation_bar: 1.4.0
-
 
 
 dev_dependencies:

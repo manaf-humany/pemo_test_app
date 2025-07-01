@@ -1,9 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:pemo_test_project/features/currency/currency.dart';
-import 'package:pemo_test_project/features/transactions/domain/entities/transaction_item.dart';
-
-part 'currency_state.dart';
+import 'package:pemo_test_project/features/features.dart';
 
 /// A [Cubit] for managing the state of currency-related operations.
 ///
@@ -14,7 +10,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
   /// Creates an instance of [CurrencyCubit].
   ///
   /// Requires a [GetTotalSpent] to be injected.
-  CurrencyCubit({required this.getTotalSpent}) : super(CurrencyInitial());
+  CurrencyCubit({required this.getTotalSpent}) : super(CurrencyState.initial());
 
   /// The use case for calculating the total spent amount.
   final GetTotalSpent getTotalSpent;
@@ -28,12 +24,16 @@ class CurrencyCubit extends Cubit<CurrencyState> {
   Future<void> calculateTotalSpent(
     List<TransactionItemEntity> transactions,
   ) async {
-    emit(CurrencyLoading());
+    emit(CurrencyState.loading());
     try {
       final total = await getTotalSpent(transactions);
-      emit(CurrencyLoaded(totalSpent: total));
+      emit(CurrencyState.loaded(totalSpent: total));
     } catch (e) {
-      emit(const CurrencyError(message: 'Failed to calculate total spent.'));
+      emit(
+        const CurrencyState.error(
+          message: 'Failed to calculate total spent.',
+        ),
+      );
     }
   }
 }
