@@ -45,7 +45,10 @@ dependencies:
   json_annotation: ^4.9.0
   # For show animated bottom navigation bar
   animated_bottom_navigation_bar: 1.4.0
+  # For Shimmer effect
   shimmer: ^3.0.0
+  # For customize the splash screen
+  flutter_native_splash: ^2.4.6
 
 
 dev_dependencies:
@@ -58,17 +61,30 @@ dev_dependencies:
   flutter_gen_runner: ^5.4.0
   bloc_test: ^10.0.0
   mocktail: ^1.0.4
+  flutter_launcher_icons: "^0.14.4"
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/icons/app_icon.png
 
-flutter_gen:
-  output: lib/core/generated/
-  parse_metadata: true
+  android_12:
+    image: assets/icons/app_icon.png
+    icon_background_color: "#ffffff"
+  web: false
+
 
 flutter:
   uses-material-design: true
   assets:
     - packages/pemo_test_component/assets/fonts/
+    - assets/icons/
 
   fonts:
     - family: FigtreeLight
