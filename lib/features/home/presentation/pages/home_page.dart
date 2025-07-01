@@ -48,68 +48,79 @@ class _HomePageState extends State<HomePage> {
         },
         children: _pages,
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor: theme.color.primaryColor,
-        child: Icon(
-          Icons.add_card_rounded,
-          color: theme.color.surfaceColor,
-        ),
-        onPressed: () {
-          // Navigate to CreateCardPage. Consider using a router if you have one.
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const CreateCardPage()),
-          );
-        },
-      ),
+      floatingActionButton: _buildCreateCardFAB(context, theme),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        itemCount: _navItems.length,
-        tabBuilder: (int index, bool isActive) {
-          final item = _navItems[index];
-          final color =
-              isActive ? theme.color.primaryColor : theme.color.borderColor;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                item.icon,
-                size: 24,
+      bottomNavigationBar: _buildBNB(theme),
+    );
+  }
+
+  AnimatedBottomNavigationBar _buildBNB(AppTheme theme) {
+    return AnimatedBottomNavigationBar.builder(
+      itemCount: _navItems.length,
+      tabBuilder: (int index, bool isActive) {
+        final item = _navItems[index];
+        final color =
+            isActive ? theme.color.primaryColor : theme.color.borderColor;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: AppSpacing.x1,
+          children: [
+            Icon(
+              item.icon,
+              size: AppSpacing.x6,
+              color: color,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.x2),
+              child: AppText.bodySmall(
+                item.label,
                 color: color,
+                maxLines: 1,
               ),
-              const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: AppText.bodySmall(
-                  item.label,
-                  color: color,
-                  maxLines: 1,
-                ),
-              ),
-            ],
-          );
-        },
-        activeIndex: _activeIndex,
-        gapLocation: GapLocation.center,
-        notchSmoothness: NotchSmoothness.verySmoothEdge,
-        leftCornerRadius: AppRadius.x4,
-        rightCornerRadius: AppRadius.x4,
-        onTap: (index) {
-          setState(() => _activeIndex = index);
-          _pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeIn,
-          );
-        },
-        backgroundColor: theme.color.surfaceColor,
-        shadow: BoxShadow(
-          color: theme.color.borderColor.withValues(alpha: 0.2),
-          spreadRadius: 2,
-          blurRadius: 5,
-        ),
+            ),
+          ],
+        );
+      },
+      activeIndex: _activeIndex,
+      gapLocation: GapLocation.center,
+      notchSmoothness: NotchSmoothness.verySmoothEdge,
+      leftCornerRadius: AppRadius.x4,
+      rightCornerRadius: AppRadius.x4,
+      onTap: (index) {
+        setState(() => _activeIndex = index);
+        _pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+      },
+      backgroundColor: theme.color.surfaceColor,
+      shadow: BoxShadow(
+        color: theme.color.borderColor.withValues(alpha: .3),
+        spreadRadius: 2,
+        blurRadius: 8,
       ),
+    );
+  }
+
+  FloatingActionButton _buildCreateCardFAB(
+    BuildContext context,
+    AppTheme theme,
+  ) {
+    return FloatingActionButton(
+      shape: const CircleBorder(),
+      backgroundColor: AppTheme.of(context).color.greenColor,
+      child: Icon(
+        Icons.add_card_rounded,
+        color: theme.color.surfaceColor,
+      ),
+      onPressed: () {
+        // Navigate to CreateCardPage. Consider using a router if you have one.
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const CreateCardPage()),
+        );
+      },
     );
   }
 }
