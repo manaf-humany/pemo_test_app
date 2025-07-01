@@ -58,7 +58,9 @@ void _registerManageCardsFeature() {
 
   // Data sources
   sl.registerLazySingleton<ManageCardsLocalDataSource>(
-    () => ManageCardsLocalDataSourceImpl(hive: sl()),
+    () => ManageCardsLocalDataSourceImpl(
+      hive: sl(),
+    ),
   );
 }
 

@@ -19,6 +19,12 @@ abstract class ManageCardsLocalDataSource {
   /// Returns a [Future] that completes when the operation is finished.
   /// Throws a [CacheException] if there is an error saving the data.
   Future<void> cacheCard(CardModel card);
+
+  /// Creates a new card and saves it to the local database.
+  /// Takes a [CardModel] to be saved.
+  /// Returns a [Future] that completes when the operation is finished.
+  /// Throws a [CacheException] if the operation fails.
+  Future<void> createCard(CardModel card);
 }
 
 /// The key used to store the cards box in Hive.
@@ -56,5 +62,16 @@ class ManageCardsLocalDataSourceImpl implements ManageCardsLocalDataSource {
       return hive.box<CardModel>(kCardsBoxKey);
     }
     return hive.openBox<CardModel>(kCardsBoxKey);
+  }
+
+  @override
+  Future<void> createCard(CardModel card) async {
+    try {
+      var box = await _getCardsBox();
+      await box.put(card.id, card);
+      return Future.value();
+    } catch (e) {
+      throw CacheException();
+    }
   }
 }
