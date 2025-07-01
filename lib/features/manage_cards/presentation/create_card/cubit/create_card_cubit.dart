@@ -19,7 +19,7 @@ class CreateCardCubit extends Cubit<CreateCardState> {
     emit(
       state.copyWith(
         cardName: cardName,
-        status: FormzSubmissionStatus.inProgress,
+        status: FormzSubmissionStatus.initial,
       ),
     );
   }
@@ -30,7 +30,7 @@ class CreateCardCubit extends Cubit<CreateCardState> {
     emit(
       state.copyWith(
         cardholder: cardholder,
-        status: FormzSubmissionStatus.inProgress,
+        status: FormzSubmissionStatus.initial,
       ),
     );
   }

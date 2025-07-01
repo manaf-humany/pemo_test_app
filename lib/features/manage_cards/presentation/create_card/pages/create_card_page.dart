@@ -119,11 +119,30 @@ class _CreateCardForm extends StatelessWidget {
         children: [
           AppTextField(
             labelText: 'Card Name',
+            hint: 'e.g., My Personal Card',
             onValueChange: (value) =>
                 context.read<CreateCardCubit>().onCardNameChanged(value),
           ),
           const SizedBox(height: AppSpacing.x4),
-          _CardholderDropdown(),
+          AppDropdownButton<String>(
+            labelText: 'Cardholder',
+            hintText: 'Select a cardholder',
+            value: state.cardholder.value.isNotEmpty
+                ? state.cardholder.value
+                : null,
+            errorText: state.cardholder.displayError?.message,
+            items: ['Alice', 'Bob', 'Charlie', 'David'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: AppText.bodyMedium(value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                context.read<CreateCardCubit>().onCardholderChanged(value);
+              }
+            },
+          ),
         ],
       ),
     );
@@ -136,13 +155,13 @@ class _CreateCardForm extends StatelessWidget {
       state: state.currentStep > 1 ? StepState.complete : StepState.indexed,
       content: AppTextField(
         labelText: 'Initial Balance',
+        hint: 'e.g., 500',
         textInputType: TextInputType.number,
         inputFormatters: [
           _BalanceRangeTextInputFormatter(),
         ],
         onValueChange: (value) =>
             context.read<CreateCardCubit>().onBalanceChanged(value),
-        // errorText: state.balance.displayError?.message,
       ),
     );
   }
@@ -227,35 +246,6 @@ class _ControlsBuilder extends StatelessWidget {
             ),
         ],
       ),
-    );
-  }
-}
-
-class _CardholderDropdown extends StatelessWidget {
-  final List<String> _cardholders = ['Alice', 'Bob', 'Charlie', 'David'];
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.watch<CreateCardCubit>().state;
-
-    return DropdownButtonFormField<String>(
-      value: state.cardholder.value.isNotEmpty ? state.cardholder.value : null,
-      decoration: InputDecoration(
-        labelText: 'Cardholder',
-        errorText: state.cardholder.displayError?.message,
-        border: const OutlineInputBorder(),
-      ),
-      items: _cardholders.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: AppText.bodyMedium(value),
-        );
-      }).toList(),
-      onChanged: (value) {
-        if (value != null) {
-          context.read<CreateCardCubit>().onCardholderChanged(value);
-        }
-      },
     );
   }
 }

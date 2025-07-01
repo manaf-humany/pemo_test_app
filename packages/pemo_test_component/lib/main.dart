@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
+import 'package:pemo_test_component/stories/app_dropdown_button.story.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 Future<void> main() async {
@@ -18,11 +19,9 @@ class PemoTestStoryBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
-      builder:
-          (context, ___) => Storybook(
+      builder: (context, ___) => Storybook(
         plugins: _plugins,
-        wrapperBuilder:
-            (context, child) => MaterialApp(
+        wrapperBuilder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           locale: const Locale('en'),
           home: child,
@@ -41,6 +40,7 @@ class PemoTestStoryBook extends StatelessWidget {
           AppSkeletonLoadingWidgetStory(),
           AppCardStory(),
           AppColorPickerStory(),
+          AppDropdownButtonStory(),
         ],
       ),
     );

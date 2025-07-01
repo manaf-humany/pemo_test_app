@@ -1,6 +1,7 @@
 //GENERATED BARREL FILE
 export 'app_card.dart';
 export 'app_color_picker.dart';
+export 'app_dropdown_button.dart';
 export 'app_empty_widget.dart';
 export 'app_error_widget.dart';
 export 'app_loader_widget.dart';
