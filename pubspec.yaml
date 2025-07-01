@@ -45,6 +45,7 @@ dependencies:
   json_annotation: ^4.9.0
   # For show animated bottom navigation bar
   animated_bottom_navigation_bar: 1.4.0
+  shimmer: ^3.0.0
 
 
 dev_dependencies:
