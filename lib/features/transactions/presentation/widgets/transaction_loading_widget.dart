@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/currency/currency.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TransactionsLoadingWidget extends StatelessWidget {
   const TransactionsLoadingWidget({
@@ -27,11 +28,16 @@ class TransactionsLoadingWidget extends StatelessWidget {
                 AppSpacing.x4,
                 0,
               ),
-              child: Container(
-                height: 56, // Standard height for a text field
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(AppSpacing.x2),
+              child: Shimmer.fromColors(
+                baseColor: AppTheme.of(context).color.shimmerBaseColor,
+                highlightColor:
+                    AppTheme.of(context).color.shimmerHighlightColor,
+                child: Container(
+                  height: 56, // Standard height for a text field
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(AppSpacing.x2),
+                  ),
                 ),
               ),
             ),

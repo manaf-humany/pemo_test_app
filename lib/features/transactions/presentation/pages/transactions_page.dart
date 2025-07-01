@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
-import 'package:pemo_test_project/features/currency/currency.dart';
-import 'package:pemo_test_project/features/transaction_details/presentation/pages/transaction_details_page.dart';
-import 'package:pemo_test_project/features/transactions/transactions.dart';
+import 'package:pemo_test_project/features/features.dart';
 import 'package:pemo_test_project/injection_container.dart';
 
 class TransactionsPage extends StatelessWidget {
@@ -188,34 +187,46 @@ class _TransactionsViewState extends State<_TransactionsView> {
         (context, index) {
           final date = sortedDates[index];
           final transactions = _groupedTransactions[date]!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.x4,
-                  AppSpacing.x4,
-                  AppSpacing.x4,
-                  0,
-                ),
-                child: AppText.bodyLarge(date, fontWeight: FontWeight.bold),
-              ),
-              ...transactions.map(
-                (transaction) => TransactionItemWidget(
-                  transaction: transaction,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => TransactionDetailsPage(
-                          transactionId: transaction.id,
-                        ),
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            child: SlideAnimation(
+              verticalOffset: 50,
+              child: FadeInAnimation(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.x4,
+                        AppSpacing.x4,
+                        AppSpacing.x4,
+                        0,
                       ),
-                    );
-                  },
+                      child: AppText.bodyMedium(
+                        date,
+                        color: AppTheme.of(context).color.secondTextColor,
+                      ),
+                    ),
+                    ...transactions.map(
+                      (transaction) => TransactionItemWidget(
+                        transaction: transaction,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => TransactionDetailsPage(
+                                transactionId: transaction.id,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const Divider(height: 1),
+                  ],
                 ),
               ),
-              const Divider(height: 1),
-            ],
+            ),
           );
         },
         childCount: sortedDates.length,
