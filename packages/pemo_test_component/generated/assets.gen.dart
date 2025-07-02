@@ -122,11 +122,20 @@ class $AssetsLottieGen {
 class $AssetsSvgsGen {
   const $AssetsSvgsGen();
 
+  /// File path: assets/svgs/arrow-right.svg
+  String get arrowRight => 'assets/svgs/arrow-right.svg';
+
+  /// File path: assets/svgs/circle_check.svg
+  String get circleCheck => 'assets/svgs/circle_check.svg';
+
   /// File path: assets/svgs/place_holder.svg
   String get placeHolder => 'assets/svgs/place_holder.svg';
 
+  /// File path: assets/svgs/x_close.svg
+  String get xClose => 'assets/svgs/x_close.svg';
+
   /// List of all assets
-  List<String> get values => [placeHolder];
+  List<String> get values => [arrowRight, circleCheck, placeHolder, xClose];
 }
 
 class Assets {

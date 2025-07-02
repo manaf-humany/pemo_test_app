@@ -24,7 +24,8 @@ dependencies:
   storybook_flutter: ^0.14.1
   # For show long text content
   readmore: ^3.0.0
-
+  # For show styled toast
+  flutter_styled_toast: ^2.2.1
 
 
 dev_dependencies:
