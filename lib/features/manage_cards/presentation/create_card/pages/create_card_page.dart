@@ -46,7 +46,7 @@ class _CreateCardForm extends StatelessWidget {
     return BlocListener<CreateCardCubit, CreateCardState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
-          context.read<CardsListCubit>().loadCards();
+          sl<CardsListCubit>().loadCards();
           AppToastWidget.showSuccessToast(
             context: context,
             message: 'Card created successfully!',

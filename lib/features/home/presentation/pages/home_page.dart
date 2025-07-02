@@ -11,8 +11,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> {
   int _activeIndex = 0;
   late final PageController _pageController;
 
@@ -40,7 +39,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     final theme = AppTheme.of(context);
     return Scaffold(
       backgroundColor: theme.color.greyScaffoldBGColor,
@@ -127,7 +125,4 @@ class _HomePageState extends State<HomePage>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
