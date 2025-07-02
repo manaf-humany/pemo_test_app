@@ -44,7 +44,7 @@ void _registerTransactionsFeature() {
 
 void _registerManageCardsFeature() {
   // Cubits
-  sl.registerFactory(() => CardsListCubit(getCards: sl()));
+  sl.registerLazySingleton(() => CardsListCubit(getCards: sl()));
   sl.registerFactory(() => CreateCardCubit(createCard: sl(), uuid: sl()));
 
   // Use cases

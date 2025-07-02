@@ -1,8 +1,10 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/manage_cards/manage_cards.dart';
 import 'package:pemo_test_project/features/transactions/presentation/pages/transactions_page.dart';
+import 'package:pemo_test_project/injection_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,12 +44,16 @@ class _HomePageState extends State<HomePage> {
     final theme = AppTheme.of(context);
     return Scaffold(
       backgroundColor: theme.color.greyScaffoldBGColor,
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() => _activeIndex = index);
-        },
-        children: _pages,
+      body: BlocProvider(
+        // Provided here since we need it in the CardsListPage and CreateCardPage
+        create: (context) => sl<CardsListCubit>()..loadCards(),
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => _activeIndex = index);
+          },
+          children: _pages,
+        ),
       ),
       floatingActionButton: _buildCreateCardFAB(context, theme),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

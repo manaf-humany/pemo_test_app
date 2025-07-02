@@ -11,21 +11,29 @@ class CardsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<CardsListCubit>()..loadCards(),
-      child: Scaffold(
-        backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
-        appBar: AppPrimaryAppBar(
-          title: 'My Cards',
-        ),
-        body: const _CardsListView(),
+    return Scaffold(
+      backgroundColor: AppTheme.of(context).color.greyScaffoldBGColor,
+      appBar: AppPrimaryAppBar(
+        title: 'My Cards',
       ),
+      body: const _CardsListView(),
     );
   }
 }
 
-class _CardsListView extends StatelessWidget {
+class _CardsListView extends StatefulWidget {
   const _CardsListView();
+
+  @override
+  State<_CardsListView> createState() => _CardsListViewState();
+}
+
+class _CardsListViewState extends State<_CardsListView> {
+  @override
+  void initState() {
+    super.initState();
+    sl<CardsListCubit>().loadCards();
+  }
 
   @override
   Widget build(BuildContext context) {
