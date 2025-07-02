@@ -46,25 +46,18 @@ class _CreateCardForm extends StatelessWidget {
     return BlocListener<CreateCardCubit, CreateCardState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(
-                content: AppText.bodyMedium('Card created successfully!'),
-              ),
-            );
+          AppToastWidget.showSuccessToast(
+            context: context,
+            message: 'Card created successfully!',
+          );
+          context.read<CardsListCubit>().loadCards();
           Navigator.of(context)
               .pop(true); // Pop with a result to indicate success
         } else if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: AppText.bodyMedium(
-                  state.errorMessage ?? 'An error occurred',
-                ),
-              ),
-            );
+          AppToastWidget.showErrorToast(
+            context: context,
+            message: 'An error occurred',
+          );
         }
       },
       child: BlocBuilder<CreateCardCubit, CreateCardState>(

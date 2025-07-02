@@ -12,58 +12,30 @@ class AppToastStory extends Story {
               initial: 'This is a toast message!',
             );
 
-            final subtitle = context.knobs.text(
-              label: 'Subtitle',
-              initial: 'This is an optional subtitle.',
-            );
-
-            final withLeadingIcon = context.knobs.boolean(
-              label: 'With Leading Icon',
-              initial: true,
-            );
-
-            final withSubtitleIcon = context.knobs.boolean(
-              label: 'With Subtitle Icon',
-              initial: false,
-            );
-
-            final withCloseButton = context.knobs.boolean(
-              label: 'With Close Button',
-              initial: false,
-            );
-
             return Scaffold(
               body: Center(
-                child: AppMainButton(
-                  title: 'Show Toast',
-                  onTap: () {
-                    AppToastWidget.show(
-                      context: context,
-                      title: title,
-                      subtitle: subtitle,
-                      leadingIcon: withLeadingIcon
-                          ? AppSvgPicture.asset(
-                              Assets.svgs.circleCheck,
-                            )
-                          : null,
-                      subtitleIcon: withSubtitleIcon
-                          ? AppSvgPicture.asset(
-                              Assets.svgs.arrowRight,
-                            )
-                          : null,
-                      closeIcon: withCloseButton
-                          ? AppSvgPicture.asset(Assets.svgs.xClose)
-                          : null,
+                child: Column(
+                  spacing: 24,
+                  children: [
+                    AppMainButton(
+                      title: 'Show success toast',
                       onTap: () {
-                        // ignore: avoid_print
-                        print('Toast tapped!');
+                        AppToastWidget.showSuccessToast(
+                          context: context,
+                          message: title,
+                        );
                       },
-                      onCloseToast: () {
-                        // ignore: avoid_print
-                        print('Toast closed!');
+                    ),
+                    AppMainButton(
+                      title: 'Show error toast',
+                      onTap: () {
+                        AppToastWidget.showErrorToast(
+                          context: context,
+                          message: title,
+                        );
                       },
-                    );
-                  },
+                    ),
+                  ],
                 ),
               ),
             );

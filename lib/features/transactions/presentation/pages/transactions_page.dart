@@ -95,9 +95,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
       listener: (context, state) {
         state.whenOrNull(
           error: (message) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message)),
-            );
+            AppToastWidget.showErrorToast(context: context, message: message);
           },
           loaded: (transactions) {
             setState(() {
