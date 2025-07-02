@@ -43,16 +43,16 @@ class AppToastStory extends Story {
                       subtitle: subtitle,
                       leadingIcon: withLeadingIcon
                           ? AppSvgPicture.asset(
-                              Assets.svgs.,
+                              Assets.svgs.circleCheck,
                             )
                           : null,
                       subtitleIcon: withSubtitleIcon
-                          ? const AppSvgPicture.asset(
+                          ? AppSvgPicture.asset(
                               Assets.svgs.arrowRight,
                             )
                           : null,
                       closeIcon: withCloseButton
-                          ? const AppSvgPicture.asset(Assets.svgs.xclose)
+                          ? AppSvgPicture.asset(Assets.svgs.xClose)
                           : null,
                       onTap: () {
                         // ignore: avoid_print
