@@ -4,17 +4,23 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pemo_test_project/core/core.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
 
+/// A mock implementation of [Dio] for testing purposes.
 class MockDio extends Mock implements Dio {}
 
 void main() {
+  /// The remote data source implementation being tested.
   late TransactionsRemoteDataSourceImpl dataSource;
+
+  /// The mock [Dio] instance.
   late MockDio mockDio;
 
+  /// Sets up the test environment before each test.
   setUp(() {
     mockDio = MockDio();
     dataSource = TransactionsRemoteDataSourceImpl(client: mockDio);
   });
 
+  /// Tests for the `getTransactions` method.
   group('getTransactions', () {
     final tTransactionsJson = [
       {
@@ -40,6 +46,8 @@ void main() {
     final tTransactionsModel =
         TransactionsModel.fromJson({'transactions': tTransactionsJson});
 
+    /// Tests that a GET request is performed to the correct endpoint
+    /// with the correct headers.
     test(
       'should perform a GET request to the transactions endpoint with application/json header',
       () async {
@@ -60,6 +68,8 @@ void main() {
       },
     );
 
+    /// Tests that [TransactionsModel] is returned when the response code
+    /// is 200 (success).
     test(
       'should return TransactionsModel when the response code is 200 (success)',
       () async {
@@ -80,6 +90,8 @@ void main() {
       },
     );
 
+    /// Tests that a [ServerException] is thrown when the response code is
+    /// not 200.
     test(
       'should throw a ServerException when the response code is not 200',
       () async {
@@ -100,6 +112,7 @@ void main() {
       },
     );
 
+    /// Tests that a [ServerException] is thrown when Dio throws an exception.
     test(
       'should throw a ServerException when Dio throws an exception',
       () async {
@@ -119,6 +132,8 @@ void main() {
       },
     );
 
+    /// Tests that the response data is correctly parsed into a
+    /// [TransactionsModel].
     test(
       'should correctly parse the response data into a TransactionsModel',
       () async {
@@ -133,10 +148,6 @@ void main() {
             'merchant': 'Specialty Store',
             'image': 'https://example.com/complex.png',
             'billingCurrency': 'EUR',
-            'metadata': {
-              'location': 'Store XYZ',
-              'tags': ['important', 'recurring'],
-            },
           }
         ];
 

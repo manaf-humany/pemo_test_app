@@ -4,17 +4,22 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pemo_test_project/core/core.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
 
+/// A mock implementation of [Box<TransactionsModel>] for testing purposes.
 class MockHiveBox extends Mock implements Box<TransactionsModel> {}
 
+/// The main function for the test suite.
 void main() {
   late TransactionsLocalDataSourceImpl dataSource;
   late MockHiveBox mockBox;
 
+  /// Setup method that runs before each test.
+  /// Initializes [mockBox] and [dataSource].
   setUp(() {
     mockBox = MockHiveBox();
     dataSource = TransactionsLocalDataSourceImpl(box: mockBox);
   });
 
+  /// Group of tests for the [TransactionsLocalDataSourceImpl.cacheTransactions] method.
   group('cacheTransactions', () {
     final tTransactionsModel = TransactionsModel(
       transactions: [
@@ -39,6 +44,7 @@ void main() {
       ],
     );
 
+    /// Test case: Verifies that Hive is called to cache data with the correct key.
     test(
       'should call Hive to cache the data with the correct key',
       () async {
@@ -53,6 +59,7 @@ void main() {
       },
     );
 
+    /// Test case: Verifies that a [CacheException] is thrown when caching fails.
     test(
       'should throw a CacheException when there is an error caching the data',
       () async {
@@ -69,6 +76,7 @@ void main() {
     );
   });
 
+  /// Group of tests for the [TransactionsLocalDataSourceImpl.getTransactions] method.
   group('getTransactions', () {
     final tTransactionsModel = TransactionsModel(
       transactions: [
@@ -84,6 +92,7 @@ void main() {
       ],
     );
 
+    /// Test case: Verifies that [TransactionsModel] is returned from Hive when data is cached.
     test(
       'should return TransactionsModel from Hive when there is cached data',
       () async {
@@ -99,6 +108,7 @@ void main() {
       },
     );
 
+    /// Test case: Verifies that a [CacheException] is thrown when no data is cached.
     test(
       'should throw a CacheException when there is no cached data',
       () async {
@@ -113,6 +123,7 @@ void main() {
       },
     );
 
+    /// Test case: Verifies that a [CacheException] is thrown when Hive throws an exception.
     test(
       'should throw a CacheException when Hive throws an exception',
       () async {
@@ -128,6 +139,7 @@ void main() {
       },
     );
 
+    /// Test case: Verifies that [CacheException] is rethrown if thrown directly by Hive.
     test(
       'should rethrow CacheException when it is thrown directly',
       () async {
@@ -140,21 +152,6 @@ void main() {
         // Assert
         expect(() => call(), throwsA(isA<CacheException>()));
       },
-    );
-  });
-
-  group('integration with real Hive box', () {
-    // Note: In a real project, these tests would be in a separate integration test file
-    // and would use a temporary directory for Hive. For this example, we're keeping them
-    // here but marking them as skip to show the approach.
-
-    test(
-      'should successfully store and retrieve transactions from a real Hive box',
-      () async {
-        // This test would initialize a real Hive box in a temp directory,
-        // register adapters, and test actual storage/retrieval
-      },
-      skip: 'Integration test that requires Hive initialization',
     );
   });
 }
