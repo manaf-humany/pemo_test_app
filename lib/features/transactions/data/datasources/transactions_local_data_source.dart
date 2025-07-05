@@ -18,14 +18,23 @@ abstract class TransactionsLocalDataSource {
   Future<TransactionsModel> getTransactions();
 }
 
+/// The name of the Hive box used to store transactions.
 const String kTransactionsBox = 'transactions_box';
+
+/// The key used to store the cached transactions within the Hive box.
 const String kCachedTransactionsKey =
     'CACHED_TRANSACTIONS'; // More specific key for the data itself
 
+/// Implementation of [TransactionsLocalDataSource] using Hive for local storage.
 class TransactionsLocalDataSourceImpl implements TransactionsLocalDataSource {
   // The box should store TransactionsModel
 
+  /// Creates an instance of [TransactionsLocalDataSourceImpl].
+  ///
+  /// Requires a [Box<TransactionsModel>] to interact with Hive.
   TransactionsLocalDataSourceImpl({required this.box});
+
+  /// The Hive box used for storing and retrieving transactions.
   final Box<TransactionsModel> box;
 
   @override
@@ -47,6 +56,7 @@ class TransactionsLocalDataSourceImpl implements TransactionsLocalDataSource {
         // Hive handles the deserialization if TypeAdapters are registered correctly.
         return Future.value(transactionsContainer);
       } else {
+        //todo: either create a specific exception in case of empty cache, or return empty list
         throw CacheException(); // No data found for the key
       }
     } catch (e) {

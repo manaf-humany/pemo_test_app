@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pemo_test_component/pemo_test_component.dart';
 
+/// A widget that displays a skeleton loading UI for the transaction details screen.
+///
+/// This widget is used to indicate that the transaction details are being loaded.
 class TransactionDetailsLoadingWidget extends StatelessWidget {
   const TransactionDetailsLoadingWidget({
     super.key,

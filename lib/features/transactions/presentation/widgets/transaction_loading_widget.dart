@@ -3,6 +3,8 @@ import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/transactions/transactions.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// A widget that displays a loading skeleton for the transactions screen.
+
 class TransactionsLoadingWidget extends StatelessWidget {
   const TransactionsLoadingWidget({
     super.key,

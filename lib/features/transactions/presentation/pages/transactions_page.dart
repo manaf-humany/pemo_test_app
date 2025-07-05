@@ -6,6 +6,7 @@ import 'package:pemo_test_component/pemo_test_component.dart';
 import 'package:pemo_test_project/features/features.dart';
 import 'package:pemo_test_project/injection_container.dart';
 
+/// A page that displays a list of transactions.
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage({super.key});
 
@@ -25,6 +26,7 @@ class TransactionsPage extends StatelessWidget {
   }
 }
 
+/// A view that displays the list of transactions.
 class _TransactionsView extends StatefulWidget {
   const _TransactionsView();
 
@@ -36,13 +38,15 @@ class _TransactionsViewState extends State<_TransactionsView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
 
-  // Holds the full, unfiltered list of transactions from the cubit.
+  /// Holds the full, unfiltered list of transactions from the cubit.
   List<TransactionItemEntity> _allTransactions = [];
-  // Holds the filtered and grouped transactions for display.
+
+  /// Holds the filtered and grouped transactions for display.
   Map<String, List<TransactionItemEntity>> _groupedTransactions = {};
 
   @override
   void initState() {
+    /// Initializes the state of the widget.
     super.initState();
     _searchController.addListener(_onSearchChanged);
   }
@@ -50,6 +54,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
   @override
   void dispose() {
     _scrollController.dispose();
+    // Removes the listener and disposes of the search controller.
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
@@ -63,6 +68,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
     });
   }
 
+  /// Filters the transactions based on the provided query.
   List<TransactionItemEntity> _getFilteredTransactions(String query) {
     if (query.isEmpty) {
       return _allTransactions;
@@ -84,12 +90,14 @@ class _TransactionsViewState extends State<_TransactionsView> {
     );
   }
 
+  /// Builds the app bar for the transactions page.
   AppPrimaryAppBar _buildAppBar() {
     return AppPrimaryAppBar(
       title: 'Transactions',
     );
   }
 
+  /// Builds the body of the transactions page.
   Widget _buildBody() {
     return BlocListener<TransactionCubit, TransactionState>(
       listener: (context, state) {
@@ -155,6 +163,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
     );
   }
 
+  /// Builds a sliver containing a search input field.
   Widget _buildSearchSliver() {
     return SliverToBoxAdapter(
       child: Padding(
@@ -172,10 +181,12 @@ class _TransactionsViewState extends State<_TransactionsView> {
     );
   }
 
+  /// Builds a sliver that displays a summary card.
   Widget _buildSummaryCardSliver() {
     return const SliverToBoxAdapter(child: TotalSpentCard());
   }
 
+  /// Builds a sliver that displays the list of transactions.
   Widget _buildTransactionListSliver() {
     final sortedDates = _groupedTransactions.keys.toList()
       ..sort((a, b) => b.compareTo(a));
@@ -232,6 +243,7 @@ class _TransactionsViewState extends State<_TransactionsView> {
     );
   }
 
+  /// Groups the transactions by date.
   Map<String, List<TransactionItemEntity>> _groupTransactionsByDate(
     List<TransactionItemEntity> transactions,
   ) {

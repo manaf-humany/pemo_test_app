@@ -13,14 +13,6 @@ class TransactionDetailsPage extends StatelessWidget {
   final String transactionId;
 
   @override
-/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
-  /// Builds the main widget for the transaction details page.
-  ///
-  /// This widget creates a [BlocProvider] for the [TransactionDetailsCubit] and
-  /// fetches the transaction details for the given [transactionId]. It then
-  /// shows a [_TransactionDetailsView] based on the state of the cubit.
-  ///
-/* <<<<<<<<<<  fc12bb54-8964-4a1f-9788-00617d13f101  >>>>>>>>>>> */
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
