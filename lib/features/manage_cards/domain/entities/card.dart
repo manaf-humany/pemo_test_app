@@ -1,6 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-/// Represents a single card in the system.
+/// Represents a single payment card in the system.
+///
+/// This class encapsulates all the essential information about a card,
+/// such as its identifier, user-defined name, cardholder's name,
+/// current balance, and associated color.
+
 class CardEntity extends Equatable {
   const CardEntity({
     required this.id,
@@ -25,6 +30,9 @@ class CardEntity extends Equatable {
   /// The integer representation of the card's color (e.g., 0xFF42A5F5).
   final int cardColor;
 
+  /// Provides a list of properties that are used by `Equatable`
+  /// to determine if two instances of `CardEntity` are the same.
+  /// If all properties in this list are equal, the instances are considered equal.
   @override
   List<Object?> get props => [
         id,

@@ -38,6 +38,7 @@ class _CardsListViewState extends State<_CardsListView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CardsListCubit, CardsListState>(
+      // we read the CardsListCubit in implicit way through context since it is provided from the home screen
       builder: (context, state) {
         return state.when(
           initial: () => const CardsListLoadingWidget(),

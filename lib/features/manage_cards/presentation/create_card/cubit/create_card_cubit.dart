@@ -8,10 +8,14 @@ class CreateCardCubit extends Cubit<CreateCardState> {
   CreateCardCubit({required this.createCard, required this.uuid})
       : super(const CreateCardState());
 
+  /// Use case for creating a card.
   final CreateCard createCard;
+
+  /// UUID generator.
   final Uuid uuid;
 
   void onCardNameChanged(String value) {
+    /// Handles changes in the card name input.
     final cardName = CardNameInput.dirty(value);
     Formz.validate(
       [cardName, state.cardholder],
@@ -25,6 +29,7 @@ class CreateCardCubit extends Cubit<CreateCardState> {
   }
 
   void onCardholderChanged(String value) {
+    /// Handles changes in the cardholder name input.
     final cardholder = CardholderInput.dirty(value);
     Formz.validate([state.cardName, cardholder]);
     emit(
@@ -36,31 +41,37 @@ class CreateCardCubit extends Cubit<CreateCardState> {
   }
 
   void onBalanceChanged(String value) {
+    /// Handles changes in the balance input.
     final balance = BalanceInput.dirty(value);
     emit(state.copyWith(balance: balance));
   }
 
   void onCardColorChanged(int value) {
+    /// Handles changes in the card color input.
     final cardColor = CardColorInput.dirty(value);
     emit(state.copyWith(cardColor: cardColor));
   }
 
   void onStepTapped(int step) {
+    /// Handles tapping on a step in the stepper.
     emit(state.copyWith(currentStep: step));
   }
 
   void onStepContinue() {
+    /// Handles continuing to the next step in the stepper.
     if (state.currentStep < 2) {
       emit(state.copyWith(currentStep: state.currentStep + 1));
     }
   }
 
   void onStepCancel() {
+    /// Handles canceling and going back to the previous step in the stepper.
     if (state.currentStep > 0) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
     }
   }
 
+  /// Handles form submission.
   Future<void> onFormSubmitted() async {
     final cardName = CardNameInput.dirty(state.cardName.value);
     final cardholder = CardholderInput.dirty(state.cardholder.value);
