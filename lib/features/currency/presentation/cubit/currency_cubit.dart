@@ -26,8 +26,21 @@ class CurrencyCubit extends Cubit<CurrencyState> {
   ) async {
     emit(CurrencyState.loading());
     try {
-      final total = await getTotalSpent(transactions);
-      emit(CurrencyState.loaded(totalSpent: total));
+      final total = await getTotalSpent(
+        GetTotalSpentParams(
+          transactions: transactions,
+        ),
+      );
+      emit(
+        total.fold(
+          (failure) => const CurrencyState.error(
+            message: 'Failed to calculate total spent.',
+          ),
+          (totalSpent) => CurrencyState.loaded(
+            totalSpent: totalSpent,
+          ),
+        ),
+      );
     } catch (e) {
       emit(
         const CurrencyState.error(

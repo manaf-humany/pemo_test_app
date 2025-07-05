@@ -5,8 +5,10 @@ import 'package:pemo_test_project/core/core.dart';
 import 'package:pemo_test_project/features/features.dart';
 import 'package:uuid/uuid.dart';
 
+/// Service Locator instance
 final sl = GetIt.instance;
 
+/// Initializes all dependencies for the application.
 Future<void> init() async {
   // Features
   _registerTransactionsFeature();
@@ -23,6 +25,7 @@ Future<void> init() async {
   await _initHive();
 }
 
+/// Registers dependencies for the Transactions feature.
 void _registerTransactionsFeature() {
   // BLoC
   sl.registerFactory(() => TransactionCubit(getTransactions: sl()));
@@ -42,6 +45,7 @@ void _registerTransactionsFeature() {
   );
 }
 
+/// Registers dependencies for the Manage Cards feature.
 void _registerManageCardsFeature() {
   // Cubits
   sl.registerLazySingleton(() => CardsListCubit(getCards: sl()));
@@ -64,6 +68,7 @@ void _registerManageCardsFeature() {
   );
 }
 
+/// Registers dependencies for the Currency feature.
 void _registerCurrencyFeature() {
   // BLoC
   sl.registerFactory(() => CurrencyCubit(getTotalSpent: sl()));
@@ -84,6 +89,7 @@ void _registerCurrencyFeature() {
   );
 }
 
+/// Registers dependencies for the Transaction Details feature.
 void _registerTransactionDetailsFeature() {
   // BLoC
   sl.registerFactory(
@@ -107,6 +113,7 @@ void _registerTransactionDetailsFeature() {
   );
 }
 
+/// Initializes Hive and registers related dependencies.
 Future<void> _initHive() async {
   // Initialize Hive
   await Hive.initFlutter();

@@ -124,8 +124,9 @@ class $AssetsSvgsGen {
 
   /// File path: assets/svgs/place_holder.svg
   String get placeHolder => 'assets/svgs/place_holder.svg';
+
   /// List of all assets
-  List<String> get values => [placeHolder,];
+  List<String> get values => [placeHolder];
 }
 
 class Assets {

@@ -6,6 +6,9 @@ import 'package:pemo_test_project/features/manage_cards/manage_cards.dart';
 import 'package:pemo_test_project/features/transactions/presentation/pages/transactions_page.dart';
 import 'package:pemo_test_project/injection_container.dart';
 
+/// HomePage is the main screen of the application.
+/// It uses a [PageView] to display [TransactionsPage] and [CardsListPage] pages and an
+/// [AnimatedBottomNavigationBar] for navigation.
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,14 +17,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  /// The index of the currently active page.
   int _activeIndex = 0;
+
+  /// Controller for the [PageView].
   late final PageController _pageController;
 
+  /// List of pages to be displayed in the [PageView].
   final _pages = <Widget>[
     const TransactionsPage(),
     const CardsListPage(),
   ];
 
+  /// List of navigation items for the [AnimatedBottomNavigationBar].
+  /// Each item is a record containing an [IconData] and a [String] label.
   final _navItems = <({IconData icon, String label})>[
     (icon: Icons.list_alt_rounded, label: 'Transactions'),
     (icon: Icons.credit_card_rounded, label: 'Cards'),
@@ -30,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    // Initialize the PageController.
     _pageController = PageController();
   }
 
@@ -37,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+    // Dispose the PageController when the widget is disposed.
   }
 
   @override
@@ -61,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Builds the [AnimatedBottomNavigationBar].
   AnimatedBottomNavigationBar _buildBNB(AppTheme theme) {
     return AnimatedBottomNavigationBar.builder(
       itemCount: _navItems.length,
@@ -111,6 +123,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Builds the FloatingActionButton for creating a new card.
   FloatingActionButton _buildCreateCardFAB(
     BuildContext context,
     AppTheme theme,
