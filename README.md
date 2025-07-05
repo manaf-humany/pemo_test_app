@@ -9,6 +9,7 @@ This Flutter application is a technical assignment designed to showcase best pra
 - [Future Improvements](#future-improvements)
 - [Shared UI Components](#shared-ui-components)
 - [Using the Makefile](#using-the-makefile)
+- [Technical Documentation](#technical-documentation)
 
 ## Architectural Decisions
 
@@ -93,3 +94,15 @@ To see the ui components follow below steps:
 - `make genFiles-watch` - Generate code in watch mode for main app and specified packages
 - `make pods-clean` - Clean iOS pod files and Flutter framework
 - `make build-runner` - Run build_runner for specified packages only
+
+## Technical Documentation
+
+The technical documentation for this project, including detailed descriptions of classes, methods, and their purposes, can be generated and viewed locally.
+This is achieved using `dartdoc`, the official Dart documentation generator.
+
+To generate and view the documentation, run the following commands in your terminal from the root of the project:
+   ```bash
+      dart doc .
+      dart pub global activate dhttpd
+      dart pub global run dhttpd --path doc/api
+   ```
