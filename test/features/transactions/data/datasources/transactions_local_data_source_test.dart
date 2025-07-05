@@ -7,10 +7,20 @@ import 'package:pemo_test_project/features/transactions/transactions.dart';
 /// A mock implementation of [Box<TransactionsModel>] for testing purposes.
 class MockHiveBox extends Mock implements Box<TransactionsModel> {}
 
+/// A fake implementation of [TransactionsModel] for testing purposes.
+// ignore: avoid_implementing_value_types
+class FakeTransactionsModel extends Fake implements TransactionsModel {}
+
+/// Contains unit tests for the [TransactionsLocalDataSourceImpl] class.
 /// The main function for the test suite.
 void main() {
   late TransactionsLocalDataSourceImpl dataSource;
   late MockHiveBox mockBox;
+
+  /// Registers a fallback value for `TransactionsModel` type arguments in mockito.
+  setUpAll(() {
+    registerFallbackValue(FakeTransactionsModel());
+  });
 
   /// Setup method that runs before each test.
   /// Initializes [mockBox] and [dataSource].
